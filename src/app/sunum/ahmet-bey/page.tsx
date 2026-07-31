@@ -1,41 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  listings,
+  type Listing,
+} from "../../../lib/listings";
 
 const PHONE_NUMBER = "+905404175353";
 const WHATSAPP_NUMBER = "905404175353";
-
-const listings = [
-  {
-    id: 1,
-    title: "Yakut Konutları",
-    neighborhood: "Demirel Mahallesi",
-    rooms: "2+1",
-    price: "5.500.000 TL",
-    image:
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=85",
-  },
-  {
-    id: 2,
-    title: "Safir Konutları",
-    neighborhood: "Aydoğmuş Mahallesi",
-    rooms: "2+1",
-    price: "6.250.000 TL",
-    image:
-      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1400&q=85",
-  },
-  {
-    id: 3,
-    title: "Aydemir Konsept",
-    neighborhood: "Ayanoğlu Mahallesi",
-    rooms: "3+1",
-    price: "8.750.000 TL",
-    image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85",
-  },
-];
-
-type Listing = (typeof listings)[number];
 
 export default function CustomerPresentationPage() {
   const [started, setStarted] = useState(false);
@@ -46,29 +18,18 @@ export default function CustomerPresentationPage() {
   useEffect(() => {
     const savedFavorites = localStorage.getItem("aydemir-favorites");
 
-    if (savedFavorites) {
-      try {
-        const parsedFavorites = JSON.parse(savedFavorites);
-
-        if (Array.isArray(parsedFavorites)) {
-          setFavorites(parsedFavorites);
-        }
-      } catch {
-        setFavorites([]);
-      }
+    if (!savedFavorites) {
+      return;
     }
 
-    const searchParams = new URLSearchParams(window.location.search);
-    const listingId = Number(searchParams.get("ilan"));
+    try {
+      const parsedFavorites = JSON.parse(savedFavorites);
 
-    if (listingId && listings.some((listing) => listing.id === listingId)) {
-      setStarted(true);
-
-      window.setTimeout(() => {
-        document
-          .getElementById(`ilan-${listingId}`)
-          ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 500);
+      if (Array.isArray(parsedFavorites)) {
+        setFavorites(parsedFavorites);
+      }
+    } catch {
+      setFavorites([]);
     }
   }, []);
 
@@ -95,19 +56,15 @@ export default function CustomerPresentationPage() {
     });
   }
 
-  function getListingUrl(listingId?: number) {
-    const baseUrl = `${window.location.origin}${window.location.pathname}`;
-
-    if (!listingId) {
-      return baseUrl;
-    }
-
-    return `${baseUrl}?ilan=${listingId}#ilan-${listingId}`;
+  function getPresentationUrl() {
+    return `${window.location.origin}/sunum/ahmet-bey`;
   }
 
-  async function shareListing(title: string, listingId?: number) {
-    const url = getListingUrl(listingId);
+  function getListingUrl(slug: string) {
+    return `${window.location.origin}/ilan/${slug}`;
+  }
 
+  async function shareUrl(title: string, url: string) {
     const shareData = {
       title,
       text: `${title} - Aydemir İnşaat`,
@@ -136,8 +93,6 @@ export default function CustomerPresentationPage() {
   }
 
   function openWhatsApp(listing: Listing) {
-    const listingUrl = getListingUrl(listing.id);
-
     const message = encodeURIComponent(
       [
         `Merhaba, ${listing.title} hakkında bilgi almak istiyorum.`,
@@ -146,8 +101,8 @@ export default function CustomerPresentationPage() {
         `Oda Sayısı: ${listing.rooms}`,
         `Fiyat: ${listing.price}`,
         "",
-        `İlanı görüntülemek için:`,
-        listingUrl,
+        "İlanı görüntülemek için:",
+        getListingUrl(listing.slug),
       ].join("\n"),
     );
 
@@ -230,13 +185,18 @@ export default function CustomerPresentationPage() {
               </h1>
 
               <p className="mt-4 text-[#2A2A2A]/65">
-                Talebinize uygun 3 özel seçenek
+                Talebinize uygun {listings.length} özel seçenek
               </p>
             </div>
 
             <button
               type="button"
-              onClick={() => shareListing("Ahmet Bey için özel portföy")}
+              onClick={() =>
+                shareUrl(
+                  "Ahmet Bey için özel portföy",
+                  getPresentationUrl(),
+                )
+              }
               className="rounded-[20px] bg-[#F8F6F2] px-6 py-4 font-semibold shadow-[0_14px_35px_rgba(42,42,42,0.10)] transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
             >
               Sunumu Paylaş
@@ -277,9 +237,8 @@ export default function CustomerPresentationPage() {
 
               return (
                 <article
-                  id={`ilan-${listing.id}`}
                   key={listing.id}
-                  className="group scroll-mt-8 overflow-hidden rounded-[32px] bg-[#F8F6F2] p-4 shadow-[0_24px_70px_rgba(42,42,42,0.12)] transition-all duration-300 hover:-translate-y-1"
+                  className="group overflow-hidden rounded-[32px] bg-[#F8F6F2] p-4 shadow-[0_24px_70px_rgba(42,42,42,0.12)] transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="relative overflow-hidden rounded-[26px]">
                     <img
@@ -320,13 +279,12 @@ export default function CustomerPresentationPage() {
                       {listing.price}
                     </p>
 
-                    <button
-                      type="button"
-                      onClick={() => shareListing(listing.title, listing.id)}
-                      className="mt-6 w-full rounded-[20px] bg-[#F6A04D] px-5 py-4 font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98]"
+                    <a
+                      href={`/ilan/${listing.slug}`}
+                      className="mt-6 block w-full rounded-[20px] bg-[#F6A04D] px-5 py-4 text-center font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98]"
                     >
-                      İlan Bağlantısını Kopyala
-                    </button>
+                      Detayları Gör
+                    </a>
 
                     <div className="mt-3 grid grid-cols-3 gap-3">
                       <button
@@ -348,7 +306,10 @@ export default function CustomerPresentationPage() {
                       <button
                         type="button"
                         onClick={() =>
-                          shareListing(listing.title, listing.id)
+                          shareUrl(
+                            listing.title,
+                            getListingUrl(listing.slug),
+                          )
                         }
                         className="rounded-[18px] bg-[#F8F6F2] px-3 py-3 text-sm font-semibold shadow-[0_10px_24px_rgba(42,42,42,0.09)] transition-transform duration-300 active:scale-95"
                       >
