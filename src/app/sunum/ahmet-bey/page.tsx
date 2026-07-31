@@ -35,6 +35,8 @@ const listings = [
   },
 ];
 
+type Listing = (typeof listings)[number];
+
 export default function CustomerPresentationPage() {
   const [started, setStarted] = useState(false);
   const [leaving, setLeaving] = useState(false);
@@ -44,18 +46,29 @@ export default function CustomerPresentationPage() {
   useEffect(() => {
     const savedFavorites = localStorage.getItem("aydemir-favorites");
 
-    if (!savedFavorites) {
-      return;
+    if (savedFavorites) {
+      try {
+        const parsedFavorites = JSON.parse(savedFavorites);
+
+        if (Array.isArray(parsedFavorites)) {
+          setFavorites(parsedFavorites);
+        }
+      } catch {
+        setFavorites([]);
+      }
     }
 
-    try {
-      const parsedFavorites = JSON.parse(savedFavorites);
+    const searchParams = new URLSearchParams(window.location.search);
+    const listingId = Number(searchParams.get("ilan"));
 
-      if (Array.isArray(parsedFavorites)) {
-        setFavorites(parsedFavorites);
-      }
-    } catch {
-      setFavorites([]);
+    if (listingId && listings.some((listing) => listing.id === listingId)) {
+      setStarted(true);
+
+      window.setTimeout(() => {
+        document
+          .getElementById(`ilan-${listingId}`)
+          ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 500);
     }
   }, []);
 
@@ -82,8 +95,18 @@ export default function CustomerPresentationPage() {
     });
   }
 
-  async function shareListing(title: string) {
-    const url = window.location.href;
+  function getListingUrl(listingId?: number) {
+    const baseUrl = `${window.location.origin}${window.location.pathname}`;
+
+    if (!listingId) {
+      return baseUrl;
+    }
+
+    return `${baseUrl}?ilan=${listingId}#ilan-${listingId}`;
+  }
+
+  async function shareListing(title: string, listingId?: number) {
+    const url = getListingUrl(listingId);
 
     const shareData = {
       title,
@@ -102,19 +125,30 @@ export default function CustomerPresentationPage() {
       }
 
       await navigator.clipboard.writeText(url);
-      window.alert("Sunum bağlantısı kopyalandı.");
+      window.alert("Bağlantı kopyalandı.");
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") {
         return;
       }
 
-      window.prompt("Sunum bağlantısını kopyalayın:", url);
+      window.prompt("Bağlantıyı kopyalayın:", url);
     }
   }
 
-  function openWhatsApp(listingTitle: string) {
+  function openWhatsApp(listing: Listing) {
+    const listingUrl = getListingUrl(listing.id);
+
     const message = encodeURIComponent(
-      `${listingTitle} hakkında bilgi almak istiyorum.`,
+      [
+        `Merhaba, ${listing.title} hakkında bilgi almak istiyorum.`,
+        "",
+        `Konum: ${listing.neighborhood}`,
+        `Oda Sayısı: ${listing.rooms}`,
+        `Fiyat: ${listing.price}`,
+        "",
+        `İlanı görüntülemek için:`,
+        listingUrl,
+      ].join("\n"),
     );
 
     window.open(
@@ -243,8 +277,9 @@ export default function CustomerPresentationPage() {
 
               return (
                 <article
+                  id={`ilan-${listing.id}`}
                   key={listing.id}
-                  className="group overflow-hidden rounded-[32px] bg-[#F8F6F2] p-4 shadow-[0_24px_70px_rgba(42,42,42,0.12)] transition-all duration-300 hover:-translate-y-1"
+                  className="group scroll-mt-8 overflow-hidden rounded-[32px] bg-[#F8F6F2] p-4 shadow-[0_24px_70px_rgba(42,42,42,0.12)] transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="relative overflow-hidden rounded-[26px]">
                     <img
@@ -287,15 +322,16 @@ export default function CustomerPresentationPage() {
 
                     <button
                       type="button"
+                      onClick={() => shareListing(listing.title, listing.id)}
                       className="mt-6 w-full rounded-[20px] bg-[#F6A04D] px-5 py-4 font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98]"
                     >
-                      Detayları Gör
+                      İlan Bağlantısını Kopyala
                     </button>
 
                     <div className="mt-3 grid grid-cols-3 gap-3">
                       <button
                         type="button"
-                        onClick={() => openWhatsApp(listing.title)}
+                        onClick={() => openWhatsApp(listing)}
                         className="rounded-[18px] bg-[#F8F6F2] px-3 py-3 text-sm font-semibold shadow-[0_10px_24px_rgba(42,42,42,0.09)] transition-transform duration-300 active:scale-95"
                       >
                         WhatsApp
@@ -311,7 +347,9 @@ export default function CustomerPresentationPage() {
 
                       <button
                         type="button"
-                        onClick={() => shareListing(listing.title)}
+                        onClick={() =>
+                          shareListing(listing.title, listing.id)
+                        }
                         className="rounded-[18px] bg-[#F8F6F2] px-3 py-3 text-sm font-semibold shadow-[0_10px_24px_rgba(42,42,42,0.09)] transition-transform duration-300 active:scale-95"
                       >
                         Paylaş
