@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #f8f6f2;
+  --orange: #f6a04d;
+  --anthracite: #2a2a2a;
+  --radius-card: 30px;
+  --radius-button: 20px;
+  --transition-ui: 260ms;
+  --shadow-card:
+    0 1px 0 rgb(42 42 42 / 0.03) inset,
+    0 8px 24px rgb(42 42 42 / 0.05),
+    0 2px 6px rgb(42 42 42 / 0.04);
+  --shadow-card-hover:
+    0 1px 0 rgb(42 42 42 / 0.03) inset,
+    0 16px 40px rgb(42 42 42 / 0.08),
+    0 4px 12px rgb(42 42 42 / 0.05);
+  --shadow-listing:
+    0 1px 0 rgb(248 246 242 / 0.9) inset,
+    0 1px 0 rgb(42 42 42 / 0.04) inset,
+    0 10px 32px rgb(42 42 42 / 0.07),
+    0 4px 12px rgb(42 42 42 / 0.04);
+  --shadow-listing-hover:
+    0 1px 0 rgb(248 246 242 / 0.9) inset,
+    0 20px 48px rgb(42 42 42 / 0.1),
+    0 8px 20px rgb(42 42 42 / 0.06);
+  --shadow-orange: 0 10px 28px rgb(246 160 77 / 0.32);
+  --shadow-nav: 0 -4px 24px rgb(42 42 42 / 0.06);
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-orange: var(--orange);
+  --color-anthracite: var(--anthracite);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--cream);
+  color: var(--anthracite);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card-surface {
+  background: var(--cream);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.card-listing {
+  background: var(--cream);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-listing);
+}
+
+.card-surface-light {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-surface-light::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(248 246 242 / 0.55) 0%,
+    transparent 42%
+  );
+  pointer-events: none;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .motion-safe-transition {
+    transition: none !important;
+  }
+}
