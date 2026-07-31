@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-const PHONE_NUMBER = "";
-const WHATSAPP_NUMBER = "";
+const PHONE_NUMBER = "+905404175353";
+const WHATSAPP_NUMBER = "905404175353";
 
 const listings = [
   {
@@ -113,10 +113,6 @@ export default function CustomerPresentationPage() {
   }
 
   function openWhatsApp(listingTitle: string) {
-    if (!WHATSAPP_NUMBER) {
-      return;
-    }
-
     const message = encodeURIComponent(
       `${listingTitle} hakkında bilgi almak istiyorum.`,
     );
@@ -129,10 +125,6 @@ export default function CustomerPresentationPage() {
   }
 
   function callPhone() {
-    if (!PHONE_NUMBER) {
-      return;
-    }
-
     window.location.href = `tel:${PHONE_NUMBER}`;
   }
 
@@ -304,8 +296,7 @@ export default function CustomerPresentationPage() {
                       <button
                         type="button"
                         onClick={() => openWhatsApp(listing.title)}
-                        disabled={!WHATSAPP_NUMBER}
-                        className="rounded-[18px] bg-[#F8F6F2] px-3 py-3 text-sm font-semibold shadow-[0_10px_24px_rgba(42,42,42,0.09)] disabled:cursor-not-allowed disabled:opacity-40"
+                        className="rounded-[18px] bg-[#F8F6F2] px-3 py-3 text-sm font-semibold shadow-[0_10px_24px_rgba(42,42,42,0.09)] transition-transform duration-300 active:scale-95"
                       >
                         WhatsApp
                       </button>
@@ -313,8 +304,7 @@ export default function CustomerPresentationPage() {
                       <button
                         type="button"
                         onClick={callPhone}
-                        disabled={!PHONE_NUMBER}
-                        className="rounded-[18px] bg-[#F8F6F2] px-3 py-3 text-sm font-semibold shadow-[0_10px_24px_rgba(42,42,42,0.09)] disabled:cursor-not-allowed disabled:opacity-40"
+                        className="rounded-[18px] bg-[#F8F6F2] px-3 py-3 text-sm font-semibold shadow-[0_10px_24px_rgba(42,42,42,0.09)] transition-transform duration-300 active:scale-95"
                       >
                         Ara
                       </button>
