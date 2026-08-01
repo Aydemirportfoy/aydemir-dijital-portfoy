@@ -1,12 +1,33 @@
 "use client";
 
 import {
+  ChangeEvent,
   FormEvent,
   useEffect,
   useState,
 } from "react";
 import { useParams, useRouter } from "next/navigation";
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  rectSortingStrategy,
+} from "@dnd-kit/sortable";
 import { createClient } from "../../../../lib/supabase/client";
+import SortableImageCard, {
+  SortableListingImage,
+} from "./SortableImageCard";
+import AdminThemeToggle from "./AdminThemeToggle";
 
 const featureOptions = [
   "Ebeveyn banyosu",
@@ -79,117 +100,177 @@ function toNumberOrNull(value: string) {
     .replace(/\./g, "")
     .replace(",", ".");
 
-  if (!normalized) {
-    return null;
-  }
+  if (!normalized) return null;
 
   const parsed = Number(normalized);
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+function safeFileName(fileName: string) {
+  const extension =
+    fileName.split(".").pop()?.toLowerCase() || "jpg";
+
+  const baseName = fileName
+    .replace(/\.[^/.]+$/, "")
+    .toLocaleLowerCase("tr-TR")
+    .replace(/ı/g, "i")
+    .replace(/ğ/g, "g")
+    .replace(/ü/g, "u")
+    .replace(/ş/g, "s")
+    .replace(/ö/g, "o")
+    .replace(/ç/g, "c")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return `${baseName || "ilan-fotografi"}.${extension}`;
+}
+
 export default function EditListingPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
-  const [form, setForm] = useState<EditForm>(initialForm);
-  const [images, setImages] = useState<
-    Array<{
-      image_url: string;
-      is_cover: boolean;
-      position: number;
-    }>
-  >([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [message, setMessage] = useState("");
-
   const listingId = params.id;
 
-  useEffect(() => {
-    async function loadListing() {
-      const supabase = createClient();
+  const [form, setForm] = useState<EditForm>(initialForm);
+  const [images, setImages] =
+    useState<SortableListingImage[]>([]);
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isReordering, setIsReordering] = useState(false);
+  const [workingImageId, setWorkingImageId] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] =
+    useState<"success" | "error">("success");
 
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 6,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 180,
+        tolerance: 6,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
-      if (!user) {
-        router.replace("/giris");
-        return;
-      }
+  async function loadListing() {
+    setIsLoading(true);
+    setMessage("");
 
-      const { data: listing, error: listingError } = await supabase
+    const supabase = createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      router.replace("/giris");
+      return;
+    }
+
+    const { data: listing, error: listingError } =
+      await supabase
         .from("listings")
         .select("*")
         .eq("id", listingId)
         .single();
 
-      if (listingError || !listing) {
-        setMessage(
-          `İlan yüklenemedi: ${
-            listingError?.message || "Kayıt bulunamadı."
-          }`,
-        );
-        setIsLoading(false);
-        return;
-      }
+    if (listingError || !listing) {
+      setMessageType("error");
+      setMessage(
+        `İlan yüklenemedi: ${
+          listingError?.message || "Kayıt bulunamadı."
+        }`,
+      );
+      setIsLoading(false);
+      return;
+    }
 
-      const { data: privateDetails } = await supabase
-        .from("listing_private_details")
-        .select("location_text")
-        .eq("listing_id", listingId)
-        .maybeSingle();
+    const { data: privateDetails } = await supabase
+      .from("listing_private_details")
+      .select("location_text")
+      .eq("listing_id", listingId)
+      .maybeSingle();
 
-      const { data: imageRows } = await supabase
+    const { data: imageRows, error: imageError } =
+      await supabase
         .from("listing_images")
-        .select("image_url, is_cover, position")
+        .select(
+          "id, image_url, storage_path, alt_text, is_cover, position",
+        )
         .eq("listing_id", listingId)
         .order("position", { ascending: true });
 
-      setForm({
-        projectName: listing.project_name ?? "",
-        title: listing.title ?? "",
-        neighborhood: listing.neighborhood ?? "",
-        district: listing.district ?? "",
-        city: listing.city ?? "",
-        privateLocation: privateDetails?.location_text ?? "",
-        shortDescription: listing.short_description ?? "",
-        description: listing.description ?? "",
-        roomCount: listing.room_count ?? "",
-        areaM2:
-          listing.area_m2 === null ||
-          listing.area_m2 === undefined
-            ? ""
-            : String(listing.area_m2),
-        floor: listing.floor ?? "",
-        price:
-          listing.price === null ||
-          listing.price === undefined
-            ? ""
-            : String(listing.price),
-        status: listing.status as Status,
-        kitchenType: listing.kitchen_type ?? "",
-        facades:
-          typeof listing.facade === "string" &&
-          listing.facade.trim()
-            ? listing.facade
-                .split(",")
-                .map((item: string) => item.trim())
-                .filter(Boolean)
-            : [],
-        features: Array.isArray(listing.features)
-          ? listing.features
-          : [],
-        creditAvailable: Boolean(listing.credit_available),
-        exchangeAvailable: Boolean(listing.exchange_available),
-        commissionFree: Boolean(listing.commission_free),
-      });
-
-      setImages(imageRows ?? []);
-      setIsLoading(false);
+    if (imageError) {
+      setMessageType("error");
+      setMessage(
+        `Fotoğraflar yüklenemedi: ${imageError.message}`,
+      );
     }
 
+    setForm({
+      projectName: listing.project_name ?? "",
+      title: listing.title ?? "",
+      neighborhood: listing.neighborhood ?? "",
+      district: listing.district ?? "",
+      city: listing.city ?? "",
+      privateLocation: privateDetails?.location_text ?? "",
+      shortDescription: listing.short_description ?? "",
+      description: listing.description ?? "",
+      roomCount: listing.room_count ?? "",
+      areaM2:
+        listing.area_m2 === null ||
+        listing.area_m2 === undefined
+          ? ""
+          : String(listing.area_m2),
+      floor: listing.floor ?? "",
+      price:
+        listing.price === null ||
+        listing.price === undefined
+          ? ""
+          : String(listing.price),
+      status: listing.status as Status,
+      kitchenType: listing.kitchen_type ?? "",
+      facades:
+        typeof listing.facade === "string" &&
+        listing.facade.trim()
+          ? listing.facade
+              .split(",")
+              .map((item: string) => item.trim())
+              .filter(Boolean)
+          : [],
+      features: Array.isArray(listing.features)
+        ? listing.features
+        : [],
+      creditAvailable: Boolean(listing.credit_available),
+      exchangeAvailable: Boolean(listing.exchange_available),
+      commissionFree: Boolean(listing.commission_free),
+    });
+
+    setImages(
+      ((imageRows ?? []) as SortableListingImage[]).map(
+        (image, index) => ({
+          ...image,
+          position: index,
+        }),
+      ),
+    );
+
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
     void loadListing();
-  }, [listingId, router]);
+  }, [listingId]);
 
   function updateField<K extends keyof EditForm>(
     key: K,
@@ -219,7 +300,37 @@ export default function EditListingPage() {
     }));
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleNewImages(
+    event: ChangeEvent<HTMLInputElement>,
+  ) {
+    const selected = Array.from(event.target.files ?? []);
+
+    const valid = selected.filter((file) => {
+      const validType = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+      ].includes(file.type);
+
+      const validSize = file.size <= 10 * 1024 * 1024;
+      return validType && validSize;
+    });
+
+    if (valid.length !== selected.length) {
+      setMessageType("error");
+      setMessage(
+        "Yalnızca JPG, PNG veya WEBP ve en fazla 10 MB fotoğraflar kabul edilir.",
+      );
+    } else {
+      setMessage("");
+    }
+
+    setNewImages(valid);
+  }
+
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ) {
     event.preventDefault();
     setMessage("");
 
@@ -229,6 +340,7 @@ export default function EditListingPage() {
       !form.roomCount.trim() ||
       !form.price.trim()
     ) {
+      setMessageType("error");
       setMessage(
         "İlan başlığı, mahalle, oda sayısı ve fiyat alanları zorunludur.",
       );
@@ -304,8 +416,10 @@ export default function EditListingPage() {
         }
       }
 
-      setMessage("İlan başarıyla güncellendi.");
+      setMessageType("success");
+      setMessage("İlan bilgileri başarıyla güncellendi.");
     } catch (error) {
+      setMessageType("error");
       setMessage(
         error instanceof Error
           ? error.message
@@ -313,6 +427,350 @@ export default function EditListingPage() {
       );
     } finally {
       setIsSaving(false);
+    }
+  }
+
+  async function uploadNewImages() {
+    if (newImages.length === 0) {
+      setMessageType("error");
+      setMessage("Önce yüklenecek fotoğrafları seçin.");
+      return;
+    }
+
+    setIsUploading(true);
+    setMessage("");
+
+    const supabase = createClient();
+    const uploadedPaths: string[] = [];
+
+    try {
+      const startPosition = images.length;
+      const rows = [];
+
+      for (let index = 0; index < newImages.length; index += 1) {
+        const file = newImages[index];
+        const storagePath = `${listingId}/${Date.now()}-${index}-${safeFileName(
+          file.name,
+        )}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("listing-images")
+          .upload(storagePath, file, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+
+        if (uploadError) {
+          throw new Error(
+            `Fotoğraf yüklenemedi: ${uploadError.message}`,
+          );
+        }
+
+        uploadedPaths.push(storagePath);
+
+        const {
+          data: { publicUrl },
+        } = supabase.storage
+          .from("listing-images")
+          .getPublicUrl(storagePath);
+
+        rows.push({
+          listing_id: listingId,
+          storage_path: storagePath,
+          image_url: publicUrl,
+          alt_text: `${form.projectName || form.title} fotoğrafı ${
+            startPosition + index + 1
+          }`,
+          position: startPosition + index,
+          is_cover: images.length === 0 && index === 0,
+        });
+      }
+
+      const { data: insertedImages, error: insertError } =
+        await supabase
+          .from("listing_images")
+          .insert(rows)
+          .select(
+            "id, image_url, storage_path, alt_text, is_cover, position",
+          );
+
+      if (insertError) {
+        throw new Error(
+          `Fotoğraf kayıtları oluşturulamadı: ${insertError.message}`,
+        );
+      }
+
+      if (images.length === 0 && insertedImages?.[0]) {
+        const { error: coverError } = await supabase
+          .from("listings")
+          .update({
+            cover_image_url: insertedImages[0].image_url,
+          })
+          .eq("id", listingId);
+
+        if (coverError) {
+          throw new Error(
+            `Kapak fotoğrafı kaydedilemedi: ${coverError.message}`,
+          );
+        }
+      }
+
+      setNewImages([]);
+      setMessageType("success");
+      setMessage("Yeni fotoğraflar başarıyla yüklendi.");
+      await loadListing();
+    } catch (error) {
+      if (uploadedPaths.length > 0) {
+        await supabase.storage
+          .from("listing-images")
+          .remove(uploadedPaths);
+      }
+
+      setMessageType("error");
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Fotoğraflar yüklenirken bilinmeyen bir hata oluştu.",
+      );
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
+  async function setCoverImage(
+    image: SortableListingImage,
+  ) {
+    if (image.is_cover) return;
+
+    setWorkingImageId(image.id);
+    setMessage("");
+
+    const supabase = createClient();
+
+    try {
+      const { error: clearError } = await supabase
+        .from("listing_images")
+        .update({ is_cover: false })
+        .eq("listing_id", listingId);
+
+      if (clearError) {
+        throw new Error(
+          `Eski kapak kaldırılamadı: ${clearError.message}`,
+        );
+      }
+
+      const { error: imageError } = await supabase
+        .from("listing_images")
+        .update({ is_cover: true })
+        .eq("id", image.id);
+
+      if (imageError) {
+        throw new Error(
+          `Yeni kapak seçilemedi: ${imageError.message}`,
+        );
+      }
+
+      const { error: listingError } = await supabase
+        .from("listings")
+        .update({
+          cover_image_url: image.image_url,
+        })
+        .eq("id", listingId);
+
+      if (listingError) {
+        throw new Error(
+          `İlan kapağı güncellenemedi: ${listingError.message}`,
+        );
+      }
+
+      setImages((current) =>
+        current.map((item) => ({
+          ...item,
+          is_cover: item.id === image.id,
+        })),
+      );
+
+      setMessageType("success");
+      setMessage("Kapak fotoğrafı değiştirildi.");
+    } catch (error) {
+      setMessageType("error");
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Kapak değiştirilirken hata oluştu.",
+      );
+    } finally {
+      setWorkingImageId("");
+    }
+  }
+
+  async function deleteImage(
+    image: SortableListingImage,
+  ) {
+    const approved = window.confirm(
+      "Bu fotoğrafı kalıcı olarak silmek istediğinize emin misiniz?",
+    );
+
+    if (!approved) return;
+
+    setWorkingImageId(image.id);
+    setMessage("");
+
+    const supabase = createClient();
+
+    try {
+      const { error: storageError } = await supabase.storage
+        .from("listing-images")
+        .remove([image.storage_path]);
+
+      if (storageError) {
+        throw new Error(
+          `Fotoğraf dosyası silinemedi: ${storageError.message}`,
+        );
+      }
+
+      const { error: deleteError } = await supabase
+        .from("listing_images")
+        .delete()
+        .eq("id", image.id);
+
+      if (deleteError) {
+        throw new Error(
+          `Fotoğraf kaydı silinemedi: ${deleteError.message}`,
+        );
+      }
+
+      const remaining = images.filter(
+        (item) => item.id !== image.id,
+      );
+
+      const normalizedRemaining = remaining.map(
+        (item, index) => ({
+          ...item,
+          position: index,
+          is_cover:
+            image.is_cover && index === 0
+              ? true
+              : item.is_cover,
+        }),
+      );
+
+      if (image.is_cover) {
+        const newCover = normalizedRemaining[0] ?? null;
+
+        if (newCover) {
+          await supabase
+            .from("listing_images")
+            .update({ is_cover: true })
+            .eq("id", newCover.id);
+        }
+
+        const { error: listingError } = await supabase
+          .from("listings")
+          .update({
+            cover_image_url: newCover?.image_url ?? null,
+          })
+          .eq("id", listingId);
+
+        if (listingError) {
+          throw new Error(
+            `Yeni kapak kaydedilemedi: ${listingError.message}`,
+          );
+        }
+      }
+
+      await Promise.all(
+        normalizedRemaining.map((item, index) =>
+          supabase
+            .from("listing_images")
+            .update({ position: index })
+            .eq("id", item.id),
+        ),
+      );
+
+      setImages(normalizedRemaining);
+      setMessageType("success");
+      setMessage("Fotoğraf başarıyla silindi.");
+    } catch (error) {
+      setMessageType("error");
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Fotoğraf silinirken hata oluştu.",
+      );
+    } finally {
+      setWorkingImageId("");
+    }
+  }
+
+  async function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id || isReordering) {
+      return;
+    }
+
+    const oldIndex = images.findIndex(
+      (image) => image.id === active.id,
+    );
+
+    const newIndex = images.findIndex(
+      (image) => image.id === over.id,
+    );
+
+    if (oldIndex === -1 || newIndex === -1) {
+      return;
+    }
+
+    const previousImages = images;
+
+    const reordered = arrayMove(
+      images,
+      oldIndex,
+      newIndex,
+    ).map((image, index) => ({
+      ...image,
+      position: index,
+    }));
+
+    setImages(reordered);
+    setIsReordering(true);
+    setMessage("");
+
+    const supabase = createClient();
+
+    try {
+      const results = await Promise.all(
+        reordered.map((image, index) =>
+          supabase
+            .from("listing_images")
+            .update({ position: index })
+            .eq("id", image.id),
+        ),
+      );
+
+      const failedResult = results.find(
+        (result) => result.error,
+      );
+
+      if (failedResult?.error) {
+        throw new Error(failedResult.error.message);
+      }
+
+      setMessageType("success");
+      setMessage(
+        "Fotoğraf sırası başarıyla güncellendi.",
+      );
+    } catch (error) {
+      setImages(previousImages);
+      setMessageType("error");
+      setMessage(
+        error instanceof Error
+          ? `Fotoğraf sırası kaydedilemedi: ${error.message}`
+          : "Fotoğraf sırası kaydedilemedi.",
+      );
+    } finally {
+      setIsReordering(false);
     }
   }
 
@@ -325,66 +783,177 @@ export default function EditListingPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F8F6F2] px-5 py-8 text-[#2A2A2A] sm:px-8 lg:px-12">
+    <main className="admin-premium-shell min-h-screen px-4 py-5 sm:px-8 sm:py-8 lg:px-12">
       <div className="mx-auto max-w-6xl">
-        <header className="rounded-[32px] bg-[#F6A04D] p-7 shadow-[0_24px_70px_rgba(42,42,42,0.13)] sm:p-10">
-          <p className="text-sm font-semibold tracking-[0.22em] text-[#2A2A2A]/60">
-            AYDEMİR İNŞAAT
-          </p>
+<AdminThemeToggle />
 
-          <div className="mt-5 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <header className="admin-premium-header">
+          <div>
+            <p className="admin-premium-eyebrow">
+              AYDEMİR İNŞAAT
+            </p>
+
+            <h1 className="admin-premium-title">
+              İlanı Düzenle
+            </h1>
+
+            <p className="admin-premium-subtitle">
+              Fotoğrafları hızlıca sırala, bilgileri güncelle ve yayına hazırla.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => router.push("/yonetim/ilanlar")}
+            className="admin-premium-back"
+          >
+            Kayıtlı İlanlar
+          </button>
+        </header>
+
+        <nav className="admin-premium-tabs" aria-label="İlan düzenleme bölümleri">
+          <button
+            type="button"
+            onClick={() =>
+              document
+                .getElementById("fotograflar")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                })
+            }
+          >
+            Fotoğraflar
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              document
+                .getElementById("ilan-bilgileri")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                })
+            }
+          >
+            İlan Bilgileri
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              document
+                .getElementById("ozellikler")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                })
+            }
+          >
+            Özellikler
+          </button>
+        </nav>
+
+        {message ? (
+          <div
+            className={`mt-6 rounded-[22px] px-5 py-4 font-semibold ${
+              messageType === "success"
+                ? "bg-[#F6A04D] text-[#2A2A2A]"
+                : "bg-red-100 text-red-700"
+            }`}
+          >
+            {message}
+          </div>
+        ) : null}
+
+        <section id="fotograflar" className="admin-premium-section mt-6 scroll-mt-28">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
-                İlanı Düzenle
-              </h1>
-              <p className="mt-4 text-[#2A2A2A]/65">
-                İlan bilgilerini ve yayın durumunu güncelleyin.
-              </p>
+              <h2 className="text-2xl font-semibold">
+                Fotoğraf Yönetimi
+              </h2>
+
+
             </div>
+
+            <span className="rounded-full bg-[#F6A04D]/15 px-4 py-2 text-sm font-semibold">
+              {isReordering
+                ? "Sıra kaydediliyor..."
+                : `${images.length} fotoğraf`}
+            </span>
+          </div>
+
+          {images.length > 0 ? (
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={images.map((image) => image.id)}
+                strategy={rectSortingStrategy}
+              >
+                <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {images.map((image, index) => (
+                    <SortableImageCard
+                      key={image.id}
+                      image={image}
+                      index={index}
+                      workingImageId={workingImageId}
+                      onSetCover={setCoverImage}
+                      onDelete={deleteImage}
+                    />
+                  ))}
+                </div>
+              </SortableContext>
+            </DndContext>
+          ) : (
+            <div className="mt-6 rounded-[22px] bg-[#F8F6F2] p-6 text-center text-[#2A2A2A]/55">
+              Bu ilanda henüz fotoğraf bulunmuyor.
+            </div>
+          )}
+
+          <div className="mt-8 rounded-[24px] border-2 border-dashed border-[#F6A04D] p-6">
+            <h3 className="text-lg font-semibold">
+              Yeni Fotoğraf Ekle
+            </h3>
+
+            <p className="mt-2 text-sm text-[#2A2A2A]/55">
+              JPG, PNG veya WEBP • Her fotoğraf en fazla 10 MB
+            </p>
+
+            <input
+              type="file"
+              multiple
+              accept="image/jpeg,image/png,image/webp"
+              onChange={handleNewImages}
+              className="mt-5 block w-full text-sm"
+            />
+
+            {newImages.length > 0 ? (
+              <div className="mt-4 rounded-[16px] bg-[#F8F6F2] p-4 text-sm">
+                {newImages.length} fotoğraf seçildi.
+              </div>
+            ) : null}
 
             <button
               type="button"
-              onClick={() => router.push("/yonetim/ilanlar")}
-              className="rounded-[20px] bg-[#F8F6F2] px-6 py-4 font-semibold shadow-[0_14px_35px_rgba(42,42,42,0.10)]"
+              onClick={uploadNewImages}
+              disabled={
+                isUploading || newImages.length === 0
+              }
+              className="mt-5 rounded-[17px] bg-[#F6A04D] px-6 py-3.5 font-semibold disabled:opacity-45"
             >
-              Kayıtlı İlanlara Dön
+              {isUploading
+                ? "Fotoğraflar yükleniyor..."
+                : "Seçilen Fotoğrafları Yükle"}
             </button>
           </div>
-        </header>
+        </section>
 
-        {images.length > 0 ? (
-          <section className="mt-8 rounded-[30px] bg-white p-6 shadow-[0_20px_60px_rgba(42,42,42,0.10)]">
-            <h2 className="text-2xl font-semibold">
-              Mevcut Fotoğraflar
-            </h2>
-            <p className="mt-2 text-[#2A2A2A]/55">
-              Fotoğraf ekleme, silme ve kapak değiştirme özelliğini sonraki aşamada ekleyeceğiz.
-            </p>
-
-            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {images.map((image, index) => (
-                <div
-                  key={`${image.image_url}-${index}`}
-                  className="relative overflow-hidden rounded-[22px]"
-                >
-                  <img
-                    src={image.image_url}
-                    alt={`İlan fotoğrafı ${index + 1}`}
-                    className="aspect-[4/3] w-full object-cover"
-                  />
-                  {image.is_cover ? (
-                    <span className="absolute left-3 top-3 rounded-full bg-[#F6A04D] px-3 py-1.5 text-xs font-semibold">
-                      Kapak Fotoğrafı
-                    </span>
-                  ) : null}
-                </div>
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-        <form onSubmit={handleSubmit} className="mt-8 space-y-8">
-          <section className="rounded-[30px] bg-white p-6 shadow-[0_20px_60px_rgba(42,42,42,0.10)] sm:p-8">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+          <section id="ilan-bilgileri" className="admin-premium-section scroll-mt-28">
             <h2 className="text-2xl font-semibold">
               Temel Bilgiler
             </h2>
@@ -470,6 +1039,7 @@ export default function EditListingPage() {
                 <span className="mb-2 block text-sm font-semibold text-[#2A2A2A]/70">
                   İlan Durumu
                 </span>
+
                 <select
                   value={form.status}
                   onChange={(event) =>
@@ -491,6 +1061,7 @@ export default function EditListingPage() {
                 <span className="mb-2 block text-sm font-semibold text-[#2A2A2A]/70">
                   Gizli Konum
                 </span>
+
                 <input
                   type="text"
                   value={form.privateLocation}
@@ -502,6 +1073,10 @@ export default function EditListingPage() {
                   }
                   className="w-full rounded-[18px] border border-[#2A2A2A]/10 bg-white px-5 py-4 outline-none"
                 />
+
+                <span className="mt-2 block text-sm text-[#2A2A2A]/45">
+                  Bu bilgi müşterilere gösterilmez.
+                </span>
               </label>
             </div>
 
@@ -528,7 +1103,7 @@ export default function EditListingPage() {
             </div>
           </section>
 
-          <section className="rounded-[30px] bg-white p-6 shadow-[0_20px_60px_rgba(42,42,42,0.10)] sm:p-8">
+          <section id="ozellikler" className="admin-premium-section scroll-mt-28">
             <h2 className="text-2xl font-semibold">
               Daire Özellikleri
             </h2>
@@ -538,6 +1113,7 @@ export default function EditListingPage() {
                 <p className="mb-3 text-sm font-semibold text-[#2A2A2A]/70">
                   Cephe
                 </p>
+
                 <div className="grid grid-cols-2 gap-3">
                   {facadeOptions.map((facade) => (
                     <label
@@ -550,6 +1126,7 @@ export default function EditListingPage() {
                         onChange={() => toggleFacade(facade)}
                         className="h-5 w-5 accent-[#F6A04D]"
                       />
+
                       {facade}
                     </label>
                   ))}
@@ -560,6 +1137,7 @@ export default function EditListingPage() {
                 <span className="mb-3 block text-sm font-semibold text-[#2A2A2A]/70">
                   Mutfak Tipi
                 </span>
+
                 <select
                   value={form.kitchenType}
                   onChange={(event) =>
@@ -593,6 +1171,7 @@ export default function EditListingPage() {
                     onChange={() => toggleFeature(feature)}
                     className="h-5 w-5 accent-[#F6A04D]"
                   />
+
                   {feature}
                 </label>
               ))}
@@ -625,16 +1204,12 @@ export default function EditListingPage() {
             </div>
           </section>
 
-          {message ? (
-            <div className="rounded-[22px] bg-[#F6A04D] px-5 py-4 font-semibold text-[#2A2A2A] shadow-[0_14px_35px_rgba(42,42,42,0.10)]">
-              {message}
-            </div>
-          ) : null}
-
-          <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+          <div className="admin-premium-savebar flex flex-col gap-3 sm:flex-row sm:justify-end">
             <button
               type="button"
-              onClick={() => router.push("/yonetim/ilanlar")}
+              onClick={() =>
+                router.push("/yonetim/ilanlar")
+              }
               className="rounded-[20px] bg-white px-6 py-4 font-semibold shadow-[0_14px_35px_rgba(42,42,42,0.10)]"
             >
               İptal
@@ -675,11 +1250,14 @@ function TextField({
         {label}
         {required ? " *" : ""}
       </span>
+
       <input
         type="text"
         value={value}
         required={required}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
         className="w-full rounded-[18px] border border-[#2A2A2A]/10 bg-white px-5 py-4 outline-none"
       />
     </label>
@@ -704,9 +1282,12 @@ function TextArea({
       <span className="mb-2 block text-sm font-semibold text-[#2A2A2A]/70">
         {label}
       </span>
+
       <textarea
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
         rows={rows}
         className="w-full resize-y rounded-[18px] border border-[#2A2A2A]/10 bg-white px-5 py-4 outline-none"
       />
@@ -730,9 +1311,12 @@ function BooleanField({
       <input
         type="checkbox"
         checked={checked}
-        onChange={(event) => onChange(event.target.checked)}
+        onChange={(event) =>
+          onChange(event.target.checked)
+        }
         className="h-5 w-5 accent-[#F6A04D]"
       />
+
       {label}
     </label>
   );

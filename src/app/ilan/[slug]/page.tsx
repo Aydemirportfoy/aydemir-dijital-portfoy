@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ListingGallery from "./ListingGallery";
 import {
   formatListingPrice,
   getActiveListingBySlug,
@@ -24,7 +25,8 @@ export async function generateMetadata({
   params,
 }: ListingPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const listing = await getActiveListingBySlug(slug);
+  const listing =
+    await getActiveListingBySlug(slug);
 
   if (!listing) {
     return {
@@ -32,12 +34,15 @@ export async function generateMetadata({
     };
   }
 
-  const price = formatListingPrice(listing.price);
+  const price =
+    formatListingPrice(listing.price);
+
   const description =
     listing.short_description ??
     `${listing.neighborhood} bölgesinde ${listing.room_count ?? ""} satılık daire. ${price}`;
 
-  const url = `${SITE_URL}/ilan/${listing.slug}`;
+  const url =
+    `${SITE_URL}/ilan/${listing.slug}`;
 
   return {
     title: `${listing.title} | Aydemir İnşaat`,
@@ -76,13 +81,15 @@ export default async function ListingDetailPage({
   params,
 }: ListingPageProps) {
   const { slug } = await params;
-  const listing = await getActiveListingBySlug(slug);
+  const listing =
+    await getActiveListingBySlug(slug);
 
   if (!listing) {
     notFound();
   }
 
-  const images = await getPublicListingImages(listing.id);
+  const images =
+    await getPublicListingImages(listing.id);
 
   const orderedImages =
     images.length > 0
@@ -99,26 +106,44 @@ export default async function ListingDetailPage({
           ]
         : [];
 
-  const price = formatListingPrice(listing.price);
-  const whatsappMessage = encodeURIComponent(
-    `Merhaba, ${listing.title} ilanı hakkında bilgi almak istiyorum. ${SITE_URL}/ilan/${listing.slug}`,
-  );
+  const price =
+    formatListingPrice(listing.price);
+
+  const whatsappMessage =
+    encodeURIComponent(
+      `Merhaba, ${listing.title} ilanı hakkında bilgi almak istiyorum. ${SITE_URL}/ilan/${listing.slug}`,
+    );
 
   const detailItems = [
     listing.room_count
-      ? { label: "Oda Sayısı", value: listing.room_count }
+      ? {
+          label: "Oda Sayısı",
+          value: listing.room_count,
+        }
       : null,
     listing.area_m2
-      ? { label: "Metrekare", value: `${listing.area_m2} m²` }
+      ? {
+          label: "Metrekare",
+          value: `${listing.area_m2} m²`,
+        }
       : null,
     listing.floor
-      ? { label: "Kat", value: listing.floor }
+      ? {
+          label: "Kat",
+          value: listing.floor,
+        }
       : null,
     listing.facade
-      ? { label: "Cephe", value: listing.facade }
+      ? {
+          label: "Cephe",
+          value: listing.facade,
+        }
       : null,
     listing.kitchen_type
-      ? { label: "Mutfak Tipi", value: listing.kitchen_type }
+      ? {
+          label: "Mutfak Tipi",
+          value: listing.kitchen_type,
+        }
       : null,
   ].filter(
     (
@@ -130,196 +155,202 @@ export default async function ListingDetailPage({
   );
 
   const salesOptions = [
-    listing.credit_available ? "Kredi İmkânı" : null,
-    listing.exchange_available ? "Takas İmkânı" : null,
+    listing.credit_available
+      ? "Kredi İmkânı"
+      : null,
+    listing.exchange_available
+      ? "Takas İmkânı"
+      : null,
     listing.commission_free
       ? "Komisyonsuz Firma Satışı"
       : null,
-  ].filter((item): item is string => Boolean(item));
+  ].filter(
+    (item): item is string =>
+      Boolean(item),
+  );
 
   return (
-    <main className="min-h-screen bg-[#F8F6F2] px-5 py-6 text-[#2A2A2A] sm:px-8 sm:py-10 lg:px-12">
+    <main className="min-h-screen bg-[#F8F6F2] px-4 py-5 text-[#2A2A2A] sm:px-8 sm:py-9 lg:px-12">
       <div className="mx-auto max-w-7xl">
         <Link
           href="/"
-          className="mb-6 inline-flex rounded-[18px] bg-white px-5 py-3 text-sm font-semibold shadow-[0_12px_30px_rgba(42,42,42,0.09)] transition hover:-translate-y-0.5"
+          className="mb-5 inline-flex rounded-[18px] bg-white px-5 py-3 text-sm font-semibold shadow-[0_12px_30px_rgba(42,42,42,0.09)]"
         >
           Portföye Dön
         </Link>
 
-        <article className="overflow-hidden rounded-[34px] bg-white p-4 shadow-[0_28px_85px_rgba(42,42,42,0.13)] sm:p-6">
-          {orderedImages.length > 0 ? (
-            <section>
-              <div className="relative overflow-hidden rounded-[28px]">
-                <img
-                  src={orderedImages[0].image_url}
-                  alt={
-                    orderedImages[0].alt_text ??
-                    listing.title
-                  }
-                  className="aspect-[16/10] w-full object-cover"
-                />
+        <article className="overflow-hidden rounded-[30px] bg-white p-3 shadow-[0_28px_85px_rgba(42,42,42,0.13)] sm:p-5">
+          <ListingGallery
+            images={orderedImages}
+            title={listing.title}
+            commissionFree={
+              listing.commission_free
+            }
+          />
 
-                {listing.commission_free ? (
-                  <span className="absolute left-4 top-4 rounded-full bg-[#F6A04D] px-4 py-2 text-sm font-semibold shadow-[0_12px_30px_rgba(42,42,42,0.18)]">
-                    Komisyonsuz Firma Satışı
-                  </span>
-                ) : null}
-              </div>
-
-              {orderedImages.length > 1 ? (
-                <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {orderedImages.slice(1).map((image, index) => (
-                    <div
-                      key={image.id}
-                      className="overflow-hidden rounded-[22px]"
-                    >
-                      <img
-                        src={image.image_url}
-                        alt={
-                          image.alt_text ??
-                          `${listing.title} fotoğrafı ${index + 2}`
-                        }
-                        className="aspect-[4/3] w-full object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </section>
-          ) : (
-            <div className="flex aspect-[16/8] items-center justify-center rounded-[28px] bg-[#2A2A2A]/5 text-[#2A2A2A]/45">
-              İlan fotoğrafı bulunmuyor
-            </div>
-          )}
-
-          <div className="grid gap-10 px-2 pb-3 pt-9 lg:grid-cols-[1fr_380px] lg:items-start">
+          <div className="grid gap-8 px-1 pb-2 pt-8 lg:grid-cols-[1fr_340px] lg:items-start">
             <div>
-              <p className="text-sm font-semibold tracking-[0.22em] text-[#2A2A2A]/45">
-                {listing.project_name ?? "AYDEMİR İNŞAAT"}
+              <p className="text-sm font-semibold tracking-[0.20em] text-[#2A2A2A]/45">
+                {listing.project_name ??
+                  "AYDEMİR İNŞAAT"}
               </p>
 
-              <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
+              <h1 className="mt-3 text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
                 {listing.title}
               </h1>
 
-              <p className="mt-4 text-lg text-[#2A2A2A]/60">
+              <p className="mt-3 text-base text-[#2A2A2A]/60 sm:text-lg">
                 {listing.neighborhood}
                 {listing.district
                   ? ` • ${listing.district}`
                   : ""}
-                {listing.city ? ` • ${listing.city}` : ""}
+                {listing.city
+                  ? ` • ${listing.city}`
+                  : ""}
               </p>
 
               {listing.short_description ? (
-                <p className="mt-7 text-xl leading-8 text-[#2A2A2A]/75">
-                  {listing.short_description}
+                <p className="mt-6 text-lg leading-8 text-[#2A2A2A]/70">
+                  {
+                    listing.short_description
+                  }
                 </p>
               ) : null}
 
               {detailItems.length > 0 ? (
-                <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {detailItems.map((item) => (
-                    <div
-                      key={item.label}
-                      className="rounded-[20px] bg-[#F8F6F2] p-4"
-                    >
-                      <p className="text-sm text-[#2A2A2A]/45">
-                        {item.label}
-                      </p>
-                      <p className="mt-1 font-semibold">
-                        {item.value}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-
-              {listing.description ? (
-                <section className="mt-9">
+                <section className="mt-8">
                   <h2 className="text-2xl font-semibold">
-                    İlan Açıklaması
+                    İlan Detayları
                   </h2>
-                  <p className="mt-4 whitespace-pre-line text-lg leading-8 text-[#2A2A2A]/65">
-                    {listing.description}
-                  </p>
+
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {detailItems.map(
+                      (item) => (
+                        <div
+                          key={item.label}
+                          className="rounded-[18px] border border-[#F6A04D]/25 bg-[#F6A04D]/10 p-4"
+                        >
+                          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#2A2A2A]/45">
+                            {item.label}
+                          </p>
+
+                          <p className="mt-2 font-semibold">
+                            {item.value}
+                          </p>
+                        </div>
+                      ),
+                    )}
+                  </div>
                 </section>
               ) : null}
 
-              {listing.features.length > 0 ? (
-                <section className="mt-9">
+              {listing.description ? (
+                <section className="mt-8">
+                  <h2 className="text-2xl font-semibold">
+                    İlan Açıklaması
+                  </h2>
+
+                  <div className="mt-4 rounded-[20px] bg-[#F8F6F2] p-5">
+                    <p className="whitespace-pre-line text-base leading-8 text-[#2A2A2A]/65 sm:text-lg">
+                      {listing.description}
+                    </p>
+                  </div>
+                </section>
+              ) : null}
+
+              {listing.features.length >
+              0 ? (
+                <section className="mt-8">
                   <h2 className="text-2xl font-semibold">
                     Özellikler
                   </h2>
 
-                  <div className="mt-4 flex flex-wrap gap-3">
-                    {listing.features.map((feature) => (
-                      <span
-                        key={feature}
-                        className="rounded-full bg-[#F6A04D]/20 px-4 py-2.5 text-sm font-semibold"
-                      >
-                        {feature}
-                      </span>
-                    ))}
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {listing.features.map(
+                      (feature) => (
+                        <div
+                          key={feature}
+                          className="flex items-center gap-3 rounded-[18px] border border-[#2A2A2A]/8 bg-[#F8F6F2] px-4 py-3"
+                        >
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F6A04D]/20 font-semibold text-[#D97716]">
+                            ✓
+                          </span>
+
+                          <span className="font-medium">
+                            {feature}
+                          </span>
+                        </div>
+                      ),
+                    )}
                   </div>
                 </section>
               ) : null}
 
               {salesOptions.length > 0 ? (
-                <section className="mt-9">
+                <section className="mt-8">
                   <h2 className="text-2xl font-semibold">
                     Satış İmkânları
                   </h2>
 
-                  <div className="mt-4 flex flex-wrap gap-3">
-                    {salesOptions.map((option) => (
-                      <span
-                        key={option}
-                        className="rounded-full border border-[#F6A04D]/40 bg-[#F6A04D]/20 px-4 py-2.5 text-sm font-semibold text-[#2A2A2A]"
-                      >
-                        {option}
-                      </span>
-                    ))}
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {salesOptions.map(
+                      (option) => (
+                        <div
+                          key={option}
+                          className="flex items-center gap-3 rounded-[18px] border border-[#F6A04D]/25 bg-[#F6A04D]/10 px-4 py-3"
+                        >
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F6A04D] font-semibold text-[#2A2A2A]">
+                            ✓
+                          </span>
+
+                          <span className="font-semibold">
+                            {option}
+                          </span>
+                        </div>
+                      ),
+                    )}
                   </div>
                 </section>
               ) : null}
             </div>
 
-            <aside className="rounded-[28px] bg-[#F6A04D] p-6 shadow-[0_22px_60px_rgba(42,42,42,0.12)] lg:sticky lg:top-8">
-              <p className="text-sm font-semibold tracking-[0.18em] text-[#2A2A2A]/55">
+            <aside className="rounded-[24px] border border-[#F6A04D]/55 bg-white/80 p-5 shadow-[0_20px_58px_rgba(42,42,42,0.10)] lg:sticky lg:top-6">
+              <div className="h-1 w-12 rounded-full bg-[#F6A04D]" />
+
+              <p className="mt-4 text-xs font-semibold tracking-[0.18em] text-[#2A2A2A]/45">
                 FİYAT
               </p>
 
-              <p className="mt-3 text-4xl font-semibold tracking-[-0.04em]">
+              <p className="mt-2 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
                 {price}
               </p>
 
-              <div className="mt-7 grid gap-3">
+              <div className="mt-6 grid gap-3">
                 <a
                   href={`https://wa.me/905404175353?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-[18px] bg-white px-5 py-4 text-center font-semibold text-[#2A2A2A] shadow-[0_10px_25px_rgba(42,42,42,0.10)] transition hover:-translate-y-0.5"
+                  className="rounded-[17px] bg-[#F6A04D] px-5 py-4 text-center font-semibold text-[#2A2A2A] shadow-[0_14px_34px_rgba(246,160,77,0.24)]"
                 >
                   WhatsApp’tan Bilgi Al
                 </a>
 
                 <a
                   href="tel:+905404175353"
-                  className="rounded-[18px] bg-white px-5 py-4 text-center font-semibold shadow-[0_10px_25px_rgba(42,42,42,0.08)]"
+                  className="rounded-[17px] bg-[#F8F6F2] px-5 py-4 text-center font-semibold"
                 >
                   0540 417 53 53
                 </a>
               </div>
 
-              <p className="mt-5 text-sm leading-6 text-[#2A2A2A]/55">
+              <p className="mt-5 text-sm leading-6 text-[#2A2A2A]/50">
                 Detaylı bilgi ve yerinde görmek için bizimle iletişime geçebilirsiniz.
               </p>
             </aside>
           </div>
         </article>
 
-        <footer className="py-10 text-center text-sm text-[#2A2A2A]/45">
+        <footer className="py-9 text-center text-sm text-[#2A2A2A]/45">
           Aydemir İnşaat güvencesiyle
         </footer>
       </div>

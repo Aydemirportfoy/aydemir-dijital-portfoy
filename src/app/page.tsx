@@ -40,7 +40,7 @@ export default async function HomePage() {
               href="https://wa.me/905404175353"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex justify-center rounded-[20px] bg-[#2A2A2A] px-7 py-4 font-semibold text-white shadow-[0_16px_40px_rgba(42,42,42,0.16)] transition hover:-translate-y-1"
+              className="inline-flex justify-center rounded-[20px] bg-white px-7 py-4 font-semibold text-[#2A2A2A] shadow-[0_16px_40px_rgba(42,42,42,0.12)] transition hover:-translate-y-1"
             >
               WhatsApp ile İletişim
             </a>
@@ -53,6 +53,7 @@ export default async function HomePage() {
               <p className="text-sm font-semibold tracking-[0.20em] text-[#2A2A2A]/45">
                 AKTİF İLANLAR
               </p>
+
               <h2 className="mt-2 text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">
                 Satıştaki Portföyler
               </h2>
@@ -68,6 +69,7 @@ export default async function HomePage() {
               <h3 className="text-2xl font-semibold">
                 Şu anda aktif ilan bulunmuyor
               </h3>
+
               <p className="mt-3 text-[#2A2A2A]/60">
                 Yeni portföyler eklendiğinde burada görüntülenecektir.
               </p>
@@ -78,14 +80,14 @@ export default async function HomePage() {
                 <Link
                   key={listing.id}
                   href={`/ilan/${listing.slug}`}
-                  className="group overflow-hidden rounded-[30px] bg-white shadow-[0_22px_65px_rgba(42,42,42,0.11)] transition duration-300 hover:-translate-y-2 hover:shadow-[0_28px_80px_rgba(42,42,42,0.16)]"
+                  className="group overflow-hidden rounded-[30px] bg-white shadow-[0_22px_65px_rgba(42,42,42,0.11)] transition duration-300 hover:-translate-y-2"
                 >
                   <div className="relative overflow-hidden">
                     {listing.cover_image_url ? (
                       <img
                         src={listing.cover_image_url}
                         alt={listing.title}
-                        className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                        className="aspect-[4/3] w-full object-cover"
                       />
                     ) : (
                       <div className="flex aspect-[4/3] items-center justify-center bg-[#2A2A2A]/5 text-[#2A2A2A]/45">
