@@ -1,0 +1,886 @@
+"use client";
+
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "../../../lib/supabase/client";
+
+const featureOptions = [
+  "Ebeveyn banyosu",
+  "Giyinme odası",
+  "Balkon",
+  "Asansör",
+  "Havuz",
+  "Çocuk parkı",
+  "Kamelya",
+  "Açık otopark",
+  "Kapalı otopark",
+  "Yerden ısıtma",
+  "Elektrikli panjur",
+  "Ankastre set",
+  "Görüntülü diafon",
+];
+
+const facadeOptions = ["Kuzey", "Güney", "Doğu", "Batı"];
+
+type FormState = {
+  projectName: string;
+  title: string;
+  neighborhood: string;
+  district: string;
+  city: string;
+  privateLocation: string;
+  shortDescription: string;
+  description: string;
+  roomCount: string;
+  areaM2: string;
+  floor: string;
+  price: string;
+  status: "draft" | "active" | "sold" | "reserved";
+  kitchenType: string;
+  creditAvailable: boolean;
+  exchangeAvailable: boolean;
+  commissionFree: boolean;
+};
+
+const initialForm: FormState = {
+  projectName: "",
+  title: "",
+  neighborhood: "",
+  district: "Kepez",
+  city: "Antalya",
+  privateLocation: "",
+  shortDescription: "",
+  description: "",
+  roomCount: "",
+  areaM2: "",
+  floor: "",
+  price: "",
+  status: "draft",
+  kitchenType: "",
+  creditAvailable: false,
+  exchangeAvailable: false,
+  commissionFree: true,
+};
+
+function createSlug(value: string) {
+  return value
+    .trim()
+    .toLocaleLowerCase("tr-TR")
+    .replace(/ı/g, "i")
+    .replace(/ğ/g, "g")
+    .replace(/ü/g, "u")
+    .replace(/ş/g, "s")
+    .replace(/ö/g, "o")
+    .replace(/ç/g, "c")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function toNumberOrNull(value: string) {
+  const normalized = value
+    .trim()
+    .replace(/\s/g, "")
+    .replace(/\./g, "")
+    .replace(",", ".");
+
+  if (!normalized) {
+    return null;
+  }
+
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function safeFileName(fileName: string) {
+  const extension = fileName.split(".").pop()?.toLowerCase() || "jpg";
+  const baseName = fileName
+    .replace(/\.[^/.]+$/, "")
+    .toLocaleLowerCase("tr-TR")
+    .replace(/ı/g, "i")
+    .replace(/ğ/g, "g")
+    .replace(/ü/g, "u")
+    .replace(/ş/g, "s")
+    .replace(/ö/g, "o")
+    .replace(/ç/g, "c")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return `${baseName || "ilan-fotografi"}.${extension}`;
+}
+
+export default function NewListingForm() {
+  const router = useRouter();
+  const [form, setForm] = useState<FormState>(initialForm);
+  const [features, setFeatures] = useState<string[]>([]);
+  const [facades, setFacades] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
+  const [message, setMessage] = useState("");
+  const [savedSlug, setSavedSlug] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const previews = useMemo(
+    () =>
+      images.map((file) => ({
+        file,
+        url: URL.createObjectURL(file),
+      })),
+    [images],
+  );
+
+  useEffect(() => {
+    return () => {
+      previews.forEach(({ url }) => URL.revokeObjectURL(url));
+    };
+  }, [previews]);
+
+  function updateField<K extends keyof FormState>(
+    key: K,
+    value: FormState[K],
+  ) {
+    setForm((current) => ({
+      ...current,
+      [key]: value,
+    }));
+  }
+
+  function toggleFeature(feature: string) {
+    setFeatures((current) =>
+      current.includes(feature)
+        ? current.filter((item) => item !== feature)
+        : [...current, feature],
+    );
+  }
+
+  function toggleFacade(facade: string) {
+    setFacades((current) =>
+      current.includes(facade)
+        ? current.filter((item) => item !== facade)
+        : [...current, facade],
+    );
+  }
+
+  function handleImages(event: ChangeEvent<HTMLInputElement>) {
+    const selectedFiles = Array.from(event.target.files ?? []);
+
+    const allowedFiles = selectedFiles.filter((file) => {
+      const isAllowedType = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+      ].includes(file.type);
+
+      const isAllowedSize = file.size <= 10 * 1024 * 1024;
+
+      return isAllowedType && isAllowedSize;
+    });
+
+    if (allowedFiles.length !== selectedFiles.length) {
+      setMessage(
+        "Yalnızca JPG, PNG veya WEBP formatında ve en fazla 10 MB olan fotoğraflar kabul edilir.",
+      );
+    } else {
+      setMessage("");
+    }
+
+    setImages(allowedFiles);
+  }
+
+  function removeImage(index: number) {
+    setImages((current) =>
+      current.filter((_, imageIndex) => imageIndex !== index),
+    );
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setMessage("");
+    setSavedSlug("");
+
+    if (
+      !form.title.trim() ||
+      !form.neighborhood.trim() ||
+      !form.roomCount.trim() ||
+      !form.price.trim()
+    ) {
+      setMessage(
+        "İlan başlığı, mahalle, oda sayısı ve fiyat alanları zorunludur.",
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const supabase = createClient();
+    let createdListingId = "";
+
+    try {
+      const baseSlug =
+        createSlug(form.projectName) ||
+        createSlug(form.title) ||
+        "ilan";
+
+      let slug = baseSlug;
+
+      const { data: existingListing } = await supabase
+        .from("listings")
+        .select("id")
+        .eq("slug", slug)
+        .maybeSingle();
+
+      if (existingListing) {
+        slug = `${baseSlug}-${Date.now().toString().slice(-6)}`;
+      }
+
+      const { data: listing, error: listingError } = await supabase
+        .from("listings")
+        .insert({
+          project_name: form.projectName.trim() || null,
+          slug,
+          title: form.title.trim(),
+          neighborhood: form.neighborhood.trim(),
+          district: form.district.trim() || "Kepez",
+          city: form.city.trim() || "Antalya",
+          short_description:
+            form.shortDescription.trim() || null,
+          description: form.description.trim() || null,
+          room_count: form.roomCount.trim(),
+          area_m2: toNumberOrNull(form.areaM2),
+          floor: form.floor.trim() || null,
+          facade: facades.length > 0 ? facades.join(", ") : null,
+          price: toNumberOrNull(form.price),
+          status: form.status,
+          kitchen_type: form.kitchenType || null,
+          features,
+          credit_available: form.creditAvailable,
+          exchange_available: form.exchangeAvailable,
+          commission_free: form.commissionFree,
+        })
+        .select("id, slug")
+        .single();
+
+      if (listingError || !listing) {
+        throw new Error(
+          listingError?.message || "İlan kaydedilemedi.",
+        );
+      }
+
+      createdListingId = listing.id;
+
+      if (form.privateLocation.trim()) {
+        const { error: privateDetailsError } = await supabase
+          .from("listing_private_details")
+          .insert({
+            listing_id: listing.id,
+            location_text: form.privateLocation.trim(),
+          });
+
+        if (privateDetailsError) {
+          throw new Error(
+            `Konum bilgisi kaydedilemedi: ${privateDetailsError.message}`,
+          );
+        }
+      }
+
+      if (images.length > 0) {
+        const imageRows = [];
+
+        for (let index = 0; index < images.length; index += 1) {
+          const file = images[index];
+          const path = `${listing.id}/${Date.now()}-${index}-${safeFileName(
+            file.name,
+          )}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from("listing-images")
+            .upload(path, file, {
+              cacheControl: "3600",
+              upsert: false,
+            });
+
+          if (uploadError) {
+            throw new Error(
+              `Fotoğraf yüklenemedi: ${uploadError.message}`,
+            );
+          }
+
+          const {
+            data: { publicUrl },
+          } = supabase.storage
+            .from("listing-images")
+            .getPublicUrl(path);
+
+          imageRows.push({
+            listing_id: listing.id,
+            storage_path: path,
+            image_url: publicUrl,
+            alt_text: `${
+              form.projectName.trim() || form.title.trim()
+            } fotoğrafı ${index + 1}`,
+            position: index,
+            is_cover: index === 0,
+          });
+        }
+
+        const { error: imageInsertError } = await supabase
+          .from("listing_images")
+          .insert(imageRows);
+
+        if (imageInsertError) {
+          throw new Error(
+            `Fotoğraf bilgileri kaydedilemedi: ${imageInsertError.message}`,
+          );
+        }
+
+        const { error: coverUpdateError } = await supabase
+          .from("listings")
+          .update({
+            cover_image_url: imageRows[0].image_url,
+          })
+          .eq("id", listing.id);
+
+        if (coverUpdateError) {
+          throw new Error(
+            `Kapak fotoğrafı kaydedilemedi: ${coverUpdateError.message}`,
+          );
+        }
+      }
+
+      setSavedSlug(listing.slug);
+      setMessage("İlan başarıyla kaydedildi.");
+      setForm(initialForm);
+      setFeatures([]);
+      setFacades([]);
+      setImages([]);
+    } catch (error) {
+      if (createdListingId) {
+        await supabase
+          .from("listings")
+          .delete()
+          .eq("id", createdListingId);
+      }
+
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "İlan kaydedilirken bilinmeyen bir hata oluştu.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <main className="min-h-screen bg-[#F8F6F2] px-5 py-8 text-[#2A2A2A] sm:px-8 lg:px-12">
+      <div className="mx-auto max-w-6xl">
+        <header className="rounded-[32px] bg-[#F6A04D] p-7 shadow-[0_24px_70px_rgba(42,42,42,0.13)] sm:p-10">
+          <p className="text-sm font-semibold tracking-[0.22em] text-[#2A2A2A]/60">
+            AYDEMİR İNŞAAT
+          </p>
+
+          <div className="mt-5 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h1 className="text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
+                Yeni İlan Ekle
+              </h1>
+
+              <p className="mt-4 text-[#2A2A2A]/65">
+                Sadeleştirilmiş ilan formu
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => router.push("/yonetim")}
+              className="rounded-[20px] bg-[#F8F6F2] px-6 py-4 font-semibold shadow-[0_14px_35px_rgba(42,42,42,0.10)] transition-all duration-300 hover:-translate-y-1"
+            >
+              Yönetim Alanına Dön
+            </button>
+          </div>
+        </header>
+
+        <form
+          onSubmit={handleSubmit}
+          className="mt-8 space-y-8"
+        >
+          <section className="rounded-[32px] bg-[#F8F6F2] p-6 shadow-[0_22px_70px_rgba(42,42,42,0.11)] sm:p-8">
+            <h2 className="text-2xl font-semibold">
+              Temel Bilgiler
+            </h2>
+
+            <div className="mt-6 grid gap-5 md:grid-cols-2">
+              <TextField
+                label="Proje Adı"
+                value={form.projectName}
+                onChange={(value) =>
+                  updateField("projectName", value)
+                }
+                placeholder="Varsa proje adını yazın"
+              />
+
+              <TextField
+                label="İlan Başlığı"
+                value={form.title}
+                onChange={(value) =>
+                  updateField("title", value)
+                }
+                placeholder="Örn. 2+1 Ayrı Mutfaklı Sıfır Daire"
+                required
+              />
+
+              <TextField
+                label="Mahalle"
+                value={form.neighborhood}
+                onChange={(value) =>
+                  updateField("neighborhood", value)
+                }
+                placeholder="Örn. Demirel Mahallesi"
+                required
+              />
+
+              <TextField
+                label="İlçe"
+                value={form.district}
+                onChange={(value) =>
+                  updateField("district", value)
+                }
+                placeholder="Kepez"
+              />
+
+              <TextField
+                label="Şehir"
+                value={form.city}
+                onChange={(value) =>
+                  updateField("city", value)
+                }
+                placeholder="Antalya"
+              />
+
+              <TextField
+                label="Oda Sayısı"
+                value={form.roomCount}
+                onChange={(value) =>
+                  updateField("roomCount", value)
+                }
+                placeholder="2+1"
+                required
+              />
+
+              <TextField
+                label="Metrekare"
+                value={form.areaM2}
+                onChange={(value) =>
+                  updateField("areaM2", value)
+                }
+                placeholder="90"
+                inputMode="decimal"
+              />
+
+              <TextField
+                label="Kat"
+                value={form.floor}
+                onChange={(value) =>
+                  updateField("floor", value)
+                }
+                placeholder="3. Kat"
+              />
+
+              <TextField
+                label="Fiyat"
+                value={form.price}
+                onChange={(value) =>
+                  updateField("price", value)
+                }
+                placeholder="5500000"
+                inputMode="decimal"
+                required
+              />
+
+              <label className="block">
+                <span className="mb-2 block text-sm font-semibold text-[#2A2A2A]/70">
+                  İlan Durumu
+                </span>
+
+                <select
+                  value={form.status}
+                  onChange={(event) =>
+                    updateField(
+                      "status",
+                      event.target.value as FormState["status"],
+                    )
+                  }
+                  className="w-full rounded-[18px] border border-[#2A2A2A]/10 bg-[#F8F6F2] px-5 py-4 outline-none focus:border-[#F6A04D] focus:ring-4 focus:ring-[#F6A04D]/20"
+                >
+                  <option value="draft">Taslak</option>
+                  <option value="active">Aktif</option>
+                  <option value="reserved">Rezerve</option>
+                  <option value="sold">Satıldı</option>
+                </select>
+              </label>
+
+              <label className="block md:col-span-2">
+                <span className="mb-2 block text-sm font-semibold text-[#2A2A2A]/70">
+                  Konum
+                </span>
+
+                <input
+                  type="text"
+                  value={form.privateLocation}
+                  onChange={(event) =>
+                    updateField(
+                      "privateLocation",
+                      event.target.value,
+                    )
+                  }
+                  placeholder="Google Maps bağlantısı veya açık adres"
+                  className="w-full rounded-[18px] border border-[#2A2A2A]/10 bg-[#F8F6F2] px-5 py-4 outline-none transition focus:border-[#F6A04D] focus:ring-4 focus:ring-[#F6A04D]/20"
+                />
+
+                <span className="mt-2 block text-sm text-[#2A2A2A]/50">
+                  Bu bilgi halka açık ilan sayfasında gösterilmez. Yalnızca yönetici hesabı görebilir.
+                </span>
+              </label>
+            </div>
+
+            <div className="mt-5">
+              <TextArea
+                label="Kısa Açıklama"
+                value={form.shortDescription}
+                onChange={(value) =>
+                  updateField("shortDescription", value)
+                }
+                placeholder="Kartlarda ve WhatsApp önizlemesinde kullanılacak kısa açıklama."
+                rows={3}
+              />
+            </div>
+
+            <div className="mt-5">
+              <TextArea
+                label="Detaylı Açıklama"
+                value={form.description}
+                onChange={(value) =>
+                  updateField("description", value)
+                }
+                placeholder="İlanın detaylı açıklamasını yazın."
+                rows={6}
+              />
+            </div>
+          </section>
+
+          <section className="rounded-[32px] bg-[#F8F6F2] p-6 shadow-[0_22px_70px_rgba(42,42,42,0.11)] sm:p-8">
+            <h2 className="text-2xl font-semibold">
+              Daire Özellikleri
+            </h2>
+
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <div>
+                <p className="mb-3 text-sm font-semibold text-[#2A2A2A]/70">
+                  Cephe
+                </p>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {facadeOptions.map((facade) => (
+                    <label
+                      key={facade}
+                      className={`flex cursor-pointer items-center gap-3 rounded-[18px] border px-4 py-3 transition ${
+                        facades.includes(facade)
+                          ? "border-[#F6A04D] bg-[#F6A04D]/15"
+                          : "border-[#2A2A2A]/10"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={facades.includes(facade)}
+                        onChange={() => toggleFacade(facade)}
+                        className="h-5 w-5 accent-[#F6A04D]"
+                      />
+                      <span>{facade}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <label className="block">
+                <span className="mb-3 block text-sm font-semibold text-[#2A2A2A]/70">
+                  Mutfak Tipi
+                </span>
+
+                <select
+                  value={form.kitchenType}
+                  onChange={(event) =>
+                    updateField(
+                      "kitchenType",
+                      event.target.value,
+                    )
+                  }
+                  className="w-full rounded-[18px] border border-[#2A2A2A]/10 bg-[#F8F6F2] px-5 py-4 outline-none focus:border-[#F6A04D] focus:ring-4 focus:ring-[#F6A04D]/20"
+                >
+                  <option value="">Seçiniz</option>
+                  <option value="Açık mutfak">
+                    Açık mutfak
+                  </option>
+                  <option value="Ayrı mutfak">
+                    Ayrı mutfak
+                  </option>
+                </select>
+              </label>
+            </div>
+
+            <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {featureOptions.map((feature) => (
+                <label
+                  key={feature}
+                  className="flex cursor-pointer items-center gap-3 rounded-[18px] border border-[#2A2A2A]/10 px-4 py-3"
+                >
+                  <input
+                    type="checkbox"
+                    checked={features.includes(feature)}
+                    onChange={() => toggleFeature(feature)}
+                    className="h-5 w-5 accent-[#F6A04D]"
+                  />
+                  <span>{feature}</span>
+                </label>
+              ))}
+            </div>
+
+            <div className="mt-7 grid gap-3 sm:grid-cols-3">
+              <BooleanField
+                label="Kredi İmkânı"
+                checked={form.creditAvailable}
+                onChange={(checked) =>
+                  updateField("creditAvailable", checked)
+                }
+              />
+
+              <BooleanField
+                label="Takas İmkânı"
+                checked={form.exchangeAvailable}
+                onChange={(checked) =>
+                  updateField("exchangeAvailable", checked)
+                }
+              />
+
+              <BooleanField
+                label="Komisyonsuz Firma Satışı"
+                checked={form.commissionFree}
+                onChange={(checked) =>
+                  updateField("commissionFree", checked)
+                }
+              />
+            </div>
+          </section>
+
+          <section className="rounded-[32px] bg-[#F8F6F2] p-6 shadow-[0_22px_70px_rgba(42,42,42,0.11)] sm:p-8">
+            <h2 className="text-2xl font-semibold">
+              Fotoğraflar
+            </h2>
+
+            <p className="mt-2 text-[#2A2A2A]/60">
+              Birden fazla fotoğraf seçebilirsiniz. İlk fotoğraf kapak fotoğrafı olur.
+            </p>
+
+            <label className="mt-6 block cursor-pointer rounded-[24px] border-2 border-dashed border-[#F6A04D] p-8 text-center">
+              <span className="font-semibold">
+                Fotoğraf Seç
+              </span>
+
+              <span className="mt-2 block text-sm text-[#2A2A2A]/55">
+                JPG, PNG veya WEBP • En fazla 10 MB
+              </span>
+
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                multiple
+                onChange={handleImages}
+                className="hidden"
+              />
+            </label>
+
+            {previews.length > 0 ? (
+              <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {previews.map(({ file, url }, index) => (
+                  <div
+                    key={`${file.name}-${file.lastModified}-${index}`}
+                    className="overflow-hidden rounded-[22px] border border-[#2A2A2A]/10"
+                  >
+                    <div className="relative">
+                      <img
+                        src={url}
+                        alt={file.name}
+                        className="aspect-[4/3] w-full object-cover"
+                      />
+
+                      {form.commissionFree ? (
+                        <span className="absolute left-3 top-3 rounded-full bg-[#F6A04D] px-3 py-1.5 text-xs font-semibold text-[#2A2A2A] shadow-[0_8px_22px_rgba(42,42,42,0.18)]">
+                          Komisyonsuz Firma Satışı
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <div className="flex items-center justify-between gap-3 p-3">
+                      <span className="truncate text-sm">
+                        {index === 0
+                          ? `Kapak: ${file.name}`
+                          : file.name}
+                      </span>
+
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="rounded-full bg-[#2A2A2A] px-3 py-1.5 text-xs font-semibold text-[#F8F6F2]"
+                      >
+                        Sil
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </section>
+
+          {message ? (
+            <section
+              role="status"
+              className={`rounded-[24px] px-6 py-5 font-semibold ${
+                savedSlug
+                  ? "bg-[#F6A04D] text-[#2A2A2A]"
+                  : "bg-[#2A2A2A] text-[#F8F6F2]"
+              }`}
+            >
+              <p>{message}</p>
+
+              {savedSlug ? (
+                <p className="mt-2 text-sm font-normal">
+                  Oluşturulan ilan bağlantısı: /ilan/{savedSlug}
+                </p>
+              ) : null}
+            </section>
+          ) : null}
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+            <button
+              type="button"
+              onClick={() => router.push("/yonetim")}
+              className="rounded-[20px] bg-[#F8F6F2] px-6 py-4 font-semibold shadow-[0_14px_35px_rgba(42,42,42,0.10)]"
+            >
+              İptal
+            </button>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="rounded-[20px] bg-[#F6A04D] px-8 py-4 font-semibold shadow-[0_16px_40px_rgba(42,42,42,0.14)] transition-all duration-300 hover:-translate-y-1 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSubmitting
+                ? "İlan kaydediliyor..."
+                : "İlanı Kaydet"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+  );
+}
+
+type TextFieldProps = {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  required?: boolean;
+  inputMode?: "text" | "decimal" | "numeric";
+};
+
+function TextField({
+  label,
+  value,
+  onChange,
+  placeholder,
+  required = false,
+  inputMode = "text",
+}: TextFieldProps) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-semibold text-[#2A2A2A]/70">
+        {label}
+        {required ? " *" : ""}
+      </span>
+
+      <input
+        type="text"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        required={required}
+        inputMode={inputMode}
+        className="w-full rounded-[18px] border border-[#2A2A2A]/10 bg-[#F8F6F2] px-5 py-4 outline-none transition focus:border-[#F6A04D] focus:ring-4 focus:ring-[#F6A04D]/20"
+      />
+    </label>
+  );
+}
+
+type TextAreaProps = {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  rows: number;
+};
+
+function TextArea({
+  label,
+  value,
+  onChange,
+  placeholder,
+  rows,
+}: TextAreaProps) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-semibold text-[#2A2A2A]/70">
+        {label}
+      </span>
+
+      <textarea
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        rows={rows}
+        className="w-full resize-y rounded-[18px] border border-[#2A2A2A]/10 bg-[#F8F6F2] px-5 py-4 outline-none transition focus:border-[#F6A04D] focus:ring-4 focus:ring-[#F6A04D]/20"
+      />
+    </label>
+  );
+}
+
+type BooleanFieldProps = {
+  label: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+};
+
+function BooleanField({
+  label,
+  checked,
+  onChange,
+}: BooleanFieldProps) {
+  return (
+    <label className="flex cursor-pointer items-center gap-3 rounded-[18px] border border-[#2A2A2A]/10 px-4 py-3">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+        className="h-5 w-5 accent-[#F6A04D]"
+      />
+      <span>{label}</span>
+    </label>
+  );
+}

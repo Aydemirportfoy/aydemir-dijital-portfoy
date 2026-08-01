@@ -275,7 +275,7 @@ export default async function ListingDetailPage({
                     {salesOptions.map((option) => (
                       <span
                         key={option}
-                        className="rounded-full border border-[#F6A04D]/40 bg-[#F6A04D]/20 px-4 py-2.5 text-sm font-semibold text-[#2A2A2A]"
+                        className="rounded-full bg-[#2A2A2A] px-4 py-2.5 text-sm font-semibold text-white"
                       >
                         {option}
                       </span>
@@ -299,7 +299,7 @@ export default async function ListingDetailPage({
                   href={`https://wa.me/905404175353?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-[18px] bg-white px-5 py-4 text-center font-semibold text-[#2A2A2A] shadow-[0_10px_25px_rgba(42,42,42,0.10)] transition hover:-translate-y-0.5"
+                  className="rounded-[18px] bg-[#2A2A2A] px-5 py-4 text-center font-semibold text-white"
                 >
                   WhatsApp’tan Bilgi Al
                 </a>

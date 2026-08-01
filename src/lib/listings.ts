@@ -8,6 +8,7 @@ export type Listing = {
   image: string;
   description: string;
   features: string[];
+  commissionFree: boolean;
 };
 
 export const listings: Listing[] = [
@@ -28,6 +29,7 @@ export const listings: Listing[] = [
       "Ferah yaşam alanı",
       "Aydemir İnşaat güvencesi",
     ],
+    commissionFree: true,
   },
   {
     id: 2,
@@ -46,6 +48,7 @@ export const listings: Listing[] = [
       "Kullanışlı plan",
       "Aydemir İnşaat güvencesi",
     ],
+    commissionFree: true,
   },
   {
     id: 3,
@@ -64,6 +67,7 @@ export const listings: Listing[] = [
       "Premium site konsepti",
       "Aydemir İnşaat güvencesi",
     ],
+    commissionFree: true,
   },
 ];
 
