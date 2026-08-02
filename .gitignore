@@ -6,3 +6,6 @@ out
 .env.production
 *.log
 .DS_Store
+
+patch-files/
+.aydemir-backups/
