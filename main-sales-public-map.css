@@ -1,0 +1,142 @@
+/* AYDEMIR V2 MAIN SALES + PUBLIC NEIGHBORHOOD MAP */
+
+.ap-short-summary-card {
+  margin-top: 15px;
+  padding: 14px 15px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 24%,
+      var(--line)
+    );
+  border-radius: 15px;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(
+        in srgb,
+        var(--orange-soft) 68%,
+        transparent
+      ),
+      var(--surface-soft)
+    );
+}
+
+.ap-short-summary-card > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--orange);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ap-short-summary-card p {
+  margin: 0;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.58;
+}
+
+.ap-main-sales-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.ap-main-sales-badges span {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 28%,
+      var(--line)
+    );
+  border-radius: 999px;
+  color: var(--text);
+  background: var(--orange-soft);
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.ap-public-location-note {
+  margin: 13px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.ap-public-map-button {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 0 13px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 40%,
+      var(--line)
+    );
+  border-radius: 13px;
+  color: #211b15;
+  background: var(--orange);
+  box-shadow:
+    0 10px 24px
+    rgba(243, 154, 70, 0.18);
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 900;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.ap-public-map-button:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 30px
+    rgba(243, 154, 70, 0.24);
+}
+
+.ap-public-map-button span {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(33, 27, 21, 0.12);
+  font-size: 12px;
+}
+
+@media (max-width: 640px) {
+  .ap-short-summary-card {
+    padding: 13px;
+  }
+
+  .ap-short-summary-card p {
+    font-size: 11px;
+  }
+
+  .ap-main-sales-badges {
+    gap: 6px;
+  }
+
+  .ap-main-sales-badges span {
+    min-height: 28px;
+    padding: 0 9px;
+    font-size: 8px;
+  }
+
+  .ap-public-map-button {
+    min-height: 44px;
+    font-size: 10px;
+  }
+}

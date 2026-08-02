@@ -11,19 +11,20 @@ export default function PremiumDetailCards({
   neighborhood,
   district,
   city,
-  creditAvailable,
-  exchangeAvailable,
-  commissionFree,
+  facade,
 }: {
   description?: string | null;
   features: string[];
   neighborhood: string;
   district: string;
   city: string;
-  creditAvailable: boolean;
-  exchangeAvailable: boolean;
-  commissionFree: boolean;
+  facade?: string | null;
 }) {
+  const publicMapUrl =
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(
+      `${neighborhood}, ${district}, ${city}`,
+    );
   const [activeTab, setActiveTab] =
     useState<Tab>("description");
 
@@ -114,6 +115,13 @@ export default function PremiumDetailCards({
 
           <h2>Özellikler</h2>
 
+          {facade ? (
+            <div className="ap-facade-highlight">
+              <span>Cephe</span>
+              <strong>{facade}</strong>
+            </div>
+          ) : null}
+
           {features.length > 0 ? (
             <div className="ap-premium-feature-grid">
               {features.map((feature) => (
@@ -164,19 +172,21 @@ export default function PremiumDetailCards({
             </div>
           </div>
 
-          <div className="ap-premium-sales">
-            {creditAvailable ? (
-              <span>✓ Kredi</span>
-            ) : null}
+          <p className="ap-public-location-note">
+            Güvenlik nedeniyle dairenin tam konumu
+            paylaşılmaz. Haritada yalnızca bağlı
+            olduğu mahalle gösterilir.
+          </p>
 
-            {exchangeAvailable ? (
-              <span>✓ Takas</span>
-            ) : null}
-
-            {commissionFree ? (
-              <span>✓ Komisyonsuz</span>
-            ) : null}
-          </div>
+          <a
+            href={publicMapUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="ap-public-map-button"
+          >
+            Mahalle Konumunu Aç
+            <span>↗</span>
+          </a>
         </article>
       </div>
     </section>

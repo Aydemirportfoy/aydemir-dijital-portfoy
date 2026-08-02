@@ -1,0 +1,42 @@
+/* AYDEMIR V2 FACADE MOVED TO FEATURES */
+
+.ap-facade-highlight {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 13px;
+  padding: 11px 12px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 35%,
+      var(--line)
+    );
+  border-radius: 13px;
+  background: var(--orange-soft);
+}
+
+.ap-facade-highlight span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ap-facade-highlight strong {
+  color: var(--text);
+  font-size: 11px;
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .ap-facade-highlight {
+    padding: 10px 11px;
+  }
+
+  .ap-facade-highlight strong {
+    font-size: 10px;
+  }
+}

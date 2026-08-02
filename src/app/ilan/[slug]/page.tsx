@@ -100,7 +100,6 @@ export default async function ListingDetailPage({
         : null,
     ],
     ["Kat", listing.floor],
-    ["Cephe", listing.facade],
     ["Mutfak", listing.kitchen_type],
   ].filter((item) => item[1]);
 
@@ -170,10 +169,25 @@ export default async function ListingDetailPage({
               </div>
 
               {listing.short_description ? (
-                <p className="ap-detail-description">
-                  {listing.short_description}
-                </p>
+                <div className="ap-short-summary-card">
+                  <span>Kısa Bilgi</span>
+                  <p>{listing.short_description}</p>
+                </div>
               ) : null}
+
+              <div className="ap-main-sales-badges">
+                {listing.credit_available ? (
+                  <span>✓ Kredi İmkânı</span>
+                ) : null}
+
+                {listing.exchange_available ? (
+                  <span>✓ Takas İmkânı</span>
+                ) : null}
+
+                {listing.commission_free ? (
+                  <span>✓ Komisyonsuz Firma Satışı</span>
+                ) : null}
+              </div>
 
               <div className="ap-detail-price-card">
                 <small>Satış Fiyatı</small>
@@ -208,9 +222,7 @@ export default async function ListingDetailPage({
             neighborhood={listing.neighborhood}
             district={listing.district}
             city={listing.city}
-            creditAvailable={listing.credit_available}
-            exchangeAvailable={listing.exchange_available}
-            commissionFree={listing.commission_free}
+            facade={listing.facade}
           />
         </div>
 
