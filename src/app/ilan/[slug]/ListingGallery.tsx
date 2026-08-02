@@ -144,7 +144,7 @@ export default function ListingGallery({
               ›
             </button>
 
-            <span className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold text-[#2A2A2A] shadow-[0_8px_20px_rgba(42,42,42,0.14)] sm:right-4 sm:top-4 sm:text-sm">
+            <span className="absolute right-3 top-3 rounded-[14px] border border-[#F6A04D]/30 bg-[#FFF7EF]/90 px-3 py-1.5 text-xs font-semibold text-[#2A2A2A] shadow-[0_8px_22px_rgba(42,42,42,0.12)] backdrop-blur-md sm:right-4 sm:top-4 sm:text-sm">
               {currentIndex + 1}/{imageCount}
             </span>
           </>
