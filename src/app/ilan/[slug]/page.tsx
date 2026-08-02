@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PublicHeader from "@/components/PublicHeader";
@@ -15,25 +15,26 @@ import {
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+type SearchParams = {
+  media?: string;
+};
+
 type Props = {
   params: Promise<{
     slug: string;
   }>;
-  searchParams?: Promise<{
-    media?: string;
-  }>;
+  searchParams?: Promise<SearchParams>;
 };
 
 export async function generateMetadata({
   params,
 }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const result =
-    await getListingBySlug(slug);
+  const result = await getListingBySlug(slug);
 
   if (!result) {
     return {
-      title: "Ä°lan bulunamadÄ±",
+      title: "İlan bulunamadı",
     };
   }
 
@@ -43,16 +44,12 @@ export async function generateMetadata({
     title: listing.title,
     description:
       listing.short_description ||
-      `${listing.neighborhood}, ` +
-        `${listing.district} bÃ¶lgesinde ` +
-        `${listing.room_count || ""} daire.`,
+      `${listing.neighborhood}, ${listing.district} bölgesinde ${listing.room_count || ""} daire.`,
     openGraph: {
       title: listing.title,
       description:
         listing.short_description ||
-        `${listing.neighborhood} Â· ` +
-          `${listing.room_count || ""} Â· ` +
-          `${formatPrice(listing.price)}`,
+        `${listing.neighborhood} · ${listing.room_count || ""} · ${formatPrice(listing.price)}`,
       images: listing.cover_image_url
         ? [listing.cover_image_url]
         : [],
@@ -65,14 +62,13 @@ export default async function ListingDetailPage({
   params,
   searchParams,
 }: Props) {
-  const [{ slug }, query] =
-    await Promise.all([
-      params,
-      searchParams ??
-        Promise.resolve({}),
-    ]);
-  const result =
-    await getListingBySlug(slug);
+  const { slug } = await params;
+
+  const query: SearchParams = searchParams
+    ? await searchParams
+    : {};
+
+  const result = await getListingBySlug(slug);
 
   if (!result) {
     notFound();
@@ -82,9 +78,7 @@ export default async function ListingDetailPage({
 
   const galleryImages =
     images.length > 0
-      ? images.map(
-          (image) => image.image_url,
-        )
+      ? images.map((image) => image.image_url)
       : listing.cover_image_url
         ? [listing.cover_image_url]
         : [];
@@ -94,9 +88,7 @@ export default async function ListingDetailPage({
     "http://localhost:3000";
 
   const message = encodeURIComponent(
-    `Merhaba, ${listing.title} ilanÄ± ` +
-      `hakkÄ±nda bilgi almak istiyorum.` +
-      `\n\n${siteUrl}/ilan/${listing.slug}`,
+    `Merhaba, ${listing.title} ilanı hakkında bilgi almak istiyorum.\n\n${siteUrl}/ilan/${listing.slug}`,
   );
 
   const facts = [
@@ -104,7 +96,7 @@ export default async function ListingDetailPage({
     [
       "Metrekare",
       listing.area_m2
-        ? `${listing.area_m2} mÂ²`
+        ? `${listing.area_m2} m²`
         : null,
     ],
     ["Kat", listing.floor],
@@ -112,8 +104,7 @@ export default async function ListingDetailPage({
     ["Mutfak", listing.kitchen_type],
   ].filter((item) => item[1]);
 
-  const features =
-    listing.features ?? [];
+  const features = listing.features ?? [];
 
   return (
     <>
@@ -126,7 +117,7 @@ export default async function ListingDetailPage({
               href="/"
               className="ap-soft-button"
             >
-              â† PortfÃ¶ye DÃ¶n
+              ← Portföye Dön
             </Link>
 
             <FavoriteButton
@@ -143,7 +134,7 @@ export default async function ListingDetailPage({
                   listing.listing_video_url
                 }
                 initialMode={
-                  (query as { media?: string }).media === "video" &&
+                  query.media === "video" &&
                   listing.listing_video_url
                     ? "video"
                     : "photo"
@@ -154,33 +145,32 @@ export default async function ListingDetailPage({
             <aside className="ap-detail-panel ap-glass">
               <p className="ap-kicker">
                 {listing.project_name ||
-                  "AYDEMÄ°R PORTFÃ–Y"}
+                  "AYDEMİR PORTFÖY"}
               </p>
 
               <h1 className="ap-detail-title">
                 {listing.title}
               </h1>
 
-              <p className="ap-detail-location">
-                {listing.neighborhood} Â·{" "}
-                {listing.district} Â·{" "}
-                {listing.city}
-              </p>
+              <div className="ap-detail-location-box">
+                <span>Konum</span>
+                <strong>
+                  {listing.neighborhood} ·{" "}
+                  {listing.district} ·{" "}
+                  {listing.city}
+                </strong>
+              </div>
 
               {listing.short_description ? (
                 <p className="ap-detail-description">
-                  {
-                    listing.short_description
-                  }
+                  {listing.short_description}
                 </p>
               ) : null}
 
               <div className="ap-detail-price-card">
-                <small>SatÄ±ÅŸ FiyatÄ±</small>
+                <small>Satış Fiyatı</small>
                 <strong>
-                  {formatPrice(
-                    listing.price,
-                  )}
+                  {formatPrice(listing.price)}
                 </strong>
               </div>
 
@@ -193,11 +183,7 @@ export default async function ListingDetailPage({
                 </a>
 
                 <a
-                  href={
-                    `https://wa.me/` +
-                    `${WHATSAPP_NUMBER}` +
-                    `?text=${message}`
-                  }
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`}
                   target="_blank"
                   rel="noreferrer"
                   className="ap-success-button"
@@ -209,25 +195,24 @@ export default async function ListingDetailPage({
           </div>
 
           <section className="ap-compact-facts ap-glass">
-            {facts.map(
-              ([label, value]) => (
-                <div
-                  className="ap-compact-fact"
-                  key={String(label)}
-                >
-                  <small>{label}</small>
-                  <strong>{value}</strong>
-                </div>
-              ),
-            )}
+            {facts.map(([label, value]) => (
+              <div
+                className="ap-compact-fact"
+                key={String(label)}
+              >
+                <small>{label}</small>
+                <strong>{value}</strong>
+              </div>
+            ))}
           </section>
 
           <section className="ap-premium-detail-cards">
             <article className="ap-premium-info-card ap-glass">
               <p className="ap-kicker">
-                Ä°LAN DETAYLARI
+                İLAN DETAYLARI
               </p>
-              <h2>AÃ§Ä±klama</h2>
+
+              <h2>Açıklama</h2>
 
               {listing.description ? (
                 <CollapsibleDescription
@@ -235,43 +220,43 @@ export default async function ListingDetailPage({
                 />
               ) : (
                 <p className="ap-muted">
-                  Bu ilan iÃ§in henÃ¼z aÃ§Ä±klama
-                  eklenmemiÅŸ.
+                  Bu ilan için henüz açıklama
+                  eklenmemiş.
                 </p>
               )}
             </article>
 
             <article className="ap-premium-info-card ap-glass">
               <p className="ap-kicker">
-                Ã–NE Ã‡IKANLAR
+                ÖNE ÇIKANLAR
               </p>
-              <h2>Ã–zellikler</h2>
+
+              <h2>Özellikler</h2>
 
               {features.length > 0 ? (
                 <div className="ap-premium-feature-grid">
-                  {features.map(
-                    (feature) => (
-                      <div
-                        className="ap-premium-feature"
-                        key={feature}
-                      >
-                        <span>âœ“</span>
-                        {feature}
-                      </div>
-                    ),
-                  )}
+                  {features.map((feature) => (
+                    <div
+                      className="ap-premium-feature"
+                      key={feature}
+                    >
+                      <span>✓</span>
+                      {feature}
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <p className="ap-muted">
-                  Ã–zellik bilgisi bulunmuyor.
+                  Özellik bilgisi bulunmuyor.
                 </p>
               )}
             </article>
 
-            <article className="ap-premium-info-card ap-glass">
+            <article className="ap-premium-info-card ap-glass ap-premium-location-card">
               <p className="ap-kicker">
-                BÃ–LGE VE SATIÅ
+                BÖLGE VE SATIŞ
               </p>
+
               <h2>Konum</h2>
 
               <div className="ap-location-stack">
@@ -281,14 +266,16 @@ export default async function ListingDetailPage({
                     {listing.neighborhood}
                   </strong>
                 </div>
+
                 <div>
-                  <span>Ä°lÃ§e</span>
+                  <span>İlçe</span>
                   <strong>
                     {listing.district}
                   </strong>
                 </div>
+
                 <div>
-                  <span>Åehir</span>
+                  <span>Şehir</span>
                   <strong>
                     {listing.city}
                   </strong>
@@ -297,15 +284,15 @@ export default async function ListingDetailPage({
 
               <div className="ap-premium-sales">
                 {listing.credit_available ? (
-                  <span>âœ“ Kredi</span>
+                  <span>✓ Kredi</span>
                 ) : null}
 
                 {listing.exchange_available ? (
-                  <span>âœ“ Takas</span>
+                  <span>✓ Takas</span>
                 ) : null}
 
                 {listing.commission_free ? (
-                  <span>âœ“ Komisyonsuz</span>
+                  <span>✓ Komisyonsuz</span>
                 ) : null}
               </div>
             </article>
@@ -321,11 +308,7 @@ export default async function ListingDetailPage({
           </a>
 
           <a
-            href={
-              `https://wa.me/` +
-              `${WHATSAPP_NUMBER}` +
-              `?text=${message}`
-            }
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`}
             target="_blank"
             rel="noreferrer"
             className="ap-success-button"
@@ -337,4 +320,3 @@ export default async function ListingDetailPage({
     </>
   );
 }
-

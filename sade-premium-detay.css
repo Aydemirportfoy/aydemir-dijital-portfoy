@@ -1,0 +1,298 @@
+/* AYDEMIR V2 SADE PREMIUM DETAY */
+
+.ap-detail-panel {
+  padding: 22px;
+}
+
+.ap-detail-title {
+  max-width: 18ch;
+  margin: 8px 0 16px;
+  font-size: clamp(26px, 3vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  overflow-wrap: anywhere;
+}
+
+.ap-detail-description {
+  margin: 15px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.ap-detail-location-box {
+  display: grid;
+  gap: 5px;
+  margin-top: 14px;
+  padding: 14px 15px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 28%,
+      var(--line)
+    );
+  border-radius: 15px;
+  background: var(--surface-soft);
+}
+
+.ap-detail-location-box span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ap-detail-location-box strong {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.ap-detail-price-card {
+  margin-top: 16px;
+}
+
+.ap-compact-facts {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.ap-compact-fact {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--surface-soft);
+}
+
+.ap-compact-fact small,
+.ap-compact-fact strong {
+  display: block;
+}
+
+.ap-compact-fact small {
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ap-compact-fact strong {
+  overflow: hidden;
+  margin-top: 4px;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-premium-detail-cards {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 0.9fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.ap-premium-info-card {
+  min-width: 0;
+  padding: 20px;
+  border-radius: 22px;
+}
+
+.ap-premium-info-card h2 {
+  margin: 6px 0 0;
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.ap-premium-info-card .ap-kicker {
+  font-size: 8px;
+}
+
+.ap-description-content {
+  max-height: 240px;
+  overflow: hidden;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+  white-space: pre-line;
+  transition: max-height 220ms ease;
+}
+
+.ap-collapsible-description.is-expanded
+.ap-description-content {
+  max-height: 5000px;
+}
+
+.ap-description-toggle {
+  min-height: 36px;
+  margin-top: 12px;
+  padding: 0 13px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 32%,
+      var(--line)
+    );
+  border-radius: 12px;
+  color: var(--text);
+  background: var(--orange-soft);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.ap-premium-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.ap-premium-feature {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-soft);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.ap-premium-feature span {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #211b15;
+  background: var(--orange);
+  font-size: 9px;
+}
+
+.ap-premium-location-card {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 34%,
+      var(--line)
+    );
+}
+
+.ap-location-stack {
+  display: grid;
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.ap-location-stack > div {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-soft);
+}
+
+.ap-location-stack span {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.ap-location-stack strong {
+  overflow: hidden;
+  font-size: 11px;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-premium-sales {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.ap-premium-sales span {
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 9px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 30%,
+      var(--line)
+    );
+  border-radius: 999px;
+  background: var(--orange-soft);
+  font-size: 9px;
+  font-weight: 850;
+}
+
+@media (max-width: 980px) {
+  .ap-premium-detail-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ap-premium-location-card {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .ap-detail-panel {
+    padding: 18px;
+  }
+
+  .ap-detail-title {
+    max-width: none;
+    font-size: 28px;
+    line-height: 1.03;
+  }
+
+  .ap-detail-location-box {
+    padding: 12px 13px;
+  }
+
+  .ap-compact-facts {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .ap-premium-detail-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .ap-premium-location-card {
+    grid-column: auto;
+  }
+
+  .ap-premium-info-card {
+    padding: 17px;
+    border-radius: 19px;
+  }
+
+  .ap-premium-info-card h2 {
+    font-size: 20px;
+  }
+
+  .ap-premium-feature-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}

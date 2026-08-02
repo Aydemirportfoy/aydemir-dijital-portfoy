@@ -16,8 +16,8 @@ export default function CollapsibleDescription({
         .length;
 
     return (
-      text.length > 520 ||
-      lineCount > 9
+      text.length > 480 ||
+      lineCount > 8
     );
   }, [text]);
 
@@ -34,25 +34,17 @@ export default function CollapsibleDescription({
       </div>
 
       {isLong ? (
-        <>
-          {!expanded ? (
-            <div className="ap-description-fade" />
-          ) : null}
-
-          <button
-            type="button"
-            className="ap-description-toggle"
-            onClick={() =>
-              setExpanded(
-                (current) => !current,
-              )
-            }
-          >
-            {expanded
-              ? "Daha Az Göster"
-              : "Açıklamanın Devamını Gör"}
-          </button>
-        </>
+        <button
+          type="button"
+          className="ap-description-toggle"
+          onClick={() =>
+            setExpanded((current) => !current)
+          }
+        >
+          {expanded
+            ? "Daha Az Göster"
+            : "Devamını Gör"}
+        </button>
       ) : null}
     </div>
   );
