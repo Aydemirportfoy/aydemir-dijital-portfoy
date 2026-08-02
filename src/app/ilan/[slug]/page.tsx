@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import PublicHeader from "@/components/PublicHeader";
 import ListingGallery from "@/components/ListingGallery";
 import FavoriteButton from "@/components/FavoriteButton";
-import CollapsibleDescription from "@/components/CollapsibleDescription";
+import PremiumDetailCards from "@/components/PremiumDetailCards";
 import { getListingBySlug } from "@/lib/data";
 import { formatPrice } from "@/lib/format";
 import {
@@ -120,9 +120,7 @@ export default async function ListingDetailPage({
               ← Portföye Dön
             </Link>
 
-            <FavoriteButton
-              slug={listing.slug}
-            />
+            <FavoriteButton slug={listing.slug} />
           </div>
 
           <div className="ap-detail-grid">
@@ -130,9 +128,7 @@ export default async function ListingDetailPage({
               <ListingGallery
                 images={galleryImages}
                 title={listing.title}
-                videoUrl={
-                  listing.listing_video_url
-                }
+                videoUrl={listing.listing_video_url}
                 initialMode={
                   query.media === "video" &&
                   listing.listing_video_url
@@ -151,6 +147,18 @@ export default async function ListingDetailPage({
               <h1 className="ap-detail-title">
                 {listing.title}
               </h1>
+
+              <section className="ap-title-facts">
+                {facts.map(([label, value]) => (
+                  <div
+                    className="ap-title-fact"
+                    key={String(label)}
+                  >
+                    <small>{label}</small>
+                    <strong>{value}</strong>
+                  </div>
+                ))}
+              </section>
 
               <div className="ap-detail-location-box">
                 <span>Konum</span>
@@ -194,109 +202,16 @@ export default async function ListingDetailPage({
             </aside>
           </div>
 
-          <section className="ap-compact-facts ap-glass">
-            {facts.map(([label, value]) => (
-              <div
-                className="ap-compact-fact"
-                key={String(label)}
-              >
-                <small>{label}</small>
-                <strong>{value}</strong>
-              </div>
-            ))}
-          </section>
-
-          <section className="ap-premium-detail-cards">
-            <article className="ap-premium-info-card ap-glass">
-              <p className="ap-kicker">
-                İLAN DETAYLARI
-              </p>
-
-              <h2>Açıklama</h2>
-
-              {listing.description ? (
-                <CollapsibleDescription
-                  text={listing.description}
-                />
-              ) : (
-                <p className="ap-muted">
-                  Bu ilan için henüz açıklama
-                  eklenmemiş.
-                </p>
-              )}
-            </article>
-
-            <article className="ap-premium-info-card ap-glass">
-              <p className="ap-kicker">
-                ÖNE ÇIKANLAR
-              </p>
-
-              <h2>Özellikler</h2>
-
-              {features.length > 0 ? (
-                <div className="ap-premium-feature-grid">
-                  {features.map((feature) => (
-                    <div
-                      className="ap-premium-feature"
-                      key={feature}
-                    >
-                      <span>✓</span>
-                      {feature}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="ap-muted">
-                  Özellik bilgisi bulunmuyor.
-                </p>
-              )}
-            </article>
-
-            <article className="ap-premium-info-card ap-glass ap-premium-location-card">
-              <p className="ap-kicker">
-                BÖLGE VE SATIŞ
-              </p>
-
-              <h2>Konum</h2>
-
-              <div className="ap-location-stack">
-                <div>
-                  <span>Mahalle</span>
-                  <strong>
-                    {listing.neighborhood}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>İlçe</span>
-                  <strong>
-                    {listing.district}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Şehir</span>
-                  <strong>
-                    {listing.city}
-                  </strong>
-                </div>
-              </div>
-
-              <div className="ap-premium-sales">
-                {listing.credit_available ? (
-                  <span>✓ Kredi</span>
-                ) : null}
-
-                {listing.exchange_available ? (
-                  <span>✓ Takas</span>
-                ) : null}
-
-                {listing.commission_free ? (
-                  <span>✓ Komisyonsuz</span>
-                ) : null}
-              </div>
-            </article>
-          </section>
+          <PremiumDetailCards
+            description={listing.description}
+            features={features}
+            neighborhood={listing.neighborhood}
+            district={listing.district}
+            city={listing.city}
+            creditAvailable={listing.credit_available}
+            exchangeAvailable={listing.exchange_available}
+            commissionFree={listing.commission_free}
+          />
         </div>
 
         <div className="ap-mobile-contact">

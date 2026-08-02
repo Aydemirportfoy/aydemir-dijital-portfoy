@@ -1,0 +1,138 @@
+/* AYDEMIR V2 TITLE FACTS + MOBILE 3 TABS */
+
+.ap-title-facts {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ap-title-fact {
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-soft);
+}
+
+.ap-title-fact small,
+.ap-title-fact strong {
+  display: block;
+}
+
+.ap-title-fact small {
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ap-title-fact strong {
+  overflow: hidden;
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+}
+
+.ap-title-fact:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.ap-detail-info-wrap {
+  margin-top: 16px;
+}
+
+.ap-mobile-detail-tabs {
+  display: none;
+}
+
+.ap-premium-detail-cards {
+  margin-top: 0;
+}
+
+@media (max-width: 640px) {
+  .ap-title-facts {
+    margin-top: 14px;
+  }
+
+  .ap-title-fact {
+    padding: 12px;
+  }
+
+  .ap-title-fact strong {
+    font-size: 13px;
+  }
+
+  .ap-mobile-detail-tabs {
+    position: sticky;
+    top: 76px;
+    z-index: 20;
+    display: grid;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+    gap: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background:
+      color-mix(
+        in srgb,
+        var(--surface-strong) 94%,
+        transparent
+      );
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(18px);
+  }
+
+  .ap-mobile-detail-tabs button {
+    min-height: 40px;
+    border: 0;
+    border-radius: 12px;
+    color: var(--muted);
+    background: transparent;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 850;
+  }
+
+  .ap-mobile-detail-tabs button.is-active {
+    color: #211b15;
+    background: var(--orange);
+    box-shadow:
+      0 8px 20px
+      rgba(243, 154, 70, 0.22);
+  }
+
+  .ap-premium-detail-cards {
+    display: block;
+  }
+
+  .ap-premium-detail-cards
+  .ap-premium-info-card {
+    display: none;
+  }
+
+  .ap-premium-detail-cards
+  .ap-premium-info-card.is-active {
+    display: block;
+    animation:
+      ap-detail-card-in
+      180ms ease both;
+  }
+}
+
+@keyframes ap-detail-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

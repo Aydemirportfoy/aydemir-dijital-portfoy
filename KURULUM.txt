@@ -1,6 +1,6 @@
-1. ZIP içindeki bütün dosyaları package.json bulunan proje klasörüne kopyalayın.
+1. ZIP içindeki dosyaları package.json bulunan proje klasörüne kopyalayın.
 2. Terminalde Ctrl + C yapın.
-3. node .\apply-v2-simple-detail.cjs
+3. node .\apply-v2-title-facts-mobile-tabs.cjs
 4. npm.cmd run build
 5. npm.cmd run dev
 
