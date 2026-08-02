@@ -2,19 +2,14 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export async function createClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+  if (!url || !key) throw new Error("Supabase ortam değişkenleri eksik.");
+
   const cookieStore = await cookies();
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabasePublishableKey =
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-
-  if (!supabaseUrl || !supabasePublishableKey) {
-    throw new Error(
-      "Supabase bağlantı bilgileri bulunamadı. .env.local dosyasını kontrol edin.",
-    );
-  }
-
-  return createServerClient(supabaseUrl, supabasePublishableKey, {
+  return createServerClient(url, key, {
     cookies: {
       getAll() {
         return cookieStore.getAll();
@@ -24,11 +19,8 @@ export async function createClient() {
           cookiesToSet.forEach(({ name, value, options }) => {
             cookieStore.set(name, value, options);
           });
-        } catch {
-          // Server Component içinde cookie yazımı mümkün değilse sessizce geç.
-          // Oturum yenileme işlemini sonraki adımda proxy/middleware ile güçlendireceğiz.
-        }
-      },
-    },
+        } catch {}
+      }
+    }
   });
 }

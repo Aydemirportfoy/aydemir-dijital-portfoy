@@ -1,35 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
-  title: "Aydemir İnşaat | Dijital Portföy",
-  description: "Aydemir İnşaat dijital portföy ve müşteri sunum sistemi",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Aydemir İnşaat | Dijital Portföy",
+    template: "%s | Aydemir İnşaat",
+  },
+  description: "Antalya Kepez bölgesindeki güncel Aydemir İnşaat portföyleri.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const themeScript = `
+  try {
+    const saved = localStorage.getItem('aydemir-theme');
+    const dark = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  } catch {}
+`;
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="tr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-     suppressHydrationWarning>
-      <body className="min-h-full flex flex-col bg-cream text-anthracite">
-        {children}
-      </body>
+    <html lang="tr" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }

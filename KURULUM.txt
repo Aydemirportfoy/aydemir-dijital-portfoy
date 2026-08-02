@@ -1,0 +1,7 @@
+1. ZIP içindeki bütün dosyaları package.json bulunan proje klasörüne kopyalayın.
+2. Terminalde Ctrl + C yapın.
+3. node .\apply-v2-mobile-grid.cjs
+4. npm.cmd run build
+5. npm.cmd run dev
+
+Supabase işlemi yoktur.

@@ -1,15 +1,9 @@
 import { createBrowserClient } from "@supabase/ssr";
 
 export function createClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabasePublishableKey =
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-  if (!supabaseUrl || !supabasePublishableKey) {
-    throw new Error(
-      "Supabase bağlantı bilgileri bulunamadı. .env.local dosyasını kontrol edin.",
-    );
-  }
-
-  return createBrowserClient(supabaseUrl, supabasePublishableKey);
+  if (!url || !key) throw new Error("Supabase ortam değişkenleri eksik.");
+  return createBrowserClient(url, key);
 }

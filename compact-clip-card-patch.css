@@ -1,0 +1,131 @@
+/* AYDEMIR V2 COMPACT DESCRIPTION + CARD CLIP PATCH */
+
+.ap-listing-card {
+  position: relative;
+}
+
+.ap-listing-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.ap-card-video-link {
+  position: absolute;
+  z-index: 8;
+  left: 14px;
+  top: 14px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 13px;
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  border-radius: 999px;
+  color: #211b15;
+  background: rgba(255, 184, 111, 0.95);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.20);
+  backdrop-filter: blur(14px);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 900;
+  transition:
+    transform 170ms ease,
+    box-shadow 170ms ease;
+}
+
+.ap-card-video-link:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 17px 36px rgba(0, 0, 0, 0.26);
+}
+
+.ap-card-video-link span {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    rgba(33, 27, 21, 0.13);
+  font-size: 9px;
+}
+
+.ap-collapsible-description {
+  position: relative;
+  margin-top: 16px;
+}
+
+.ap-description-content {
+  max-height: 260px;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.68;
+  white-space: pre-line;
+  transition: max-height 280ms ease;
+}
+
+.ap-collapsible-description.is-expanded
+.ap-description-content {
+  max-height: 5000px;
+}
+
+.ap-description-fade {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 42px;
+  height: 100px;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      color-mix(
+        in srgb,
+        var(--surface-strong) 95%,
+        transparent
+      )
+    );
+}
+
+.ap-description-toggle {
+  position: relative;
+  z-index: 2;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 14px;
+  padding: 0 15px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 38%,
+      var(--line)
+    );
+  border-radius: 13px;
+  color: var(--text);
+  background: var(--orange-soft);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+@media (max-width: 640px) {
+  .ap-card-video-link {
+    left: 10px;
+    top: 10px;
+    min-height: 37px;
+    padding: 0 11px;
+    font-size: 10px;
+  }
+
+  .ap-description-content {
+    max-height: 220px;
+    font-size: 14px;
+  }
+}

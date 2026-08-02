@@ -1,36 +1,29 @@
 import { redirect } from "next/navigation";
-import LoginForm from "./LoginForm";
-import { createClient } from "../../lib/supabase/server";
+import LoginForm from "@/app/giris/LoginForm";
+import ThemeToggle from "@/components/ThemeToggle";
+import { createClient } from "@/lib/supabase/server";
+
+export const dynamic = "force-dynamic";
 
 export default async function LoginPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  if (user) {
-    redirect("/yonetim");
-  }
+  if (user) redirect("/yonetim");
 
   return (
-    <main className="flex min-h-[100svh] items-center justify-center bg-[#F8F6F2] px-6 py-12 text-[#2A2A2A]">
-      <section className="w-full max-w-md rounded-[32px] bg-[#F8F6F2] p-7 text-center shadow-[0_28px_90px_rgba(42,42,42,0.14)] sm:p-10">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[28px] bg-[#F6A04D] text-3xl font-semibold shadow-[0_18px_45px_rgba(42,42,42,0.14)]">
-          A
+    <main className="ap-login-page">
+      <section className="ap-login-card ap-glass">
+        <div className="ap-detail-topbar">
+          <div className="ap-brand">
+            <span className="ap-brand-mark">A</span>
+            <span><strong>AYDEMİR İNŞAAT</strong><small>Yönetim Girişi</small></span>
+          </div>
+          <ThemeToggle />
         </div>
 
-        <p className="mt-7 text-sm font-semibold tracking-[0.24em] text-[#2A2A2A]/55">
-          AYDEMİR İNŞAAT
-        </p>
-
-        <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em]">
-          Yönetici Girişi
-        </h1>
-
-        <p className="mt-4 leading-7 text-[#2A2A2A]/60">
-          İlanları ve müşteri sunumlarını yönetmek için giriş yapın.
-        </p>
-
+        <h1>Hoş geldiniz.</h1>
+        <p className="ap-muted">Portföylerinizi ve müşteri sunumlarınızı tek yerden yönetin.</p>
         <LoginForm />
       </section>
     </main>

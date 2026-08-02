@@ -1,17 +1,9 @@
-import { redirect } from "next/navigation";
-import { createClient } from "../../../lib/supabase/server";
-import NewListingForm from "./NewListingForm";
+import ListingEditor from "@/components/admin/ListingEditor";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function NewListingPage() {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/giris");
-  }
-
-  return <NewListingForm />;
+  return <ListingEditor mode="create" userId={user!.id} />;
 }
