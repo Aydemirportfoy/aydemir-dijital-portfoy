@@ -20,6 +20,7 @@ export async function getListingBySlug(slug: string) {
     .from("listings")
     .select("*")
     .eq("slug", slug)
+    .eq("status", "active")
     .maybeSingle();
 
   if (error || !listing) return null;

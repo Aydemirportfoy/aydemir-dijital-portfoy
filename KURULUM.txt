@@ -1,13 +1,18 @@
 1. ZIP içindeki tüm dosyaları package.json bulunan proje klasörüne kopyalayın.
 2. Terminalde Ctrl + C yapın.
-3. node .\apply-v2-presentation-text-facade-final.cjs
+3. node .\apply-v2-presentation-management.cjs
 4. npm.cmd run build
 5. npm.cmd run dev
 
-Bu paket önceki yapılmayan düzenlemeleri de içerir:
-- Müşteriye Not başlığı ve metni büyütüldü.
-- Kartlardaki mahalle / ilçe / şehir yazısı büyütüldü.
-- Yazı kontrastı artırıldı.
-- Cephe bilgisi sağa sıkışmadan, alt alta ve sola hizalı gösterilir.
-- Mobil görünüm daha okunaklı hale getirildi.
-- Supabase işlemi yoktur.
+Eklenen özellikler:
+- Sunumu düzenleme
+- Müşteri adı, başlık ve not değiştirme
+- İlan ekleme ve çıkarma
+- İlan sırasını yukarı/aşağı değiştirme
+- Sunumu çoğaltma
+- Link kopyalama
+- WhatsApp paylaşımı
+- Arşivleme ve yeniden yayınlama
+- Arşivdeki sunumların müşteriye kapatılması
+
+Supabase SQL işlemi yoktur.

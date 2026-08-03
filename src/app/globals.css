@@ -7233,3 +7233,285 @@ fieldset.ap-field legend {
   }
 }
 
+
+
+/* AYDEMIR V2 PRESENTATION MANAGEMENT */
+
+.ap-presentation-manager-row {
+  align-items: center;
+}
+
+.ap-presentation-manager-info {
+  min-width: 0;
+}
+
+.ap-presentation-manager-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ap-presentation-manager-actions
+.ap-soft-button,
+.ap-presentation-manager-actions
+.ap-success-button,
+.ap-presentation-manager-actions
+.ap-danger-button,
+.ap-presentation-manager-actions
+.ap-primary-button {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 12px;
+  border-radius: 12px;
+  font-size: 9px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.ap-presentation-edit-top-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ap-presentation-editor-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(270px, .78fr)
+    minmax(0, 2fr);
+  gap: 18px;
+}
+
+.ap-presentation-edit-form {
+  top: 18px;
+}
+
+.ap-presentation-edit-content {
+  display: grid;
+  gap: 18px;
+}
+
+.ap-presentation-status-choice {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.ap-presentation-status-choice button {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  color: var(--muted);
+  background: var(--surface-soft);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.ap-presentation-status-choice button.is-active {
+  color: #211b15;
+  border-color: var(--orange);
+  background: var(--orange);
+  box-shadow:
+    0 10px 24px
+    rgba(243, 154, 70, .20);
+}
+
+.ap-presentation-order-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 14px;
+}
+
+.ap-presentation-order-item {
+  display: grid;
+  grid-template-columns:
+    34px
+    68px
+    minmax(0, 1fr)
+    auto;
+  align-items: center;
+  gap: 11px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .07),
+      transparent 60%
+    ),
+    var(--surface-soft);
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease;
+}
+
+.ap-presentation-order-item:hover {
+  transform: translateY(-1px);
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 36%,
+      var(--line)
+    );
+}
+
+.ap-presentation-order-number {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #211b15;
+  background: var(--orange);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.ap-presentation-order-image {
+  width: 68px;
+  aspect-ratio: 1.18 / 1;
+  overflow: hidden;
+  border-radius: 11px;
+  background: var(--surface);
+}
+
+.ap-presentation-order-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.ap-presentation-order-info {
+  min-width: 0;
+}
+
+.ap-presentation-order-info strong,
+.ap-presentation-order-info small {
+  display: block;
+}
+
+.ap-presentation-order-info strong {
+  overflow: hidden;
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-presentation-order-info small {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.ap-presentation-order-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.ap-presentation-order-actions button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ap-presentation-order-actions button:hover {
+  border-color: var(--orange);
+}
+
+.ap-presentation-order-actions button:disabled {
+  opacity: .28;
+  cursor: default;
+}
+
+.ap-presentation-order-actions button.is-remove {
+  color: #d85b51;
+}
+
+@media (max-width: 900px) {
+  .ap-presentation-editor-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ap-presentation-edit-form {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .ap-presentation-manager-row {
+    align-items: stretch;
+  }
+
+  .ap-presentation-manager-actions {
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+  }
+
+  .ap-presentation-manager-actions
+  > * {
+    width: 100%;
+  }
+
+  .ap-presentation-edit-top-actions {
+    width: 100%;
+  }
+
+  .ap-presentation-edit-top-actions
+  > * {
+    flex: 1;
+  }
+
+  .ap-presentation-order-item {
+    grid-template-columns:
+      30px
+      58px
+      minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .ap-presentation-order-image {
+    width: 58px;
+  }
+
+  .ap-presentation-order-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+    padding-top: 3px;
+  }
+
+  .ap-presentation-order-info strong {
+    font-size: 10px;
+  }
+
+  .ap-presentation-order-actions button {
+    width: 36px;
+    height: 34px;
+  }
+
+  .ap-presentation-edit-form
+  .ap-presentation-submit {
+    position: sticky;
+    bottom: 78px;
+    z-index: 10;
+  }
+}
+
