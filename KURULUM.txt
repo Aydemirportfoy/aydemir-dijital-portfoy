@@ -1,6 +1,6 @@
-1. ZIP içindeki dosyaları package.json bulunan proje klasörüne kopyalayın.
+1. ZIP içindeki tüm dosyaları package.json bulunan proje klasörüne kopyalayın.
 2. Terminalde Ctrl + C yapın.
-3. node .\apply-v2-facade-move.cjs
+3. node .\apply-v2-presentation-fact-swipe.cjs
 4. npm.cmd run build
 5. npm.cmd run dev
 
