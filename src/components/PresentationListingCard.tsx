@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   formatPrice,
@@ -5,6 +7,7 @@ import {
 import type {
   Listing,
 } from "@/lib/types";
+import PresentationCardGallery from "@/components/PresentationCardGallery";
 
 export default function PresentationListingCard({
   listing,
@@ -26,48 +29,32 @@ export default function PresentationListingCard({
     null;
 
   const videoUrl =
-    `${detailUrl}?media=video`;
+    rawVideoUrl
+      ? `${detailUrl}?media=video`
+      : null;
 
   return (
     <article className="ap-presentation-listing-card ap-presentation-card-v2">
       <div className="ap-presentation-card-glow" />
+
+      <PresentationCardGallery
+        listingId={listing.id}
+        title={listing.title}
+        coverImageUrl={
+          listing.cover_image_url
+        }
+        index={index}
+        commissionFree={
+          listing.commission_free
+        }
+        videoUrl={videoUrl}
+      />
 
       <Link
         href={detailUrl}
         className="ap-presentation-card-link"
         aria-label={`${listing.title} ilanını aç`}
       >
-        <div className="ap-presentation-card-media">
-          {listing.cover_image_url ? (
-            <img
-              src={
-                listing.cover_image_url
-              }
-              alt={listing.title}
-              loading="lazy"
-            />
-          ) : (
-            <div className="ap-image-empty">
-              Kapak fotoğrafı yok
-            </div>
-          )}
-
-          <div className="ap-presentation-card-shade" />
-
-          <span className="ap-presentation-card-number">
-            {String(index + 1).padStart(
-              2,
-              "0",
-            )}
-          </span>
-
-          {listing.commission_free ? (
-            <span className="ap-presentation-card-commission">
-              Komisyonsuz
-            </span>
-          ) : null}
-        </div>
-
         <div className="ap-presentation-card-body">
           <div className="ap-presentation-title-panel">
             <p className="ap-presentation-card-project">
@@ -134,17 +121,6 @@ export default function PresentationListingCard({
           </div>
         </div>
       </Link>
-
-      {rawVideoUrl ? (
-        <Link
-          href={videoUrl}
-          className="ap-presentation-media-video"
-          aria-label={`${listing.title} ilan klibini aç`}
-        >
-          <span>▶</span>
-          İlan Klibi
-        </Link>
-      ) : null}
     </article>
   );
 }

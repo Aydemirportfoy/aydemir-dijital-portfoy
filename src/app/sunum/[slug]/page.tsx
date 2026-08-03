@@ -6,7 +6,6 @@ import {
 } from "next/navigation";
 import PublicHeader from "@/components/PublicHeader";
 import PresentationListingCard from "@/components/PresentationListingCard";
-import PresentationSwipeDeck from "@/components/PresentationSwipeDeck";
 import {
   getPresentationBySlug,
 } from "@/lib/data";
@@ -167,23 +166,17 @@ export default async function PresentationPage({
               </p>
             </div>
           ) : (
-            <>
-              <div className="ap-presentation-premium-grid ap-presentation-desktop-grid">
-                {listings.map(
-                  (listing, index) => (
-                    <PresentationListingCard
-                      key={listing.id}
-                      listing={listing}
-                      index={index}
-                    />
-                  ),
-                )}
-              </div>
-
-              <PresentationSwipeDeck
-                listings={listings}
-              />
-            </>
+            <div className="ap-presentation-premium-grid">
+              {listings.map(
+                (listing, index) => (
+                  <PresentationListingCard
+                    key={listing.id}
+                    listing={listing}
+                    index={index}
+                  />
+                ),
+              )}
+            </div>
           )}
         </div>
       </main>

@@ -1,7 +1,10 @@
 1. ZIP içindeki tüm dosyaları package.json bulunan proje klasörüne kopyalayın.
 2. Terminalde Ctrl + C yapın.
-3. node .\apply-v2-presentation-fact-swipe.cjs
+3. node .\apply-v2-cards-static-photo-gallery.cjs
 4. npm.cmd run build
 5. npm.cmd run dev
 
+Kartlar yeniden aynı anda görünür.
+Kaydırma yalnızca kartların içindeki ilan fotoğraflarında çalışır.
+Masaüstünde oklarla ve sürükleyerek, mobilde parmakla kaydırabilirsiniz.
 Supabase işlemi yoktur.
