@@ -1,0 +1,290 @@
+/* AYDEMIR V2 DETAIL GALLERY + MOBILE ALIGNMENT + NOTE */
+
+.ap-detail-gallery-premium
+.ap-gallery-main {
+  transition:
+    box-shadow
+    300ms
+    ease,
+    border-color
+    300ms
+    ease;
+}
+
+.ap-detail-gallery-premium
+.ap-gallery-main.is-dragging {
+  box-shadow:
+    0 24px 60px
+    rgba(0, 0, 0, .16);
+}
+
+.ap-detail-gallery-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.ap-detail-gallery-viewport:active {
+  cursor: grabbing;
+}
+
+.ap-detail-gallery-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transform:
+    translate3d(
+      calc(
+        var(--ap-detail-index) *
+        -100% +
+        var(--ap-detail-drag)
+      ),
+      0,
+      0
+    );
+  transition:
+    transform
+    300ms
+    cubic-bezier(
+      .22,
+      .61,
+      .36,
+      1
+    );
+  will-change: transform;
+}
+
+.ap-gallery-main.is-dragging
+.ap-detail-gallery-track {
+  transition: none;
+}
+
+.ap-detail-gallery-slide {
+  min-width: 100%;
+  flex: 0 0 100%;
+  height: 100%;
+  padding: 3px;
+  opacity:
+    var(
+      --ap-detail-opacity,
+      .9
+    );
+  transform:
+    scale(
+      var(
+        --ap-detail-scale,
+        .98
+      )
+    );
+  transform-origin: center;
+  transition:
+    transform
+    300ms
+    cubic-bezier(
+      .22,
+      .61,
+      .36,
+      1
+    ),
+    opacity
+    260ms
+    ease;
+  will-change:
+    transform,
+    opacity;
+}
+
+.ap-gallery-main.is-dragging
+.ap-detail-gallery-slide {
+  transition:
+    transform 80ms linear,
+    opacity 80ms linear;
+}
+
+.ap-detail-gallery-slide-inner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius:
+    calc(
+      var(--radius, 24px) - 3px
+    );
+  box-shadow:
+    0 12px 28px
+    rgba(0, 0, 0, .10);
+  transition:
+    box-shadow
+    300ms
+    ease;
+}
+
+.ap-detail-gallery-slide.is-active
+.ap-detail-gallery-slide-inner {
+  box-shadow:
+    0 22px 52px
+    rgba(0, 0, 0, .18);
+}
+
+.ap-detail-gallery-slide img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+.ap-detail-gallery-premium
+.ap-gallery-count,
+.ap-detail-gallery-premium
+.ap-gallery-video-trigger,
+.ap-detail-gallery-premium
+.ap-gallery-arrow {
+  z-index: 8;
+}
+
+.ap-detail-gallery-premium
+.ap-gallery-arrow:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ap-presentation-note {
+  max-width: 720px;
+  margin-top: 17px;
+  padding: 14px 15px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 18%,
+      var(--line)
+    );
+  border-radius: 16px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .08),
+      transparent 62%
+    ),
+    var(--surface-soft);
+  box-shadow:
+    inset 0 1px 0
+    rgba(255, 255, 255, .10);
+}
+
+.ap-presentation-note > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--orange);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+}
+
+.ap-presentation-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+@media (max-width: 640px) {
+  .ap-presentation-section-head {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .ap-presentation-section-head > div {
+    width: 100%;
+    text-align: left !important;
+  }
+
+  .ap-presentation-section-head
+  .ap-presentation-count {
+    align-self: flex-start;
+  }
+
+  .ap-public-header-inner {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto;
+    align-items: center;
+    gap: 8px 10px;
+  }
+
+  .ap-public-header-inner
+  .ap-brand {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  .ap-public-header-inner
+  .ap-header-actions {
+    display: contents;
+  }
+
+  .ap-public-header-inner
+  .ap-header-actions
+  .ap-soft-button {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+    text-align: left;
+  }
+
+  .ap-public-header-inner
+  .ap-header-actions
+  .ap-icon-button {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .ap-presentation-note {
+    width: 100%;
+    margin-top: 11px;
+    padding: 11px 12px;
+    border-radius: 14px;
+  }
+
+  .ap-presentation-note > span {
+    margin-bottom: 4px;
+    font-size: 7px;
+  }
+
+  .ap-presentation-note p {
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .ap-detail-gallery-slide {
+    padding: 2px;
+  }
+
+  .ap-detail-gallery-slide-inner {
+    border-radius:
+      calc(
+        var(--radius, 20px) - 2px
+      );
+  }
+}
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .ap-detail-gallery-track,
+  .ap-detail-gallery-slide,
+  .ap-detail-gallery-slide-inner,
+  .ap-detail-gallery-premium
+  .ap-gallery-main {
+    transition-duration:
+      1ms !important;
+  }
+}

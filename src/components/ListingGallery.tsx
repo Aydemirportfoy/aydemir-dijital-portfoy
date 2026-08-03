@@ -1,13 +1,17 @@
 "use client";
 
 import {
+  CSSProperties,
+  PointerEvent,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 
-type GalleryMode = "photo" | "video";
+type GalleryMode =
+  | "photo"
+  | "video";
 
 export default function ListingGallery({
   images,
@@ -21,11 +25,17 @@ export default function ListingGallery({
   initialMode?: GalleryMode;
 }) {
   const cleanImages = useMemo(
-    () => images.filter(Boolean),
+    () =>
+      Array.from(
+        new Set(
+          images.filter(Boolean),
+        ),
+      ),
     [images],
   );
 
-  const [active, setActive] = useState(0);
+  const [active, setActive] =
+    useState(0);
   const [mode, setMode] =
     useState<GalleryMode>(() => {
       if (
@@ -42,13 +52,31 @@ export default function ListingGallery({
           : "photo";
     });
 
-  const startX = useRef<number | null>(null);
+  const [dragX, setDragX] =
+    useState(0);
+  const [dragging, setDragging] =
+    useState(false);
+
+  const viewportRef =
+    useRef<HTMLDivElement>(null);
+  const startXRef =
+    useRef(0);
+  const startTimeRef =
+    useRef(0);
+  const suppressClickRef =
+    useRef(false);
 
   useEffect(() => {
-    if (active >= cleanImages.length) {
+    if (
+      active >=
+      cleanImages.length
+    ) {
       setActive(0);
     }
-  }, [active, cleanImages.length]);
+  }, [
+    active,
+    cleanImages.length,
+  ]);
 
   useEffect(() => {
     if (
@@ -57,7 +85,10 @@ export default function ListingGallery({
     ) {
       setMode("video");
     }
-  }, [cleanImages.length, videoUrl]);
+  }, [
+    cleanImages.length,
+    videoUrl,
+  ]);
 
   if (
     cleanImages.length === 0 &&
@@ -71,75 +102,211 @@ export default function ListingGallery({
     );
   }
 
-  function go(next: number) {
-    if (cleanImages.length === 0) {
-      return;
-    }
+  const lastIndex =
+    Math.max(
+      cleanImages.length - 1,
+      0,
+    );
 
-    const count = cleanImages.length;
-
-    setMode("photo");
-    setActive(
-      (next + count) % count,
+  function clampIndex(
+    value: number,
+  ) {
+    return Math.min(
+      Math.max(value, 0),
+      lastIndex,
     );
   }
 
-  function start(clientX: number) {
-    if (mode === "video") {
-      return;
-    }
-
-    startX.current = clientX;
-  }
-
-  function end(clientX: number) {
+  function moveTo(
+    nextIndex: number,
+  ) {
     if (
-      mode === "video" ||
-      startX.current === null
+      cleanImages.length === 0
     ) {
       return;
     }
 
-    const delta =
-      clientX - startX.current;
-
-    if (Math.abs(delta) > 45) {
-      go(
-        active +
-          (delta < 0 ? 1 : -1),
-      );
-    }
-
-    startX.current = null;
+    setMode("photo");
+    setActive(
+      clampIndex(nextIndex),
+    );
+    setDragX(0);
+    setDragging(false);
   }
 
+  function handlePointerDown(
+    event:
+      PointerEvent<HTMLDivElement>,
+  ) {
+    if (
+      mode === "video" ||
+      cleanImages.length < 2
+    ) {
+      return;
+    }
+
+    startXRef.current =
+      event.clientX;
+    startTimeRef.current =
+      performance.now();
+    suppressClickRef.current =
+      false;
+
+    setDragging(true);
+    setDragX(0);
+
+    event.currentTarget
+      .setPointerCapture(
+        event.pointerId,
+      );
+  }
+
+  function handlePointerMove(
+    event:
+      PointerEvent<HTMLDivElement>,
+  ) {
+    if (
+      !dragging ||
+      mode === "video"
+    ) {
+      return;
+    }
+
+    const nextDrag =
+      event.clientX -
+      startXRef.current;
+
+    if (
+      Math.abs(nextDrag) > 7
+    ) {
+      suppressClickRef.current =
+        true;
+    }
+
+    const atFirst =
+      active === 0 &&
+      nextDrag > 0;
+
+    const atLast =
+      active === lastIndex &&
+      nextDrag < 0;
+
+    setDragX(
+      nextDrag *
+        (
+          atFirst || atLast
+            ? 0.28
+            : 1
+        ),
+    );
+  }
+
+  function finishDrag(
+    event:
+      | PointerEvent<HTMLDivElement>
+      | null,
+  ) {
+    if (!dragging) {
+      return;
+    }
+
+    if (
+      event &&
+      event.currentTarget
+        .hasPointerCapture(
+          event.pointerId,
+        )
+    ) {
+      event.currentTarget
+        .releasePointerCapture(
+          event.pointerId,
+        );
+    }
+
+    const width =
+      viewportRef.current
+        ?.clientWidth || 320;
+
+    const elapsed =
+      Math.max(
+        performance.now() -
+          startTimeRef.current,
+        1,
+      );
+
+    const velocity =
+      dragX / elapsed;
+
+    const distanceEnough =
+      Math.abs(dragX) >
+      Math.min(
+        width * 0.16,
+        64,
+      );
+
+    const velocityEnough =
+      Math.abs(velocity) >
+      0.4;
+
+    if (
+      distanceEnough ||
+      velocityEnough
+    ) {
+      moveTo(
+        active +
+          (
+            dragX < 0
+              ? 1
+              : -1
+          ),
+      );
+    } else {
+      setDragX(0);
+      setDragging(false);
+    }
+  }
+
+  const galleryWidth =
+    viewportRef.current
+      ?.clientWidth || 320;
+
+  const progress =
+    dragging
+      ? Math.min(
+          Math.abs(dragX) /
+            galleryWidth,
+          1,
+        )
+      : 0;
+
+  const targetIndex =
+    active +
+    (
+      dragX < 0
+        ? 1
+        : -1
+    );
+
+  const trackStyle = {
+    "--ap-detail-index":
+      active,
+    "--ap-detail-drag":
+      `${dragX}px`,
+  } as CSSProperties;
+
   return (
-    <section className="ap-gallery ap-glass">
+    <section className="ap-gallery ap-glass ap-detail-gallery-premium">
       <div
         className={
-          mode === "video"
-            ? "ap-gallery-main ap-gallery-main-video"
-            : "ap-gallery-main"
-        }
-        onMouseDown={(event) =>
-          start(event.clientX)
-        }
-        onMouseUp={(event) =>
-          end(event.clientX)
-        }
-        onMouseLeave={() => {
-          startX.current = null;
-        }}
-        onTouchStart={(event) =>
-          start(
-            event.touches[0].clientX,
-          )
-        }
-        onTouchEnd={(event) =>
-          end(
-            event.changedTouches[0]
-              .clientX,
-          )
+          `ap-gallery-main ${
+            mode === "video"
+              ? "ap-gallery-main-video"
+              : ""
+          } ${
+            dragging
+              ? "is-dragging"
+              : ""
+          }`
         }
       >
         {mode === "video" &&
@@ -170,14 +337,114 @@ export default function ListingGallery({
           </>
         ) : (
           <>
-            <img
-              src={cleanImages[active]}
-              alt={
-                `${title} - ` +
-                `${active + 1}. fotoğraf`
+            <div
+              ref={viewportRef}
+              className="ap-detail-gallery-viewport"
+              onPointerDown={
+                handlePointerDown
               }
-              draggable={false}
-            />
+              onPointerMove={
+                handlePointerMove
+              }
+              onPointerUp={
+                finishDrag
+              }
+              onPointerCancel={
+                finishDrag
+              }
+              onClickCapture={(
+                event,
+              ) => {
+                if (
+                  suppressClickRef.current
+                ) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  suppressClickRef.current =
+                    false;
+                }
+              }}
+            >
+              <div
+                className="ap-detail-gallery-track"
+                style={trackStyle}
+              >
+                {cleanImages.map(
+                  (
+                    image,
+                    index,
+                  ) => {
+                    let scale =
+                      0.98;
+                    let opacity =
+                      0.9;
+
+                    if (
+                      index === active
+                    ) {
+                      scale =
+                        1 -
+                        progress *
+                          0.02;
+                      opacity =
+                        1 -
+                        progress *
+                          0.08;
+                    } else if (
+                      index ===
+                        targetIndex &&
+                      progress > 0
+                    ) {
+                      scale =
+                        0.98 +
+                        progress *
+                          0.02;
+                      opacity =
+                        0.9 +
+                        progress *
+                          0.1;
+                    }
+
+                    const slideStyle = {
+                      "--ap-detail-scale":
+                        scale,
+                      "--ap-detail-opacity":
+                        opacity,
+                    } as CSSProperties;
+
+                    return (
+                      <div
+                        className={
+                          `ap-detail-gallery-slide ${
+                            index ===
+                            active
+                              ? "is-active"
+                              : ""
+                          }`
+                        }
+                        style={
+                          slideStyle
+                        }
+                        key={`${image}-${index}`}
+                      >
+                        <div className="ap-detail-gallery-slide-inner">
+                          <img
+                            src={image}
+                            alt={
+                              `${title} - ` +
+                              `${index + 1}. fotoğraf`
+                            }
+                            draggable={
+                              false
+                            }
+                          />
+                        </div>
+                      </div>
+                    );
+                  },
+                )}
+              </div>
+            </div>
 
             <span className="ap-gallery-count">
               {active + 1}/
@@ -188,7 +455,9 @@ export default function ListingGallery({
               <button
                 type="button"
                 className="ap-gallery-video-trigger"
-                onClick={(event) => {
+                onClick={(
+                  event,
+                ) => {
                   event.stopPropagation();
                   setMode("video");
                 }}
@@ -204,8 +473,14 @@ export default function ListingGallery({
                   type="button"
                   className="ap-gallery-arrow left"
                   onClick={() =>
-                    go(active - 1)
+                    moveTo(
+                      active - 1,
+                    )
                   }
+                  disabled={
+                    active === 0
+                  }
+                  aria-label="Önceki fotoğraf"
                 >
                   ‹
                 </button>
@@ -214,8 +489,15 @@ export default function ListingGallery({
                   type="button"
                   className="ap-gallery-arrow right"
                   onClick={() =>
-                    go(active + 1)
+                    moveTo(
+                      active + 1,
+                    )
                   }
+                  disabled={
+                    active ===
+                    lastIndex
+                  }
+                  aria-label="Sonraki fotoğraf"
                 >
                   ›
                 </button>
@@ -257,10 +539,9 @@ export default function ListingGallery({
                     ? "is-active"
                     : ""
                 }
-                onClick={() => {
-                  setActive(index);
-                  setMode("photo");
-                }}
+                onClick={() =>
+                  moveTo(index)
+                }
                 aria-label={
                   `${index + 1}. ` +
                   "fotoğrafı göster"

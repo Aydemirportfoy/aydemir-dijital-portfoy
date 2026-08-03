@@ -116,10 +116,13 @@ export default async function PresentationPage({
               }
             </span>
 
-            <p className="ap-muted">
-              {presentation.note ||
-                "Sizin için seçtiğimiz güncel gayrimenkul seçeneklerini aşağıda inceleyebilirsiniz."}
-            </p>
+            <div className="ap-presentation-note">
+              <span>Müşteriye Not</span>
+              <p>
+                {presentation.note ||
+                  "Sizin için seçtiğimiz güncel gayrimenkul seçeneklerini aşağıda inceleyebilirsiniz."}
+              </p>
+            </div>
 
             <div className="ap-home-cta-row">
               <span className="ap-pill">

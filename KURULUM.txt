@@ -1,10 +1,11 @@
 1. ZIP içindeki tüm dosyaları package.json bulunan proje klasörüne kopyalayın.
 2. Terminalde Ctrl + C yapın.
-3. node .\apply-v2-cards-static-photo-gallery.cjs
+3. node .\apply-v2-detail-gallery-mobile-note.cjs
 4. npm.cmd run build
 5. npm.cmd run dev
 
-Kartlar yeniden aynı anda görünür.
-Kaydırma yalnızca kartların içindeki ilan fotoğraflarında çalışır.
-Masaüstünde oklarla ve sürükleyerek, mobilde parmakla kaydırabilirsiniz.
-Supabase işlemi yoktur.
+Yapılanlar:
+- Portföy detayındaki fotoğraf geçişleri masaüstü ve mobilde premium animasyonlu hale gelir.
+- Mobilde Portföy alanı sola hizalanır.
+- Müşteriye not alanı mobilde daha kompakt ve karta uyumlu görünür.
+- Supabase işlemi yoktur.
