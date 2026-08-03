@@ -1,11 +1,13 @@
 1. ZIP içindeki tüm dosyaları package.json bulunan proje klasörüne kopyalayın.
 2. Terminalde Ctrl + C yapın.
-3. node .\apply-v2-detail-gallery-mobile-note.cjs
+3. node .\apply-v2-presentation-text-facade-final.cjs
 4. npm.cmd run build
 5. npm.cmd run dev
 
-Yapılanlar:
-- Portföy detayındaki fotoğraf geçişleri masaüstü ve mobilde premium animasyonlu hale gelir.
-- Mobilde Portföy alanı sola hizalanır.
-- Müşteriye not alanı mobilde daha kompakt ve karta uyumlu görünür.
+Bu paket önceki yapılmayan düzenlemeleri de içerir:
+- Müşteriye Not başlığı ve metni büyütüldü.
+- Kartlardaki mahalle / ilçe / şehir yazısı büyütüldü.
+- Yazı kontrastı artırıldı.
+- Cephe bilgisi sağa sıkışmadan, alt alta ve sola hizalı gösterilir.
+- Mobil görünüm daha okunaklı hale getirildi.
 - Supabase işlemi yoktur.

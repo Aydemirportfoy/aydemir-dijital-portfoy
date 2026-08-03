@@ -1,0 +1,114 @@
+/* AYDEMIR V2 PRESENTATION TEXT + FACADE FINAL */
+
+.ap-presentation-note > span {
+  font-size: 9px;
+}
+
+.ap-presentation-note p {
+  color:
+    color-mix(
+      in srgb,
+      var(--text) 76%,
+      var(--muted)
+    );
+  font-size: 13px;
+  line-height: 1.62;
+}
+
+.ap-presentation-card-v2
+.ap-presentation-card-location {
+  color:
+    color-mix(
+      in srgb,
+      var(--text) 72%,
+      var(--muted)
+    );
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.ap-facade-highlight {
+  display: block;
+  margin-top: 13px;
+  padding: 13px 14px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 34%,
+      var(--line)
+    );
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(
+        in srgb,
+        var(--orange-soft) 70%,
+        transparent
+      ),
+      var(--surface-soft)
+    );
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, .08);
+}
+
+.ap-facade-highlight span {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.ap-facade-highlight strong {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.45;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .ap-presentation-note {
+    padding: 13px 14px;
+  }
+
+  .ap-presentation-note > span {
+    margin-bottom: 5px;
+    font-size: 8px;
+  }
+
+  .ap-presentation-note p {
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .ap-presentation-card-v2
+  .ap-presentation-card-location {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .ap-facade-highlight {
+    padding: 12px 13px;
+    border-radius: 13px;
+  }
+
+  .ap-facade-highlight span {
+    font-size: 8px;
+  }
+
+  .ap-facade-highlight strong {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+}
