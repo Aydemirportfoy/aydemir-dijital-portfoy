@@ -1,0 +1,176 @@
+/* AYDEMIR V2 WHOLE CARD DRAG REORDER */
+
+.ap-presentation-drag-handle {
+  display: none !important;
+}
+
+.ap-whole-card-sort
+.ap-sortable-order-item {
+  grid-template-columns:
+    34px
+    68px
+    minmax(0, 1fr)
+    34px;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.ap-whole-card-sort
+.ap-sortable-order-item:active {
+  cursor: grabbing;
+}
+
+.ap-whole-card-sort
+.ap-sortable-order-item:hover {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 34%,
+      var(--line)
+    );
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .08),
+      transparent 60%
+    ),
+    color-mix(
+      in srgb,
+      var(--surface-soft) 96%,
+      transparent
+    );
+}
+
+.ap-whole-card-sort
+.ap-sortable-order-item::after {
+  content: "Tut ve sürükle";
+  position: absolute;
+  right: 50px;
+  bottom: 8px;
+  color:
+    color-mix(
+      in srgb,
+      var(--muted) 76%,
+      transparent
+    );
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  opacity: 0;
+  pointer-events: none;
+  text-transform: uppercase;
+  transition:
+    opacity 160ms ease;
+}
+
+.ap-whole-card-sort
+.ap-sortable-order-item:hover::after {
+  opacity: .72;
+}
+
+.ap-whole-card-sort
+.ap-sortable-order-item.is-drag-source {
+  opacity: .12;
+  transform: scale(.985);
+}
+
+.ap-whole-card-sort
+.ap-sortable-order-item.is-drop-target {
+  transform: translateY(2px);
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 76%,
+      var(--line)
+    );
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(
+        in srgb,
+        var(--orange-soft) 68%,
+        transparent
+      ),
+      var(--surface-soft)
+    );
+  box-shadow:
+    inset 4px 0 0
+      var(--orange),
+    0 15px 34px
+      rgba(243, 154, 70, .12);
+}
+
+.ap-whole-card-drag-overlay {
+  grid-template-columns:
+    34px
+    68px
+    minmax(0, 1fr)
+    auto;
+  cursor: grabbing;
+}
+
+.ap-whole-card-drag-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      110deg,
+      transparent 22%,
+      rgba(255, 255, 255, .08) 48%,
+      transparent 74%
+    );
+  pointer-events: none;
+  animation:
+    ap-drag-overlay-shine
+    1.05s
+    linear
+    infinite;
+}
+
+@keyframes ap-drag-overlay-shine {
+  from {
+    transform:
+      translateX(-120%);
+  }
+
+  to {
+    transform:
+      translateX(120%);
+  }
+}
+
+@media (max-width: 640px) {
+  .ap-whole-card-sort
+  .ap-sortable-order-item {
+    grid-template-columns:
+      30px
+      58px
+      minmax(0, 1fr)
+      34px;
+    gap: 8px;
+  }
+
+  .ap-whole-card-sort
+  .ap-sortable-order-item::after {
+    display: none;
+  }
+
+  .ap-whole-card-drag-overlay {
+    grid-template-columns:
+      30px
+      58px
+      minmax(0, 1fr);
+  }
+}
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .ap-whole-card-drag-overlay::before {
+    animation: none;
+  }
+}

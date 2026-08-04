@@ -7,6 +7,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import PresentationOrderList from "@/components/admin/PresentationOrderList";
 import { createClient } from "@/lib/supabase/client";
 import {
   formatPrice,
@@ -147,35 +148,6 @@ export default function PresentationEditor({
           )
         : [...current, id],
     );
-  }
-
-  function move(
-    index: number,
-    direction: -1 | 1,
-  ) {
-    setSelected((current) => {
-      const target =
-        index + direction;
-
-      if (
-        target < 0 ||
-        target >= current.length
-      ) {
-        return current;
-      }
-
-      const next = [...current];
-
-      [
-        next[index],
-        next[target],
-      ] = [
-        next[target],
-        next[index],
-      ];
-
-      return next;
-    });
   }
 
   async function submit(
@@ -475,8 +447,8 @@ export default function PresentationEditor({
                 </h2>
 
                 <p className="ap-muted">
-                  Oklarla ilan sırasını
-                  değiştirebilirsiniz.
+                  Kartı tutup sürükleyerek
+                  istediğiniz sıraya taşıyın.
                 </p>
               </div>
             </div>
@@ -487,107 +459,11 @@ export default function PresentationEditor({
                 Henüz ilan seçilmedi.
               </div>
             ) : (
-              <div className="ap-presentation-order-list">
-                {selectedListings.map(
-                  (
-                    listing,
-                    index,
-                  ) => (
-                    <article
-                      className="ap-presentation-order-item"
-                      key={
-                        listing.id
-                      }
-                    >
-                      <span className="ap-presentation-order-number">
-                        {index + 1}
-                      </span>
-
-                      <div className="ap-presentation-order-image">
-                        {listing.cover_image_url ? (
-                          <img
-                            src={
-                              listing.cover_image_url
-                            }
-                            alt=""
-                          />
-                        ) : (
-                          <div className="ap-image-empty">
-                            Fotoğraf yok
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="ap-presentation-order-info">
-                        <strong>
-                          {
-                            listing.title
-                          }
-                        </strong>
-
-                        <small>
-                          {
-                            listing.neighborhood
-                          }{" "}
-                          ·{" "}
-                          {
-                            listing.room_count
-                          }
-                        </small>
-                      </div>
-
-                      <div className="ap-presentation-order-actions">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            move(
-                              index,
-                              -1,
-                            )
-                          }
-                          disabled={
-                            index === 0
-                          }
-                          aria-label="Yukarı taşı"
-                        >
-                          ↑
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            move(
-                              index,
-                              1,
-                            )
-                          }
-                          disabled={
-                            index ===
-                            selectedListings.length -
-                              1
-                          }
-                          aria-label="Aşağı taşı"
-                        >
-                          ↓
-                        </button>
-
-                        <button
-                          type="button"
-                          className="is-remove"
-                          onClick={() =>
-                            toggle(
-                              listing.id,
-                            )
-                          }
-                          aria-label="Sunumdan çıkar"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    </article>
-                  ),
-                )}
-              </div>
+              <PresentationOrderList
+                listings={selectedListings}
+                onReorder={setSelected}
+                onRemove={toggle}
+              />
             )}
           </section>
 

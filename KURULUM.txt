@@ -1,11 +1,16 @@
-1. ZIP içindeki dosyaları package.json bulunan proje klasörüne kopyalayın.
+1. ZIP içindeki tüm dosyaları package.json bulunan proje klasörüne kopyalayın.
 2. Terminalde Ctrl + C yapın.
-3. node .\apply-v2-more-menu-stack-fix.cjs
+3. node .\apply-v2-whole-card-drag-reorder.cjs
 4. npm.cmd run build
 5. npm.cmd run dev
 
 Yapılanlar:
-- Diğer menüsü alttaki kartın arkasında kalmaz.
-- Açık menü en üst katmanda görünür.
-- Mobilde menü açıldığında kartlar arasında yeterli alan oluşur.
+- Sol taraftaki sürükleme tutamacı tamamen kaldırıldı.
+- İlan kartının herhangi bir boş alanı tutularak sürüklenebilir.
+- Masaüstünde karta basıp doğrudan sürüklenir.
+- Mobilde karta kısa süre basılı tutup sürüklenir.
+- Sürüklenen kart üst katmanda ve gölgeli görünür.
+- Yer değiştiren kartlar yumuşak animasyonla hareket eder.
+- Bırakılacak alan turuncu renkle vurgulanır.
+- Silme butonu sürüklemeyi başlatmaz.
 - Supabase işlemi yoktur.
