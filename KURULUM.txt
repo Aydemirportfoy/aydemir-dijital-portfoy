@@ -1,13 +1,15 @@
 1. ZIP içindeki tüm dosyaları package.json bulunan proje klasörüne kopyalayın.
 2. Terminalde Ctrl + C yapın.
-3. node .\apply-v2-mobile-card-drag-fix.cjs
+3. node .\apply-v2-live-slide-reorder.cjs
 4. npm.cmd run build
 5. npm.cmd run dev
 
-Yapılanlar:
-- Mobil sunum kartlarındaki yazılar sola hizalanır.
-- Mobil sürükleme daha hızlı başlar.
-- Kart basılı tutulduğunda turuncu vurguyla hazır olduğunu gösterir.
-- Sürükleme aktif olduğunda sayfanın kayması engellenir.
-- Sürüklenen kartın kaldırılma animasyonu güçlendirilir.
+Bu sürüm:
+- Sürüklenen gerçek kart kendi üzerinde hareket eder.
+- Kart aşağı inerken alttaki ilan anında yumuşakça yukarı kayar.
+- Kart yukarı çıkarken üstteki ilan anında yumuşakça aşağı kayar.
+- Sıralama görsel olarak sürükleme sırasında değişir.
+- Bırakınca yeni sıra kaydedilir.
+- Sağ tarafta kopya kart veya ikinci animasyon göstermez.
+- Bilgisayar ve mobilde aynı davranışı kullanır.
 - Supabase işlemi yoktur.

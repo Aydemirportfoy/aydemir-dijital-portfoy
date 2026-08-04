@@ -2,9 +2,13 @@
 
 import {
   PointerEvent as ReactPointerEvent,
-  useLayoutEffect,
+  useEffect,
+  useMemo,
   useRef,
   useState,
+} from "react";
+import type {
+  CSSProperties,
 } from "react";
 import type {
   Listing,
@@ -12,23 +16,14 @@ import type {
 
 type DragState = {
   id: string;
-  listing: Listing;
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-  startY: number;
   pointerId: number;
-};
-
-type PendingDrag = {
-  id: string;
-  listing: Listing;
-  startX: number;
   startY: number;
-  pointerId: number;
-  element: HTMLElement;
-  pointerType: string;
+  deltaY: number;
+  sourceIndex: number;
+  targetIndex: number;
+  moved: boolean;
+  centers: number[];
+  shiftDistance: number;
 };
 
 export default function PresentationOrderList({
@@ -48,17 +43,14 @@ export default function PresentationOrderList({
     useState<DragState | null>(
       null,
     );
-  const [overId, setOverId] =
-    useState<string | null>(
-      null,
-    );
+
   const [droppedId, setDroppedId] =
     useState<string | null>(
       null,
     );
 
-  const [pressingId, setPressingId] =
-    useState<string | null>(
+  const dragRef =
+    useRef<DragState | null>(
       null,
     );
 
@@ -69,38 +61,13 @@ export default function PresentationOrderList({
     >(),
   );
 
-  const previousRectsRef =
-    useRef<
-      Map<string, DOMRect> | null
-    >(null);
-
-  const overlayRef =
-    useRef<HTMLDivElement>(null);
-
-  const dragRef =
-    useRef<DragState | null>(
-      null,
-    );
-
-  const pendingRef =
-    useRef<PendingDrag | null>(
-      null,
-    );
-
-  const pressTimerRef =
-    useRef<
-      ReturnType<
-        typeof setTimeout
-      > | null
-    >(null);
-
-  const currentYRef =
-    useRef(0);
-
-  const animationFrameRef =
+  const frameRef =
     useRef<number | null>(
       null,
     );
+
+  const latestPointerYRef =
+    useRef(0);
 
   const dropTimerRef =
     useRef<
@@ -108,6 +75,40 @@ export default function PresentationOrderList({
         typeof setTimeout
       > | null
     >(null);
+
+  useEffect(() => {
+    return () => {
+      document.body.classList.remove(
+        "ap-live-order-dragging",
+      );
+
+      if (
+        frameRef.current !==
+        null
+      ) {
+        cancelAnimationFrame(
+          frameRef.current,
+        );
+      }
+
+      if (
+        dropTimerRef.current
+      ) {
+        clearTimeout(
+          dropTimerRef.current,
+        );
+      }
+    };
+  }, []);
+
+  const listingIds = useMemo(
+    () =>
+      listings.map(
+        (listing) =>
+          listing.id,
+      ),
+    [listings],
+  );
 
   function setItemRef(
     id: string,
@@ -125,242 +126,72 @@ export default function PresentationOrderList({
     }
   }
 
-  function clearPressTimer() {
-    setPressingId(null);
-
-    if (pressTimerRef.current) {
-      clearTimeout(
-        pressTimerRef.current,
-      );
-      pressTimerRef.current =
-        null;
-    }
-  }
-
-  function captureRects() {
-    const next =
-      new Map<string, DOMRect>();
-
-    for (
-      const [id, node]
-      of nodesRef.current
-    ) {
-      next.set(
-        id,
-        node.getBoundingClientRect(),
-      );
-    }
-
-    previousRectsRef.current =
-      next;
-  }
-
-  useLayoutEffect(() => {
-    const previous =
-      previousRectsRef.current;
-
-    if (!previous) {
-      return;
-    }
-
-    for (
-      const [id, node]
-      of nodesRef.current
-    ) {
-      const oldRect =
-        previous.get(id);
-
-      if (!oldRect) {
-        continue;
-      }
-
-      const newRect =
-        node.getBoundingClientRect();
-
-      const deltaY =
-        oldRect.top - newRect.top;
-
-      if (
-        Math.abs(deltaY) < 1
-      ) {
-        continue;
-      }
-
-      node.animate(
-        [
-          {
-            transform:
-              `translate3d(0, ${deltaY}px, 0)`,
-          },
-          {
-            transform:
-              "translate3d(0, 0, 0)",
-          },
-        ],
-        {
-          duration: 290,
-          easing:
-            "cubic-bezier(.22,.61,.36,1)",
-        },
-      );
-    }
-
-    previousRectsRef.current =
-      null;
-  }, [listings]);
-
-  function updateOverlay() {
-    animationFrameRef.current =
-      null;
-
-    const currentDrag =
-      dragRef.current;
-
-    const overlay =
-      overlayRef.current;
-
-    if (
-      !currentDrag ||
-      !overlay
-    ) {
-      return;
-    }
-
-    const offset =
-      currentYRef.current -
-      currentDrag.startY;
-
-    overlay.style.transform =
-      `translate3d(0, ${offset}px, 0) scale(1.018)`;
-  }
-
-  function scheduleOverlayUpdate() {
-    if (
-      animationFrameRef.current !==
-      null
-    ) {
-      return;
-    }
-
-    animationFrameRef.current =
-      requestAnimationFrame(
-        updateOverlay,
-      );
-  }
-
-  function reorder(
+  function getRemainingIds(
     draggedId: string,
-    targetId: string,
   ) {
-    const ids =
-      listings.map(
-        (listing) =>
-          listing.id,
-      );
-
-    const from =
-      ids.indexOf(draggedId);
-
-    const to =
-      ids.indexOf(targetId);
-
-    if (
-      from < 0 ||
-      to < 0 ||
-      from === to
-    ) {
-      return;
-    }
-
-    captureRects();
-
-    const next = [...ids];
-
-    const [moved] =
-      next.splice(from, 1);
-
-    next.splice(
-      to,
-      0,
-      moved,
+    return listingIds.filter(
+      (id) =>
+        id !== draggedId,
     );
-
-    onReorder(next);
   }
 
-  function activateDrag(
-    pending: PendingDrag,
+  function calculateShiftDistance(
+    sourceIndex: number,
+    sourceRect: DOMRect,
   ) {
-    const item =
-      nodesRef.current.get(
-        pending.id,
-      );
+    const nextListing =
+      listings[
+        sourceIndex + 1
+      ];
 
-    if (!item) {
-      return;
-    }
+    if (nextListing) {
+      const nextNode =
+        nodesRef.current.get(
+          nextListing.id,
+        );
 
-    const rect =
-      item.getBoundingClientRect();
+      const nextRect =
+        nextNode?.getBoundingClientRect();
 
-    const nextDrag: DragState = {
-      id: pending.id,
-      listing:
-        pending.listing,
-      left: rect.left,
-      top: rect.top,
-      width: rect.width,
-      height: rect.height,
-      startY:
-        pending.startY,
-      pointerId:
-        pending.pointerId,
-    };
-
-    currentYRef.current =
-      pending.startY;
-
-    dragRef.current =
-      nextDrag;
-
-    pendingRef.current =
-      null;
-
-    setPressingId(null);
-
-    if (
-      typeof navigator !==
-        "undefined" &&
-      "vibrate" in navigator
-    ) {
-      navigator.vibrate(18);
-    }
-
-    setDrag(nextDrag);
-    setOverId(
-      pending.id,
-    );
-
-    document.body.classList.add(
-      "ap-order-dragging",
-    );
-
-    if (
-      pending.element.isConnected
-    ) {
-      try {
-        pending.element
-          .setPointerCapture(
-            pending.pointerId,
-          );
-      } catch {
-        // Tarayıcı pointer yakalamayı desteklemiyorsa
-        // sürükleme yine normal pointer olaylarıyla devam eder.
+      if (nextRect) {
+        return Math.max(
+          sourceRect.height,
+          nextRect.top -
+            sourceRect.top,
+        );
       }
     }
+
+    const previousListing =
+      listings[
+        sourceIndex - 1
+      ];
+
+    if (previousListing) {
+      const previousNode =
+        nodesRef.current.get(
+          previousListing.id,
+        );
+
+      const previousRect =
+        previousNode?.getBoundingClientRect();
+
+      if (previousRect) {
+        return Math.max(
+          sourceRect.height,
+          sourceRect.top -
+            previousRect.top,
+        );
+      }
+    }
+
+    return (
+      sourceRect.height +
+      10
+    );
   }
 
-  function startDrag(
+  function beginDrag(
     event:
       ReactPointerEvent<HTMLElement>,
     listing: Listing,
@@ -376,26 +207,86 @@ export default function PresentationOrderList({
       return;
     }
 
-    const pending: PendingDrag = {
+    const sourceIndex =
+      listings.findIndex(
+        (item) =>
+          item.id ===
+          listing.id,
+      );
+
+    const sourceNode =
+      nodesRef.current.get(
+        listing.id,
+      );
+
+    if (
+      sourceIndex < 0 ||
+      !sourceNode
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const sourceRect =
+      sourceNode.getBoundingClientRect();
+
+    const remainingIds =
+      getRemainingIds(
+        listing.id,
+      );
+
+    const centers =
+      remainingIds.map(
+        (id) => {
+          const node =
+            nodesRef.current.get(
+              id,
+            );
+
+          if (!node) {
+            return 0;
+          }
+
+          const rect =
+            node.getBoundingClientRect();
+
+          return (
+            rect.top +
+            rect.height / 2
+          );
+        },
+      );
+
+    const nextDrag: DragState = {
       id: listing.id,
-      listing,
-      startX:
-        event.clientX,
-      startY:
-        event.clientY,
       pointerId:
         event.pointerId,
-      element:
-        event.currentTarget,
-      pointerType:
-        event.pointerType,
+      startY:
+        event.clientY,
+      deltaY: 0,
+      sourceIndex,
+      targetIndex:
+        sourceIndex,
+      moved: false,
+      centers,
+      shiftDistance:
+        calculateShiftDistance(
+          sourceIndex,
+          sourceRect,
+        ),
     };
 
-    pendingRef.current =
-      pending;
+    dragRef.current =
+      nextDrag;
 
-    setPressingId(
-      listing.id,
+    latestPointerYRef.current =
+      event.clientY;
+
+    setDrag(nextDrag);
+
+    document.body.classList.add(
+      "ap-live-order-dragging",
     );
 
     try {
@@ -404,153 +295,90 @@ export default function PresentationOrderList({
           event.pointerId,
         );
     } catch {
-      // Mobil tarayıcı erken pointer yakalamayı desteklemeyebilir.
+      // Pointer capture desteklenmiyorsa normal pointer akışı kullanılır.
     }
+  }
 
-    if (
-      event.pointerType ===
-      "mouse"
-    ) {
-      event.preventDefault();
-      activateDrag(pending);
+  function applyPointerMove() {
+    frameRef.current = null;
+
+    const current =
+      dragRef.current;
+
+    if (!current) {
       return;
     }
 
-    clearPressTimer();
+    const pointerY =
+      latestPointerYRef.current;
 
-    pressTimerRef.current =
-      setTimeout(
-        () => {
-          const current =
-            pendingRef.current;
+    const deltaY =
+      pointerY -
+      current.startY;
 
-          if (
-            current &&
-            current.pointerId ===
-              pending.pointerId
-          ) {
-            activateDrag(
-              current,
-            );
-          }
-        },
-        85,
-      );
+    let targetIndex = 0;
+
+    for (
+      const center
+      of current.centers
+    ) {
+      if (
+        pointerY >
+        center
+      ) {
+        targetIndex += 1;
+      }
+    }
+
+    const nextDrag: DragState = {
+      ...current,
+      deltaY,
+      targetIndex,
+      moved:
+        current.moved ||
+        Math.abs(deltaY) > 4,
+    };
+
+    dragRef.current =
+      nextDrag;
+
+    setDrag(nextDrag);
   }
 
   function moveDrag(
     event:
       ReactPointerEvent<HTMLElement>,
   ) {
-    const pending =
-      pendingRef.current;
-
     if (
-      pending &&
       !dragRef.current
     ) {
-      const movement =
-        Math.hypot(
-          event.clientX -
-            pending.startX,
-          event.clientY -
-            pending.startY,
-        );
-
-      if (movement > 22) {
-        clearPressTimer();
-        pendingRef.current =
-          null;
-      }
-
-      return;
-    }
-
-    const currentDrag =
-      dragRef.current;
-
-    if (!currentDrag) {
       return;
     }
 
     event.preventDefault();
 
-    currentYRef.current =
+    latestPointerYRef.current =
       event.clientY;
 
-    scheduleOverlayUpdate();
-
-    const edge = 86;
-
     if (
-      event.clientY <
-      edge
+      frameRef.current ===
+      null
     ) {
-      window.scrollBy({
-        top: -8,
-        behavior: "auto",
-      });
-    } else if (
-      event.clientY >
-      window.innerHeight -
-        edge
-    ) {
-      window.scrollBy({
-        top: 8,
-        behavior: "auto",
-      });
+      frameRef.current =
+        requestAnimationFrame(
+          applyPointerMove,
+        );
     }
-
-    const hit =
-      document.elementFromPoint(
-        event.clientX,
-        event.clientY,
-      );
-
-    const target =
-      hit?.closest<HTMLElement>(
-        "[data-order-id]",
-      );
-
-    const targetId =
-      target?.dataset.orderId;
-
-    if (!targetId) {
-      setOverId(null);
-      return;
-    }
-
-    setOverId(targetId);
-
-    if (
-      targetId !==
-      currentDrag.id
-    ) {
-      reorder(
-        currentDrag.id,
-        targetId,
-      );
-    }
-  }
-
-  function cancelPending() {
-    clearPressTimer();
-    pendingRef.current =
-      null;
   }
 
   function finishDrag(
     event?:
       ReactPointerEvent<HTMLElement>,
   ) {
-    clearPressTimer();
-
-    const currentDrag =
+    const current =
       dragRef.current;
 
-    if (!currentDrag) {
-      pendingRef.current =
-        null;
+    if (!current) {
       return;
     }
 
@@ -558,49 +386,59 @@ export default function PresentationOrderList({
       event &&
       event.currentTarget
         .hasPointerCapture(
-          currentDrag.pointerId,
+          current.pointerId,
         )
     ) {
       event.currentTarget
         .releasePointerCapture(
-          currentDrag.pointerId,
+          current.pointerId,
         );
     }
 
     if (
-      animationFrameRef.current !==
+      frameRef.current !==
       null
     ) {
       cancelAnimationFrame(
-        animationFrameRef.current,
+        frameRef.current,
       );
 
-      animationFrameRef.current =
+      frameRef.current =
         null;
     }
 
-    const overlay =
-      overlayRef.current;
+    dragRef.current = null;
 
-    const target =
-      nodesRef.current.get(
-        currentDrag.id,
+    document.body.classList.remove(
+      "ap-live-order-dragging",
+    );
+
+    if (
+      current.moved &&
+      current.targetIndex !==
+        current.sourceIndex
+    ) {
+      const nextIds =
+        getRemainingIds(
+          current.id,
+        );
+
+      nextIds.splice(
+        current.targetIndex,
+        0,
+        current.id,
       );
 
-    const finish = () => {
-      dragRef.current = null;
-      pendingRef.current =
-        null;
+      onReorder(nextIds);
+    }
 
-      setPressingId(null);
-      setDrag(null);
-      setOverId(null);
+    setDrag(null);
+
+    if (
+      current.moved
+    ) {
       setDroppedId(
-        currentDrag.id,
-      );
-
-      document.body.classList.remove(
-        "ap-order-dragging",
+        current.id,
       );
 
       if (
@@ -616,266 +454,200 @@ export default function PresentationOrderList({
           () => {
             setDroppedId(null);
           },
-          320,
+          280,
         );
-    };
+    }
+  }
 
+  function cancelDrag() {
     if (
-      overlay &&
-      target
+      frameRef.current !==
+      null
     ) {
-      const currentRect =
-        overlay.getBoundingClientRect();
+      cancelAnimationFrame(
+        frameRef.current,
+      );
 
-      const targetRect =
-        target.getBoundingClientRect();
-
-      overlay.style.left =
-        `${currentRect.left}px`;
-
-      overlay.style.top =
-        `${currentRect.top}px`;
-
-      overlay.style.transform =
-        "none";
-
-      const animation =
-        overlay.animate(
-          [
-            {
-              transform:
-                "translate3d(0,0,0) scale(1.018)",
-              opacity: 1,
-            },
-            {
-              transform:
-                `translate3d(${targetRect.left - currentRect.left}px, ${targetRect.top - currentRect.top}px, 0) scale(1)`,
-              opacity: .82,
-            },
-          ],
-          {
-            duration: 190,
-            easing:
-              "cubic-bezier(.22,.61,.36,1)",
-          },
-        );
-
-      animation.finished
-        .catch(
-          () => undefined,
-        )
-        .finally(finish);
-
-      return;
+      frameRef.current =
+        null;
     }
 
-    finish();
+    dragRef.current = null;
+    setDrag(null);
+
+    document.body.classList.remove(
+      "ap-live-order-dragging",
+    );
+  }
+
+  function getItemStyle(
+    index: number,
+    id: string,
+  ): CSSProperties {
+    if (!drag) {
+      return {};
+    }
+
+    if (
+      drag.id === id
+    ) {
+      return {
+        transform:
+          `translate3d(0, ${drag.deltaY}px, 0) scale(1.01)`,
+      };
+    }
+
+    if (
+      drag.sourceIndex <
+      drag.targetIndex
+    ) {
+      if (
+        index >
+          drag.sourceIndex &&
+        index <=
+          drag.targetIndex
+      ) {
+        return {
+          transform:
+            `translate3d(0, -${drag.shiftDistance}px, 0)`,
+        };
+      }
+    }
+
+    if (
+      drag.sourceIndex >
+      drag.targetIndex
+    ) {
+      if (
+        index >=
+          drag.targetIndex &&
+        index <
+          drag.sourceIndex
+      ) {
+        return {
+          transform:
+            `translate3d(0, ${drag.shiftDistance}px, 0)`,
+        };
+      }
+    }
+
+    return {
+      transform:
+        "translate3d(0, 0, 0)",
+    };
   }
 
   return (
-    <>
-      <div
-        className={
-          `ap-presentation-order-list ap-sortable-order-list ap-whole-card-sort ${
-            drag
-              ? "is-dragging"
-              : ""
-          }`
-        }
-      >
-        {listings.map(
-          (
-            listing,
-            index,
-          ) => (
-            <article
-              ref={(node) =>
-                setItemRef(
-                  listing.id,
-                  node,
-                )
-              }
-              data-order-id={
+    <div className="ap-presentation-order-list ap-live-slide-list">
+      {listings.map(
+        (
+          listing,
+          index,
+        ) => (
+          <article
+            ref={(node) =>
+              setItemRef(
+                listing.id,
+                node,
+              )
+            }
+            className={
+              `ap-presentation-order-item ap-live-slide-item ${
+                drag?.id ===
                 listing.id
-              }
-              className={
-                `ap-presentation-order-item ap-sortable-order-item ${
-                  drag?.id ===
-                  listing.id
-                    ? "is-drag-source"
-                    : ""
-                } ${
-                  overId ===
-                    listing.id &&
-                  drag?.id !==
-                    listing.id
-                    ? "is-drop-target"
-                    : ""
-                } ${
-                  pressingId ===
-                    listing.id &&
-                  !drag
-                    ? "is-pressing"
-                    : ""
-                } ${
-                  droppedId ===
-                  listing.id
-                    ? "is-just-dropped"
-                    : ""
-                }`
-              }
-              key={listing.id}
+                  ? "is-dragging"
+                  : ""
+              } ${
+                droppedId ===
+                listing.id
+                  ? "is-just-dropped"
+                  : ""
+              }`
+            }
+            style={getItemStyle(
+              index,
+              listing.id,
+            )}
+            key={listing.id}
+            onPointerDown={(
+              event,
+            ) =>
+              beginDrag(
+                event,
+                listing,
+              )
+            }
+            onPointerMove={
+              moveDrag
+            }
+            onPointerUp={
+              finishDrag
+            }
+            onPointerCancel={
+              cancelDrag
+            }
+            onContextMenu={(
+              event,
+            ) =>
+              event.preventDefault()
+            }
+          >
+            <span className="ap-presentation-order-number">
+              {index + 1}
+            </span>
+
+            <div className="ap-presentation-order-image">
+              {listing.cover_image_url ? (
+                <img
+                  src={
+                    listing.cover_image_url
+                  }
+                  alt=""
+                  draggable={false}
+                />
+              ) : (
+                <div className="ap-image-empty">
+                  Fotoğraf yok
+                </div>
+              )}
+            </div>
+
+            <div className="ap-presentation-order-info">
+              <strong>
+                {listing.title}
+              </strong>
+
+              <small>
+                {
+                  listing.neighborhood
+                }{" "}
+                ·{" "}
+                {
+                  listing.room_count
+                }
+              </small>
+            </div>
+
+            <button
+              type="button"
+              className="ap-presentation-order-remove"
               onPointerDown={(
                 event,
               ) =>
-                startDrag(
-                  event,
-                  listing,
+                event.stopPropagation()
+              }
+              onClick={() =>
+                onRemove(
+                  listing.id,
                 )
               }
-              onPointerMove={
-                moveDrag
-              }
-              onPointerUp={
-                finishDrag
-              }
-              onTouchMove={(event) => {
-                if (
-                  dragRef.current
-                ) {
-                  event.preventDefault();
-                }
-              }}
-              onPointerCancel={() => {
-                cancelPending();
-                finishDrag();
-              }}
-              onContextMenu={(
-                event,
-              ) => {
-                if (
-                  dragRef.current ||
-                  pendingRef.current
-                ) {
-                  event.preventDefault();
-                }
-              }}
+              aria-label="Sunumdan çıkar"
             >
-              <span className="ap-presentation-order-number">
-                {index + 1}
-              </span>
-
-              <div className="ap-presentation-order-image">
-                {listing.cover_image_url ? (
-                  <img
-                    src={
-                      listing.cover_image_url
-                    }
-                    alt=""
-                    draggable={false}
-                  />
-                ) : (
-                  <div className="ap-image-empty">
-                    Fotoğraf yok
-                  </div>
-                )}
-              </div>
-
-              <div className="ap-presentation-order-info">
-                <strong>
-                  {listing.title}
-                </strong>
-
-                <small>
-                  {
-                    listing.neighborhood
-                  }{" "}
-                  ·{" "}
-                  {
-                    listing.room_count
-                  }
-                </small>
-              </div>
-
-              <button
-                type="button"
-                className="ap-presentation-order-remove"
-                onPointerDown={(
-                  event,
-                ) =>
-                  event.stopPropagation()
-                }
-                onClick={() =>
-                  onRemove(
-                    listing.id,
-                  )
-                }
-                aria-label="Sunumdan çıkar"
-              >
-                ×
-              </button>
-            </article>
-          ),
-        )}
-      </div>
-
-      {drag ? (
-        <div
-          ref={overlayRef}
-          className="ap-presentation-drag-overlay ap-whole-card-drag-overlay"
-          style={{
-            left: drag.left,
-            top: drag.top,
-            width: drag.width,
-            height: drag.height,
-          }}
-          aria-hidden="true"
-        >
-          <span className="ap-presentation-order-number">
-            {listings.findIndex(
-              (item) =>
-                item.id ===
-                drag.id,
-            ) + 1}
-          </span>
-
-          <div className="ap-presentation-order-image">
-            {drag.listing.cover_image_url ? (
-              <img
-                src={
-                  drag.listing.cover_image_url
-                }
-                alt=""
-                draggable={false}
-              />
-            ) : (
-              <div className="ap-image-empty">
-                Fotoğraf yok
-              </div>
-            )}
-          </div>
-
-          <div className="ap-presentation-order-info">
-            <strong>
-              {drag.listing.title}
-            </strong>
-
-            <small>
-              {
-                drag.listing.neighborhood
-              }{" "}
-              ·{" "}
-              {
-                drag.listing.room_count
-              }
-            </small>
-          </div>
-
-          <span className="ap-presentation-drag-label">
-            Sürükleniyor
-          </span>
-        </div>
-      ) : null}
-    </>
+              ×
+            </button>
+          </article>
+        ),
+      )}
+    </div>
   );
 }

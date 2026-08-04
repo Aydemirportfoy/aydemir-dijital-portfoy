@@ -1,0 +1,158 @@
+/* AYDEMIR V2 LIVE SLIDE REORDER */
+
+.ap-live-slide-list {
+  position: relative;
+  overflow: visible !important;
+}
+
+.ap-live-slide-item {
+  position: relative;
+  z-index: 1;
+  cursor: grab;
+  touch-action: none !important;
+  -webkit-user-select: none;
+  user-select: none;
+  will-change:
+    transform,
+    box-shadow;
+  transition:
+    transform
+      225ms
+      cubic-bezier(
+        .22,
+        .61,
+        .36,
+        1
+      ),
+    border-color
+      180ms ease,
+    background
+      180ms ease,
+    box-shadow
+      180ms ease,
+    opacity
+      180ms ease;
+}
+
+.ap-live-slide-item:hover {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 34%,
+      var(--line)
+    );
+}
+
+.ap-live-slide-item.is-dragging {
+  z-index: 40;
+  cursor: grabbing;
+  transition:
+    border-color
+      150ms ease,
+    background
+      150ms ease,
+    box-shadow
+      150ms ease,
+    opacity
+      150ms ease !important;
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 70%,
+      var(--line)
+    ) !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .10),
+      transparent 58%
+    ),
+    var(--surface-strong) !important;
+  box-shadow:
+    0 22px 52px
+      rgba(0, 0, 0, .20),
+    0 10px 26px
+      rgba(243, 154, 70, .14) !important;
+  opacity: .985;
+}
+
+.ap-live-slide-item.is-just-dropped {
+  animation:
+    ap-live-slide-drop
+    280ms
+    cubic-bezier(
+      .22,
+      .61,
+      .36,
+      1
+    );
+}
+
+body.ap-live-order-dragging {
+  overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: none;
+  user-select: none;
+  cursor: grabbing;
+}
+
+body.ap-live-order-dragging
+.ap-live-slide-item:not(.is-dragging) {
+  opacity: .94;
+}
+
+.ap-presentation-drag-overlay,
+.ap-whole-card-drag-overlay {
+  display: none !important;
+}
+
+@keyframes ap-live-slide-drop {
+  0% {
+    transform: scale(.988);
+  }
+
+  55% {
+    transform: scale(1.007);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 760px) {
+  .ap-live-slide-item {
+    transition:
+      transform
+        205ms
+        cubic-bezier(
+          .22,
+          .61,
+          .36,
+          1
+        ),
+      border-color
+        160ms ease,
+      background
+        160ms ease,
+      box-shadow
+        160ms ease,
+      opacity
+        160ms ease;
+  }
+}
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .ap-live-slide-item {
+    transition-duration:
+      1ms !important;
+  }
+
+  .ap-live-slide-item.is-just-dropped {
+    animation-duration:
+      1ms !important;
+  }
+}

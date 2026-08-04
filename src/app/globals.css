@@ -8340,3 +8340,608 @@ body.ap-order-dragging
   }
 }
 
+
+
+/* AYDEMIR V2 STABLE DRAG REORDER FINAL */
+
+.ap-stable-drag-list {
+  position: relative;
+  overflow: visible;
+}
+
+.ap-stable-drag-item {
+  position: relative;
+  grid-template-columns:
+    34px
+    68px
+    minmax(0, 1fr)
+    34px !important;
+  cursor: grab;
+  touch-action: none !important;
+  -webkit-user-select: none;
+  user-select: none;
+  will-change:
+    transform,
+    opacity;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.ap-stable-drag-item:active {
+  cursor: grabbing;
+}
+
+.ap-stable-drag-item:hover {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 38%,
+      var(--line)
+    );
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .08),
+      transparent 60%
+    ),
+    color-mix(
+      in srgb,
+      var(--surface-soft) 97%,
+      transparent
+    );
+}
+
+.ap-stable-drag-item.is-drag-source {
+  opacity: .12;
+  transform: scale(.987);
+  border-style: dashed;
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 58%,
+      var(--line)
+    );
+}
+
+.ap-stable-drag-item.is-just-dropped {
+  animation:
+    ap-stable-drop
+    300ms
+    cubic-bezier(
+      .22,
+      .61,
+      .36,
+      1
+    );
+}
+
+.ap-stable-drag-overlay {
+  position: fixed;
+  z-index: 10000;
+  display: grid;
+  grid-template-columns:
+    34px
+    68px
+    minmax(0, 1fr)
+    auto;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 78%,
+      var(--line)
+    );
+  border-radius: 15px;
+  color: var(--text);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .13),
+      transparent 58%
+    ),
+    color-mix(
+      in srgb,
+      var(--surface-strong) 98%,
+      transparent
+    );
+  box-shadow:
+    0 34px 80px
+      rgba(0, 0, 0, .30),
+    0 16px 40px
+      rgba(243, 154, 70, .18);
+  backdrop-filter:
+    blur(22px)
+    saturate(140%);
+  pointer-events: none;
+  transform:
+    translate3d(0,0,0)
+    scale(1.018);
+  transform-origin: center;
+  will-change: transform;
+}
+
+.ap-stable-drag-overlay
+.ap-presentation-order-image {
+  width: 68px;
+}
+
+.ap-stable-drag-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      110deg,
+      transparent 20%,
+      rgba(255, 255, 255, .08) 48%,
+      transparent 76%
+    );
+  pointer-events: none;
+  animation:
+    ap-stable-drag-shine
+    1.05s
+    linear
+    infinite;
+}
+
+body.ap-order-dragging {
+  overflow: hidden;
+  touch-action: none !important;
+  overscroll-behavior: none;
+  user-select: none;
+  cursor: grabbing;
+}
+
+@keyframes ap-stable-drop {
+  0% {
+    transform: scale(.985);
+    box-shadow:
+      0 0 0 0
+      rgba(243, 154, 70, .34);
+  }
+
+  60% {
+    transform: scale(1.012);
+    box-shadow:
+      0 0 0 7px
+      rgba(243, 154, 70, .08);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0
+      transparent;
+  }
+}
+
+@keyframes ap-stable-drag-shine {
+  from {
+    transform:
+      translateX(-120%);
+  }
+
+  to {
+    transform:
+      translateX(120%);
+  }
+}
+
+@media (max-width: 760px) {
+  .ap-presentation-manager-row,
+  .ap-presentation-manager-info,
+  .ap-presentation-manager-info h2,
+  .ap-presentation-manager-info p,
+  .ap-presentation-manager-info
+  .ap-kicker {
+    text-align: left !important;
+  }
+
+  .ap-presentation-manager-info {
+    width: 100%;
+  }
+
+  .ap-presentation-manager-info
+  .ap-pill-row {
+    justify-content:
+      flex-start !important;
+  }
+
+  .ap-stable-drag-item {
+    grid-template-columns:
+      30px
+      58px
+      minmax(0, 1fr)
+      34px !important;
+    gap: 8px;
+  }
+
+  .ap-stable-drag-overlay {
+    grid-template-columns:
+      30px
+      58px
+      minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .ap-stable-drag-overlay
+  .ap-presentation-order-image {
+    width: 58px;
+  }
+
+  .ap-stable-drag-overlay
+  .ap-presentation-drag-label {
+    display: none;
+  }
+
+  .ap-stable-drag-overlay
+  .ap-presentation-order-info
+  strong {
+    white-space: normal;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .ap-stable-drag-item {
+    transition-duration:
+      1ms !important;
+  }
+
+  .ap-stable-drag-item.is-just-dropped {
+    animation-duration:
+      1ms !important;
+  }
+
+  .ap-stable-drag-overlay::after {
+    animation: none;
+  }
+}
+
+
+
+/* AYDEMIR V2 SIMPLE PREMIUM DRAG DROP */
+
+.ap-simple-drag-list {
+  position: relative;
+  overflow: visible !important;
+}
+
+.ap-simple-drag-item {
+  position: relative;
+  z-index: 1;
+  cursor: grab;
+  touch-action: none !important;
+  -webkit-user-select: none;
+  user-select: none;
+  will-change: transform;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.ap-simple-drag-item:hover {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 34%,
+      var(--line)
+    );
+}
+
+.ap-simple-drag-item.is-dragging {
+  cursor: grabbing;
+  transition: none !important;
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 72%,
+      var(--line)
+    ) !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .10),
+      transparent 58%
+    ),
+    var(--surface-strong) !important;
+  box-shadow:
+    0 22px 54px
+      rgba(0, 0, 0, .20),
+    0 10px 28px
+      rgba(243, 154, 70, .15) !important;
+  opacity: .98;
+}
+
+.ap-simple-drag-item.is-drop-before::before,
+.ap-simple-drag-item.is-drop-after::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 3px;
+  z-index: 50;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--orange) 12%,
+      var(--orange) 88%,
+      transparent
+    );
+  box-shadow:
+    0 0 14px
+      rgba(243, 154, 70, .28);
+  pointer-events: none;
+}
+
+.ap-simple-drag-item.is-drop-before::before {
+  top: -8px;
+}
+
+.ap-simple-drag-item.is-drop-after::after {
+  bottom: -8px;
+}
+
+.ap-simple-drag-item.is-just-dropped {
+  animation:
+    ap-simple-premium-drop
+    320ms
+    cubic-bezier(
+      .22,
+      .61,
+      .36,
+      1
+    );
+}
+
+body.ap-simple-order-dragging {
+  overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: none;
+  user-select: none;
+  cursor: grabbing;
+}
+
+body.ap-simple-order-dragging
+.ap-simple-drag-item:not(.is-dragging) {
+  opacity: .88;
+}
+
+.ap-presentation-drag-overlay,
+.ap-whole-card-drag-overlay {
+  display: none !important;
+}
+
+@keyframes ap-simple-premium-drop {
+  0% {
+    transform: scale(.985);
+    box-shadow:
+      0 0 0 0
+      rgba(243, 154, 70, .28);
+  }
+
+  55% {
+    transform: scale(1.008);
+    box-shadow:
+      0 0 0 6px
+      rgba(243, 154, 70, .07);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0
+      transparent;
+  }
+}
+
+@media (max-width: 760px) {
+  .ap-simple-drag-item {
+    cursor: grab;
+  }
+
+  .ap-simple-drag-item.is-dragging {
+    transform-origin: center;
+  }
+
+  .ap-simple-drag-item.is-drop-before::before,
+  .ap-simple-drag-item.is-drop-after::after {
+    left: 8px;
+    right: 8px;
+  }
+}
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .ap-simple-drag-item {
+    transition-duration:
+      1ms !important;
+  }
+
+  .ap-simple-drag-item.is-just-dropped {
+    animation-duration:
+      1ms !important;
+  }
+}
+
+
+
+/* AYDEMIR V2 LIVE SLIDE REORDER */
+
+.ap-live-slide-list {
+  position: relative;
+  overflow: visible !important;
+}
+
+.ap-live-slide-item {
+  position: relative;
+  z-index: 1;
+  cursor: grab;
+  touch-action: none !important;
+  -webkit-user-select: none;
+  user-select: none;
+  will-change:
+    transform,
+    box-shadow;
+  transition:
+    transform
+      225ms
+      cubic-bezier(
+        .22,
+        .61,
+        .36,
+        1
+      ),
+    border-color
+      180ms ease,
+    background
+      180ms ease,
+    box-shadow
+      180ms ease,
+    opacity
+      180ms ease;
+}
+
+.ap-live-slide-item:hover {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 34%,
+      var(--line)
+    );
+}
+
+.ap-live-slide-item.is-dragging {
+  z-index: 40;
+  cursor: grabbing;
+  transition:
+    border-color
+      150ms ease,
+    background
+      150ms ease,
+    box-shadow
+      150ms ease,
+    opacity
+      150ms ease !important;
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 70%,
+      var(--line)
+    ) !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .10),
+      transparent 58%
+    ),
+    var(--surface-strong) !important;
+  box-shadow:
+    0 22px 52px
+      rgba(0, 0, 0, .20),
+    0 10px 26px
+      rgba(243, 154, 70, .14) !important;
+  opacity: .985;
+}
+
+.ap-live-slide-item.is-just-dropped {
+  animation:
+    ap-live-slide-drop
+    280ms
+    cubic-bezier(
+      .22,
+      .61,
+      .36,
+      1
+    );
+}
+
+body.ap-live-order-dragging {
+  overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: none;
+  user-select: none;
+  cursor: grabbing;
+}
+
+body.ap-live-order-dragging
+.ap-live-slide-item:not(.is-dragging) {
+  opacity: .94;
+}
+
+.ap-presentation-drag-overlay,
+.ap-whole-card-drag-overlay {
+  display: none !important;
+}
+
+@keyframes ap-live-slide-drop {
+  0% {
+    transform: scale(.988);
+  }
+
+  55% {
+    transform: scale(1.007);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 760px) {
+  .ap-live-slide-item {
+    transition:
+      transform
+        205ms
+        cubic-bezier(
+          .22,
+          .61,
+          .36,
+          1
+        ),
+      border-color
+        160ms ease,
+      background
+        160ms ease,
+      box-shadow
+        160ms ease,
+      opacity
+        160ms ease;
+  }
+}
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .ap-live-slide-item {
+    transition-duration:
+      1ms !important;
+  }
+
+  .ap-live-slide-item.is-just-dropped {
+    animation-duration:
+      1ms !important;
+  }
+}
+
