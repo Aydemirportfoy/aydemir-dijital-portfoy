@@ -8945,3 +8945,200 @@ body.ap-live-order-dragging
   }
 }
 
+
+
+/* AYDEMIR V2 SELECTED LISTING CARD PREMIUM COMPACT */
+
+.ap-presentation-order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ap-presentation-order-item {
+  display: grid !important;
+  grid-template-columns:
+    48px
+    86px
+    minmax(0, 1fr)
+    40px !important;
+  align-items: center !important;
+  gap: 14px !important;
+  min-height: 104px !important;
+  padding: 14px 16px !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .09),
+      rgba(255, 255, 255, .02)
+    ),
+    var(--surface-soft) !important;
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 20%,
+      var(--line)
+    ) !important;
+  box-shadow:
+    0 12px 30px
+      rgba(0, 0, 0, .09),
+    inset 0 1px 0
+      rgba(255, 255, 255, .10);
+}
+
+.ap-presentation-order-number {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  border-radius: 999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  font-weight: 800 !important;
+  box-shadow:
+    0 8px 18px
+      rgba(243, 154, 70, .22);
+}
+
+.ap-presentation-order-image {
+  width: 86px !important;
+  height: 68px !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+}
+
+.ap-presentation-order-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.ap-presentation-order-info {
+  min-width: 0 !important;
+  width: 100% !important;
+  text-align: left !important;
+}
+
+.ap-presentation-order-info strong {
+  display: block !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  font-size: 1rem !important;
+  line-height: 1.3 !important;
+  font-weight: 800 !important;
+}
+
+.ap-presentation-order-info small {
+  display: block !important;
+  max-width: 100% !important;
+  margin-top: 6px !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  font-size: .9rem !important;
+  line-height: 1.3 !important;
+  color: var(--muted) !important;
+}
+
+.ap-presentation-order-remove {
+  position: static !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 13px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: center !important;
+  justify-self: end !important;
+  border:
+    1px solid
+    rgba(226, 88, 76, .18) !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .10),
+      rgba(255, 255, 255, .02)
+    ),
+    color-mix(
+      in srgb,
+      var(--surface-strong) 94%,
+      transparent
+    ) !important;
+  color: #e55f54 !important;
+  box-shadow:
+    0 8px 18px
+      rgba(0, 0, 0, .08),
+    inset 0 1px 0
+      rgba(255, 255, 255, .12);
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.ap-presentation-order-remove:hover {
+  transform: translateY(-1px) !important;
+  border-color:
+    rgba(226, 88, 76, .32) !important;
+  background:
+    rgba(226, 88, 76, .08) !important;
+}
+
+@media (max-width: 760px) {
+  .ap-presentation-order-list {
+    gap: 12px;
+  }
+
+  .ap-presentation-order-item {
+    grid-template-columns:
+      42px
+      72px
+      minmax(0, 1fr)
+      36px !important;
+    gap: 10px !important;
+    min-height: 90px !important;
+    padding: 12px !important;
+    border-radius: 20px !important;
+  }
+
+  .ap-presentation-order-number {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    font-size: .95rem !important;
+  }
+
+  .ap-presentation-order-image {
+    width: 72px !important;
+    height: 58px !important;
+    border-radius: 14px !important;
+  }
+
+  .ap-presentation-order-info strong {
+    font-size: .94rem !important;
+  }
+
+  .ap-presentation-order-info small {
+    margin-top: 4px !important;
+    font-size: .82rem !important;
+  }
+
+  .ap-presentation-order-remove {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    border-radius: 12px !important;
+    font-size: 1.05rem !important;
+  }
+}
+

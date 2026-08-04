@@ -1,15 +1,14 @@
-1. ZIP içindeki tüm dosyaları package.json bulunan proje klasörüne kopyalayın.
+1. ZIP içindeki tüm dosyaları proje klasörüne kopyalayın.
 2. Terminalde Ctrl + C yapın.
-3. node .\apply-v2-live-slide-reorder.cjs
+3. node .\apply-v2-selected-card-premium.cjs
 4. npm.cmd run build
 5. npm.cmd run dev
 
-Bu sürüm:
-- Sürüklenen gerçek kart kendi üzerinde hareket eder.
-- Kart aşağı inerken alttaki ilan anında yumuşakça yukarı kayar.
-- Kart yukarı çıkarken üstteki ilan anında yumuşakça aşağı kayar.
-- Sıralama görsel olarak sürükleme sırasında değişir.
-- Bırakınca yeni sıra kaydedilir.
-- Sağ tarafta kopya kart veya ikinci animasyon göstermez.
-- Bilgisayar ve mobilde aynı davranışı kullanır.
+Yapılanlar:
+- Çarpı işareti artık alt satıra düşmez.
+- Sil butonu sağda küçük, cam görünümlü ve premium olur.
+- Kart yüksekliği küçülür.
+- Numara, fotoğraf, ilan bilgisi ve sil butonu tek satırda kalır.
+- Mobil ve bilgisayarda aynı düzen kullanılır.
+- Sürükleme animasyonu bozulmaz.
 - Supabase işlemi yoktur.
