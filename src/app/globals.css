@@ -8260,3 +8260,83 @@ body.ap-order-dragging {
   }
 }
 
+
+
+/* AYDEMIR V2 MOBILE CARD ALIGNMENT + DRAG FIX */
+
+@media (max-width: 760px) {
+  .ap-presentation-manager-row,
+  .ap-presentation-manager-info,
+  .ap-presentation-manager-info h2,
+  .ap-presentation-manager-info p,
+  .ap-presentation-manager-info .ap-kicker {
+    text-align: left !important;
+  }
+
+  .ap-presentation-manager-info {
+    width: 100%;
+  }
+
+  .ap-presentation-manager-info .ap-pill-row {
+    justify-content: flex-start !important;
+  }
+
+  .ap-presentation-manager-row {
+    align-items: stretch !important;
+  }
+
+  .ap-whole-card-sort .ap-sortable-order-item {
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .ap-whole-card-sort .ap-sortable-order-item.is-pressing {
+    border-color: color-mix(in srgb, var(--orange) 64%, var(--line));
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(in srgb, var(--orange-soft) 52%, transparent),
+        var(--surface-soft)
+      );
+    box-shadow: 0 10px 26px rgba(243, 154, 70, .12);
+    transform: scale(.992);
+  }
+}
+
+body.ap-order-dragging {
+  touch-action: none !important;
+  overscroll-behavior: none;
+}
+
+body.ap-order-dragging
+.ap-whole-card-sort
+.ap-sortable-order-item {
+  touch-action: none !important;
+}
+
+.ap-whole-card-sort
+.ap-sortable-order-item.is-drag-source {
+  opacity: .12;
+}
+
+.ap-whole-card-drag-overlay {
+  animation:
+    ap-mobile-drag-lift
+    170ms
+    cubic-bezier(.22, .61, .36, 1)
+    both;
+}
+
+@keyframes ap-mobile-drag-lift {
+  from {
+    opacity: .72;
+    transform: translate3d(0, 3px, 0) scale(.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1.018);
+  }
+}
+

@@ -57,6 +57,11 @@ export default function PresentationOrderList({
       null,
     );
 
+  const [pressingId, setPressingId] =
+    useState<string | null>(
+      null,
+    );
+
   const nodesRef = useRef(
     new Map<
       string,
@@ -121,6 +126,8 @@ export default function PresentationOrderList({
   }
 
   function clearPressTimer() {
+    setPressingId(null);
+
     if (pressTimerRef.current) {
       clearTimeout(
         pressTimerRef.current,
@@ -319,6 +326,16 @@ export default function PresentationOrderList({
     pendingRef.current =
       null;
 
+    setPressingId(null);
+
+    if (
+      typeof navigator !==
+        "undefined" &&
+      "vibrate" in navigator
+    ) {
+      navigator.vibrate(18);
+    }
+
     setDrag(nextDrag);
     setOverId(
       pending.id,
@@ -377,6 +394,19 @@ export default function PresentationOrderList({
     pendingRef.current =
       pending;
 
+    setPressingId(
+      listing.id,
+    );
+
+    try {
+      event.currentTarget
+        .setPointerCapture(
+          event.pointerId,
+        );
+    } catch {
+      // Mobil tarayıcı erken pointer yakalamayı desteklemeyebilir.
+    }
+
     if (
       event.pointerType ===
       "mouse"
@@ -404,7 +434,7 @@ export default function PresentationOrderList({
             );
           }
         },
-        140,
+        85,
       );
   }
 
@@ -427,7 +457,7 @@ export default function PresentationOrderList({
             pending.startY,
         );
 
-      if (movement > 9) {
+      if (movement > 22) {
         clearPressTimer();
         pendingRef.current =
           null;
@@ -562,6 +592,7 @@ export default function PresentationOrderList({
       pendingRef.current =
         null;
 
+      setPressingId(null);
       setDrag(null);
       setOverId(null);
       setDroppedId(
@@ -681,6 +712,12 @@ export default function PresentationOrderList({
                     ? "is-drop-target"
                     : ""
                 } ${
+                  pressingId ===
+                    listing.id &&
+                  !drag
+                    ? "is-pressing"
+                    : ""
+                } ${
                   droppedId ===
                   listing.id
                     ? "is-just-dropped"
@@ -702,6 +739,13 @@ export default function PresentationOrderList({
               onPointerUp={
                 finishDrag
               }
+              onTouchMove={(event) => {
+                if (
+                  dragRef.current
+                ) {
+                  event.preventDefault();
+                }
+              }}
               onPointerCancel={() => {
                 cancelPending();
                 finishDrag();
