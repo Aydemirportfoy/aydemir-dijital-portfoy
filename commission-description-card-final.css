@@ -1,0 +1,589 @@
+/* AYDEMIR V2 COMMISSION DESCRIPTION CARD FINAL */
+
+/* DETAY GALERİSİNDE KOMİSYONSUZ ETİKETİ */
+.ap-detail-page
+.ap-media-column {
+  position: relative;
+}
+
+.ap-detail-commission-badge {
+  position: absolute;
+  z-index: 22;
+  left: 20px;
+  bottom: 94px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 16px;
+  border:
+    1px solid
+    rgba(255, 197, 133, .62);
+  border-radius: 999px;
+  color: #2b1b10;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 226, 190, .90),
+      rgba(243, 154, 70, .76)
+    );
+  box-shadow:
+    0 16px 38px
+      rgba(0, 0, 0, .20),
+    0 9px 25px
+      rgba(243, 154, 70, .22),
+    inset 0 1px 0
+      rgba(255, 255, 255, .58);
+  backdrop-filter:
+    blur(18px)
+    saturate(148%);
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(148%);
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* AÇIKLAMA DEVAMINI GÖR */
+.ap-collapsible-description {
+  margin-top: 18px;
+}
+
+.ap-collapsible-description
+.ap-description-content {
+  position: relative;
+  color:
+    color-mix(
+      in srgb,
+      var(--text) 78%,
+      var(--muted)
+    );
+  font-size: 15px !important;
+  font-weight: 520;
+  line-height: 1.74 !important;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  transition:
+    max-height 260ms
+    cubic-bezier(.22,.61,.36,1);
+}
+
+.ap-collapsible-description:not(.is-expanded)
+.ap-description-content {
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      #000 78%,
+      transparent 100%
+    );
+  mask-image:
+    linear-gradient(
+      to bottom,
+      #000 78%,
+      transparent 100%
+    );
+}
+
+.ap-collapsible-description.is-expanded
+.ap-description-content {
+  max-height: none !important;
+  overflow: visible !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+.ap-description-toggle {
+  min-height: 46px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  margin-top: 17px !important;
+  padding: 0 18px !important;
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 42%,
+      var(--line)
+    ) !important;
+  border-radius: 15px !important;
+  color: var(--text) !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .09),
+      rgba(255, 255, 255, .02)
+    ),
+    color-mix(
+      in srgb,
+      var(--orange-soft) 46%,
+      var(--surface-soft)
+    ) !important;
+  box-shadow:
+    0 12px 28px
+      rgba(0, 0, 0, .08),
+    inset 0 1px 0
+      rgba(255, 255, 255, .10);
+  cursor: pointer;
+  font-size: 12px !important;
+  font-weight: 850 !important;
+  transition:
+    transform 170ms ease,
+    border-color 170ms ease,
+    box-shadow 170ms ease;
+}
+
+.ap-description-toggle:hover {
+  transform: translateY(-1px);
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 65%,
+      var(--line)
+    ) !important;
+  box-shadow:
+    0 16px 34px
+      rgba(243, 154, 70, .12),
+    inset 0 1px 0
+      rgba(255, 255, 255, .12);
+}
+
+/* YÖNETİM İLAN KARTLARI: TEK PARÇA ALTIN ORAN DÜZENİ */
+.ap-compact-listing-grid {
+  align-items: start !important;
+}
+
+.ap-compact-card {
+  position: relative;
+  isolation: isolate;
+  height: auto !important;
+  align-self: start !important;
+  overflow: hidden !important;
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 14%,
+      var(--line)
+    ) !important;
+  border-radius: 27px !important;
+  background:
+    radial-gradient(
+      circle at 92% 0%,
+      rgba(243, 154, 70, .11),
+      transparent 28%
+    ),
+    linear-gradient(
+      148deg,
+      rgba(255, 255, 255, .105),
+      rgba(255, 255, 255, .018) 46%
+    ),
+    var(--surface) !important;
+  box-shadow:
+    0 22px 58px
+      rgba(0, 0, 0, .14),
+    inset 0 1px 0
+      rgba(255, 255, 255, .12) !important;
+  transform:
+    translateZ(0);
+  transition:
+    transform 210ms ease,
+    border-color 210ms ease,
+    box-shadow 210ms ease;
+}
+
+.ap-compact-card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 150px;
+  height: 150px;
+  right: -70px;
+  bottom: -84px;
+  border-radius: 999px;
+  background:
+    rgba(243, 154, 70, .09);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.ap-compact-card:hover {
+  transform:
+    translateY(-4px);
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 34%,
+      var(--line)
+    ) !important;
+  box-shadow:
+    0 30px 78px
+      rgba(0, 0, 0, .19),
+    0 12px 34px
+      rgba(243, 154, 70, .07),
+    inset 0 1px 0
+      rgba(255, 255, 255, .15) !important;
+}
+
+.ap-compact-card
+.ap-compact-card-media {
+  aspect-ratio:
+    1.618 / 1 !important;
+  border-radius:
+    26px 26px 0 0 !important;
+}
+
+.ap-compact-card
+.ap-compact-card-body {
+  display: flex !important;
+  flex-direction: column;
+  min-width: 0;
+  padding:
+    18px 18px 17px !important;
+}
+
+.ap-compact-card
+.ap-compact-project {
+  margin:
+    0 0 8px !important;
+  color: var(--orange) !important;
+  font-size: 10px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .105em !important;
+}
+
+.ap-compact-card
+.ap-compact-card-top h2 {
+  display: -webkit-box !important;
+  min-height: 45px !important;
+  margin: 0 !important;
+  overflow: hidden;
+  color:
+    color-mix(
+      in srgb,
+      var(--text) 94%,
+      var(--muted)
+    ) !important;
+  font-size: 15px !important;
+  font-weight: 735 !important;
+  line-height: 1.46 !important;
+  letter-spacing: -.018em !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.ap-compact-card
+.ap-compact-card-top
+> strong {
+  display: block !important;
+  margin-top: 14px !important;
+  padding-top: 13px !important;
+  border-top:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 23%,
+      var(--line)
+    ) !important;
+  color: var(--orange) !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: -.04em !important;
+  font-variant-numeric:
+    tabular-nums;
+}
+
+.ap-compact-card
+.ap-compact-meta,
+.ap-compact-card
+.ap-card-feature-strip {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 7px !important;
+}
+
+.ap-compact-card
+.ap-compact-meta {
+  margin-top: 14px !important;
+}
+
+.ap-compact-card
+.ap-card-feature-strip {
+  margin-top: 9px !important;
+}
+
+.ap-compact-card
+.ap-compact-meta span,
+.ap-compact-card
+.ap-card-feature-strip span {
+  min-height: 31px !important;
+  display: inline-flex !important;
+  align-items: center;
+  padding:
+    0 11px !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  font-weight: 760 !important;
+  line-height: 1 !important;
+}
+
+.ap-compact-card
+.ap-compact-meta span {
+  color: var(--muted) !important;
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--line) 92%,
+      transparent
+    ) !important;
+  background:
+    color-mix(
+      in srgb,
+      var(--surface-soft) 94%,
+      transparent
+    ) !important;
+}
+
+.ap-compact-card
+.ap-card-feature-strip span {
+  color:
+    color-mix(
+      in srgb,
+      var(--text) 82%,
+      var(--orange)
+    ) !important;
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 28%,
+      var(--line)
+    ) !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(243, 154, 70, .10),
+      rgba(255, 255, 255, .018)
+    ),
+    var(--surface-soft) !important;
+}
+
+.ap-compact-card
+.ap-private-details {
+  margin-top: 12px !important;
+  border-radius: 17px !important;
+}
+
+.ap-compact-card
+.ap-clean-card-footer {
+  margin-top: 14px !important;
+  padding-top: 13px !important;
+  border-top:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--line) 86%,
+      transparent
+    );
+}
+
+.ap-compact-card
+.ap-clean-status {
+  min-height: 45px !important;
+  padding:
+    5px 7px 5px 12px !important;
+  border-radius: 15px !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .07),
+      rgba(255, 255, 255, .015)
+    ),
+    var(--surface-soft) !important;
+}
+
+.ap-compact-card
+.ap-clean-card-actions {
+  display: grid !important;
+  grid-template-columns:
+    minmax(0, 1fr)
+    48px !important;
+  gap: 9px !important;
+  margin-top: 9px !important;
+}
+
+.ap-compact-card
+.ap-clean-card-actions
+> .ap-primary-button,
+.ap-compact-card
+.ap-card-delete-button {
+  min-height: 48px !important;
+  height: 48px !important;
+  border-radius: 15px !important;
+}
+
+.ap-compact-card
+.ap-card-delete-button {
+  width: 48px !important;
+  min-width: 48px !important;
+}
+
+/* 3 / 4 / 6 YOĞUNLUKLARINDA ORAN KORUMA */
+.density-3
+.ap-compact-card
+.ap-compact-card-body {
+  padding:
+    20px 20px 18px !important;
+}
+
+.density-3
+.ap-compact-card
+.ap-compact-card-top h2 {
+  min-height: 50px !important;
+  font-size: 17px !important;
+}
+
+.density-3
+.ap-compact-card
+.ap-compact-card-top
+> strong {
+  font-size: 24px !important;
+}
+
+.density-4
+.ap-compact-card
+.ap-compact-card-top h2 {
+  font-size: 15px !important;
+}
+
+.density-4
+.ap-compact-card
+.ap-compact-card-top
+> strong {
+  font-size: 21px !important;
+}
+
+.density-6
+.ap-compact-card {
+  border-radius: 21px !important;
+}
+
+.density-6
+.ap-compact-card
+.ap-compact-card-body {
+  padding:
+    13px 13px 12px !important;
+}
+
+.density-6
+.ap-compact-card
+.ap-compact-project {
+  font-size: 8px !important;
+}
+
+.density-6
+.ap-compact-card
+.ap-compact-card-top h2 {
+  min-height: 38px !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+}
+
+.density-6
+.ap-compact-card
+.ap-compact-card-top
+> strong {
+  margin-top: 10px !important;
+  padding-top: 10px !important;
+  font-size: 18px !important;
+}
+
+.density-6
+.ap-compact-card
+.ap-compact-meta span,
+.density-6
+.ap-compact-card
+.ap-card-feature-strip span {
+  min-height: 27px !important;
+  padding:
+    0 8px !important;
+  font-size: 8px !important;
+}
+
+.density-6
+.ap-compact-card
+.ap-card-feature-strip
+span:nth-child(n + 3) {
+  display: none !important;
+}
+
+.density-6
+.ap-compact-card
+.ap-clean-status {
+  min-height: 39px !important;
+}
+
+.density-6
+.ap-compact-card
+.ap-clean-card-actions
+> .ap-primary-button,
+.density-6
+.ap-compact-card
+.ap-card-delete-button {
+  min-height: 42px !important;
+  height: 42px !important;
+}
+
+.density-6
+.ap-compact-card
+.ap-card-delete-button {
+  width: 42px !important;
+  min-width: 42px !important;
+}
+
+@media (max-width: 760px) {
+  .ap-detail-commission-badge {
+    left: 14px;
+    bottom: 84px;
+    min-height: 36px;
+    padding: 0 13px;
+    font-size: 9px;
+  }
+
+  .ap-collapsible-description
+  .ap-description-content {
+    font-size: 14px !important;
+  }
+
+  .ap-compact-card {
+    border-radius: 24px !important;
+  }
+
+  .ap-compact-card
+  .ap-compact-card-media {
+    border-radius:
+      23px 23px 0 0 !important;
+  }
+
+  .ap-compact-card
+  .ap-compact-card-body {
+    padding:
+      16px 16px 15px !important;
+  }
+
+  .ap-compact-card
+  .ap-compact-card-top h2 {
+    min-height: 43px !important;
+    font-size: 15px !important;
+  }
+
+  .ap-compact-card
+  .ap-compact-card-top
+  > strong {
+    font-size: 21px !important;
+  }
+}

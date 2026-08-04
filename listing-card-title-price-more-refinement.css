@@ -1,0 +1,187 @@
+/* AYDEMIR V2 LISTING CARD TITLE PRICE MORE REFINEMENT */
+
+.ap-clickable-listing-card
+.ap-compact-project {
+  font-size: 10px !important;
+  font-weight: 820 !important;
+  letter-spacing: .095em !important;
+}
+
+.ap-clickable-listing-card
+.ap-compact-card-top h2 {
+  min-height: 38px !important;
+  color:
+    color-mix(
+      in srgb,
+      var(--text) 88%,
+      var(--muted)
+    ) !important;
+  font-size: 13px !important;
+  font-weight: 680 !important;
+  line-height: 1.42 !important;
+  letter-spacing: -.012em !important;
+}
+
+.ap-clickable-listing-card
+.ap-compact-card-top
+> strong {
+  margin-top: 10px !important;
+  padding-top: 10px !important;
+  border-top:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--line) 82%,
+      transparent
+    );
+  color:
+    color-mix(
+      in srgb,
+      var(--orange) 86%,
+      var(--text)
+    ) !important;
+  font-size: 17px !important;
+  font-weight: 850 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -.025em !important;
+  font-variant-numeric:
+    tabular-nums;
+}
+
+.ap-clean-card-actions {
+  grid-template-columns:
+    minmax(0, 1fr)
+    42px !important;
+  align-items: stretch;
+}
+
+.ap-card-more-menu {
+  width: 42px;
+  min-width: 42px;
+}
+
+.ap-card-more-menu
+> summary {
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 0 !important;
+  border-radius: 13px !important;
+  color: var(--muted) !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .07),
+      rgba(255, 255, 255, .015)
+    ),
+    var(--surface-strong) !important;
+  box-shadow:
+    inset 0 1px 0
+    rgba(255, 255, 255, .07);
+  transition:
+    border-color 170ms ease,
+    color 170ms ease,
+    background 170ms ease,
+    transform 170ms ease;
+}
+
+.ap-card-more-menu
+> summary:hover {
+  transform: translateY(-1px);
+  color: var(--orange) !important;
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 38%,
+      var(--line)
+    ) !important;
+  background:
+    color-mix(
+      in srgb,
+      var(--orange-soft) 55%,
+      var(--surface-strong)
+    ) !important;
+}
+
+.ap-card-more-menu
+> summary span {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.ap-card-more-menu
+> summary b {
+  display: block;
+  margin-top: -4px;
+  color: currentColor !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: .08em !important;
+}
+
+.ap-card-more-menu[open]
+> summary {
+  color: var(--orange) !important;
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 42%,
+      var(--line)
+    ) !important;
+  background:
+    color-mix(
+      in srgb,
+      var(--orange-soft) 62%,
+      var(--surface-strong)
+    ) !important;
+}
+
+.ap-clean-card-actions
+> .ap-primary-button {
+  min-height: 42px !important;
+  border-radius: 13px !important;
+  font-size: 10px !important;
+}
+
+@media (max-width: 760px) {
+  .ap-clickable-listing-card
+  .ap-compact-project {
+    font-size: 9px !important;
+  }
+
+  .ap-clickable-listing-card
+  .ap-compact-card-top h2 {
+    min-height: 38px !important;
+    font-size: 13px !important;
+  }
+
+  .ap-clickable-listing-card
+  .ap-compact-card-top
+  > strong {
+    font-size: 16px !important;
+  }
+
+  .ap-clean-card-actions {
+    grid-template-columns:
+      minmax(0, 1fr)
+      44px !important;
+  }
+
+  .ap-card-more-menu,
+  .ap-card-more-menu
+  > summary {
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+  }
+}

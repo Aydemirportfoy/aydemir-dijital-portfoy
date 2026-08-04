@@ -1,0 +1,347 @@
+/* AYDEMIR V2 BALANCED DETAIL PROPORTION */
+
+/* SAYFAYI EKRANA YAYMA; ORTADA VE DAHA PREMIUM TUT */
+.ap-detail-page {
+  width:
+    min(
+      1480px,
+      calc(100% - 34px)
+    ) !important;
+  margin-inline: auto !important;
+}
+
+/* FOTOĞRAF VE BİLGİ PANELİ ZORLA AYNI BOYA UZAMASIN */
+.ap-detail-grid {
+  grid-template-columns:
+    minmax(0, 1.5fr)
+    minmax(390px, .96fr)
+    !important;
+  align-items: start !important;
+  gap:
+    clamp(22px, 2vw, 30px)
+    !important;
+}
+
+.ap-media-column,
+.ap-detail-panel {
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: start !important;
+}
+
+.ap-media-column {
+  display: block !important;
+}
+
+.ap-media-column
+> .ap-gallery {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: block !important;
+}
+
+.ap-media-column
+.ap-gallery-main {
+  height: auto !important;
+  min-height: 0 !important;
+  flex: none !important;
+  aspect-ratio:
+    1.55 / 1 !important;
+}
+
+.ap-media-column
+.ap-detail-gallery-viewport,
+.ap-media-column
+.ap-detail-gallery-track,
+.ap-media-column
+.ap-detail-gallery-slide,
+.ap-media-column
+.ap-detail-gallery-slide-inner {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+.ap-media-column
+.ap-detail-gallery-slide-inner img,
+.ap-media-column
+.ap-gallery-main > img,
+.ap-media-column
+.ap-gallery-main video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* KOMİSYONSUZ ROZETİ KÜÇÜK VE ORANTILI KALSIN */
+.ap-media-column
+> .ap-detail-commission-badge {
+  left: 16px !important;
+  bottom: 92px !important;
+  width: max-content !important;
+  max-width:
+    calc(100% - 32px)
+    !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  padding:
+    0 14px !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+}
+
+/* SAĞ PANELİ KOMPAKT VE FERAH TUT */
+.ap-detail-panel {
+  padding:
+    25px !important;
+  border-radius:
+    28px !important;
+}
+
+html body
+.ap-detail-page
+.ap-detail-panel
+.ap-detail-title,
+html body
+.ap-detail-page
+.ap-detail-panel
+.ap-detail-title-balanced {
+  font-size:
+    clamp(30px, 2.4vw, 40px)
+    !important;
+  line-height:
+    1.06 !important;
+  letter-spacing:
+    -.046em !important;
+}
+
+/* ODA / METREKARE / KAT / MUTFAK: ORTA BOY, OKUNAKLI */
+html body
+.ap-detail-page
+.ap-detail-panel
+.ap-title-facts {
+  gap: 10px !important;
+  margin-top:
+    18px !important;
+}
+
+html body
+.ap-detail-page
+.ap-detail-panel
+.ap-title-fact {
+  min-height:
+    88px !important;
+  gap: 8px !important;
+  padding:
+    16px 17px !important;
+  border-radius:
+    17px !important;
+}
+
+html body
+.ap-detail-page
+.ap-detail-panel
+.ap-title-fact small {
+  font-size:
+    10px !important;
+  font-weight:
+    880 !important;
+  letter-spacing:
+    .075em !important;
+}
+
+html body
+.ap-detail-page
+.ap-detail-panel
+.ap-title-fact strong {
+  font-size:
+    18px !important;
+  font-weight:
+    850 !important;
+  line-height:
+    1.16 !important;
+}
+
+/* KONUM VE KISA BİLGİ KARTLARI */
+.ap-detail-location-box,
+.ap-short-summary-card {
+  margin-top:
+    14px !important;
+  padding:
+    15px 16px !important;
+  border-radius:
+    16px !important;
+}
+
+.ap-detail-location-box span,
+.ap-short-summary-card > span {
+  font-size:
+    9px !important;
+}
+
+.ap-detail-location-box strong {
+  font-size:
+    14px !important;
+}
+
+.ap-short-summary-card p {
+  font-size:
+    13px !important;
+  line-height:
+    1.58 !important;
+}
+
+/* KREDİ / TAKAS / KOMİSYONSUZ: TEK SATIR, ORANTILI */
+.ap-main-sales-badges {
+  display: grid !important;
+  grid-template-columns:
+    .9fr
+    .9fr
+    1.35fr
+    !important;
+  gap: 8px !important;
+  margin-top:
+    15px !important;
+}
+
+.ap-main-sales-badges span {
+  min-height:
+    40px !important;
+  padding:
+    0 9px !important;
+  border-radius:
+    14px !important;
+  font-size:
+    10px !important;
+  font-weight:
+    850 !important;
+  line-height:
+    1 !important;
+  white-space:
+    nowrap !important;
+}
+
+/* FİYAT KARTI */
+.ap-detail-price-card {
+  margin-top:
+    16px !important;
+  padding:
+    17px 18px !important;
+  border-radius:
+    17px !important;
+}
+
+.ap-detail-price-card strong {
+  font-size:
+    clamp(27px, 2.2vw, 34px)
+    !important;
+}
+
+/* TABLET */
+@media (max-width: 1180px) {
+  .ap-detail-page {
+    width:
+      min(
+        1120px,
+        calc(100% - 28px)
+      ) !important;
+  }
+
+  .ap-detail-grid {
+    grid-template-columns:
+      minmax(0, 1.35fr)
+      minmax(340px, 1fr)
+      !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-main {
+    aspect-ratio:
+      1.45 / 1 !important;
+  }
+}
+
+/* MOBİL */
+@media (max-width: 900px) {
+  .ap-detail-page {
+    width:
+      min(
+        100% - 22px,
+        720px
+      ) !important;
+  }
+
+  .ap-detail-grid {
+    grid-template-columns:
+      1fr !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-main {
+    aspect-ratio:
+      1.32 / 1 !important;
+  }
+
+  .ap-detail-panel {
+    padding:
+      21px 19px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-fact {
+    min-height:
+      82px !important;
+    padding:
+      15px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-fact small {
+    font-size:
+      10px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-fact strong {
+    font-size:
+      17px !important;
+  }
+
+  .ap-main-sales-badges {
+    grid-template-columns:
+      .86fr
+      .86fr
+      1.42fr
+      !important;
+    gap: 6px !important;
+  }
+
+  .ap-main-sales-badges span {
+    min-height:
+      38px !important;
+    padding:
+      0 6px !important;
+    font-size:
+      8.5px !important;
+  }
+
+  .ap-media-column
+  > .ap-detail-commission-badge {
+    left: 13px !important;
+    bottom: 82px !important;
+    height: 35px !important;
+    min-height: 35px !important;
+    max-height: 35px !important;
+    padding:
+      0 12px !important;
+    font-size:
+      9px !important;
+  }
+}

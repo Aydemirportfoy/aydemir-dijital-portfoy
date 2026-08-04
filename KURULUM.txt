@@ -1,16 +1,15 @@
-1. ZIP içindeki tüm dosyaları package.json bulunan proje klasörüne kopyalayın.
+1. ZIP içindeki dosyaları proje klasörüne kopyalayın.
 2. Terminalde Ctrl + C yapın.
-3. node .\apply-v2-presentation-selection-text.cjs
+3. node .\apply-v2-apple-detail-size.cjs
 4. npm.cmd run build
 5. npm.cmd run dev
 
 Yapılanlar:
-- Proje adı daha küçük ve sade hale gelir.
-- İlan başlığı en fazla iki satır görünür.
-- Mahalle ve oda bilgisi tek satırda kalır.
-- Fiyat alt bölümde ayrı ve daha okunaklı görünür.
-- Tüm kartların yazı alanları aynı yükseklikte olur.
-- Seçili kartlarda turuncu vurgu sade tutulur.
-- Mobil ve bilgisayar için ayrı ölçüler uygulanır.
-- Fotoğraflara ve seçim numaralarına dokunulmaz.
-- Supabase işlemi yoktur.
+- Yüzde 70'lik küçük görünüm kaldırılır.
+- Masaüstünde yaklaşık yüzde 82 genişlikte dengeli görünür.
+- Fotoğraf ve bilgi paneli Apple tarzında kontrollü büyüklüğe gelir.
+- Liquid glass, radius ve gölgeler sade tutulur.
+- Fotoğraf üstünde yalnızca Komisyonsuz yazar.
+- Alttaki Komisyonsuz Firma Satışı bilgisi değişmez.
+- Telefonda tek sütun, doğal ve kolay kullanım korunur.
+- Supabase verileri değiştirilmez.

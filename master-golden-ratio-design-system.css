@@ -1,0 +1,1174 @@
+/* AYDEMIR V2 MASTER GOLDEN RATIO DESIGN SYSTEM */
+
+:root {
+  --ap-radius-xs: 10px;
+  --ap-radius-sm: 14px;
+  --ap-radius-md: 18px;
+  --ap-radius-lg: 24px;
+  --ap-radius-xl: 30px;
+  --ap-space-1: 6px;
+  --ap-space-2: 10px;
+  --ap-space-3: 16px;
+  --ap-space-4: 24px;
+  --ap-space-5: 38px;
+  --ap-title-tight: -.042em;
+  --ap-glass-border:
+    color-mix(
+      in srgb,
+      var(--orange) 12%,
+      var(--line)
+    );
+  --ap-glass-highlight:
+    rgba(255, 255, 255, .13);
+  --ap-shadow-card:
+    0 16px 44px
+      rgba(57, 43, 29, .09);
+  --ap-shadow-lift:
+    0 26px 70px
+      rgba(57, 43, 29, .14);
+}
+
+html[data-theme="dark"] {
+  --ap-glass-highlight:
+    rgba(255, 255, 255, .075);
+  --ap-shadow-card:
+    0 18px 48px
+      rgba(0, 0, 0, .22);
+  --ap-shadow-lift:
+    0 30px 82px
+      rgba(0, 0, 0, .34);
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: -.005em;
+}
+
+.ap-shell {
+  width:
+    min(
+      1440px,
+      calc(100% - 34px)
+    ) !important;
+}
+
+.ap-glass {
+  border-color:
+    var(--ap-glass-border)
+    !important;
+  background:
+    linear-gradient(
+      145deg,
+      var(--ap-glass-highlight),
+      transparent 46%
+    ),
+    var(--surface)
+    !important;
+  box-shadow:
+    var(--ap-shadow-card)
+    !important;
+  backdrop-filter:
+    blur(26px)
+    saturate(138%)
+    !important;
+  -webkit-backdrop-filter:
+    blur(26px)
+    saturate(138%)
+    !important;
+}
+
+.ap-kicker {
+  font-size: 10px !important;
+  font-weight: 860 !important;
+  line-height: 1.25 !important;
+  letter-spacing: .135em !important;
+}
+
+.ap-muted {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.ap-home-copy h1 {
+  max-width: 13ch;
+  font-size:
+    clamp(42px, 5.2vw, 68px)
+    !important;
+  line-height: .98 !important;
+  letter-spacing:
+    -.058em !important;
+}
+
+.ap-admin-hero h1,
+.ap-dashboard-hero h1,
+.ap-portfolio-header h1,
+.ap-presentation-builder-hero h1 {
+  font-size:
+    clamp(34px, 3.8vw, 52px)
+    !important;
+  line-height: 1.02 !important;
+  letter-spacing:
+    -.05em !important;
+}
+
+.ap-section-head h2,
+.ap-dashboard-section-head h2,
+.ap-presentation-section-head h2 {
+  font-size:
+    clamp(28px, 3vw, 40px)
+    !important;
+  line-height: 1.05 !important;
+  letter-spacing:
+    -.045em !important;
+}
+
+.ap-form-card h2,
+.ap-premium-info-card h2,
+.ap-presentation-title-panel h2,
+.ap-presentation-info-panel h2 {
+  font-size:
+    clamp(22px, 2vw, 29px)
+    !important;
+  line-height: 1.08 !important;
+  letter-spacing:
+    -.035em !important;
+}
+
+.ap-primary-button,
+.ap-soft-button,
+.ap-danger-button,
+.ap-success-button {
+  min-height: 48px !important;
+  padding:
+    0 18px !important;
+  border-radius:
+    var(--ap-radius-sm)
+    !important;
+  font-size: 13px !important;
+  font-weight: 820 !important;
+}
+
+.ap-primary-button {
+  box-shadow:
+    0 14px 32px
+      rgba(243, 154, 70, .20)
+    !important;
+}
+
+.ap-icon-button {
+  width: 46px !important;
+  height: 46px !important;
+}
+
+.ap-field {
+  gap: 8px !important;
+}
+
+.ap-field > span,
+.ap-field > label,
+.ap-filter-grid label,
+.ap-filter-search label {
+  font-size: 11px !important;
+  font-weight: 780 !important;
+  letter-spacing: .015em;
+}
+
+.ap-input,
+.ap-field input,
+.ap-field select,
+.ap-field textarea,
+.ap-filter-grid input,
+.ap-filter-grid select,
+.ap-filter-search input {
+  min-height: 49px !important;
+  padding:
+    0 15px !important;
+  border-radius:
+    var(--ap-radius-sm)
+    !important;
+  font-size: 14px !important;
+}
+
+.ap-field textarea {
+  min-height: 132px !important;
+  padding:
+    14px 15px !important;
+  line-height: 1.6 !important;
+}
+
+.ap-form-card {
+  padding:
+    clamp(20px, 2vw, 28px)
+    !important;
+  border-radius:
+    var(--ap-radius-lg)
+    !important;
+}
+
+.ap-form-grid {
+  gap:
+    clamp(14px, 1.5vw, 20px)
+    !important;
+}
+
+/* 3 / 4 / 6 GÖRÜNÜM */
+.ap-density-control,
+.ap-public-density-switch {
+  gap: 5px !important;
+  padding: 5px !important;
+  border-radius: 999px !important;
+}
+
+.ap-density-control button,
+.ap-public-density-switch button {
+  min-width: 38px !important;
+  height: 36px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 880 !important;
+}
+
+.ap-compact-listing-grid,
+.ap-public-grid {
+  display: grid !important;
+  align-items: start !important;
+  gap:
+    clamp(14px, 1.35vw, 20px)
+    !important;
+}
+
+.ap-compact-listing-grid.density-3,
+.ap-public-grid-3 {
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    ) !important;
+}
+
+.ap-compact-listing-grid.density-4,
+.ap-public-grid-4 {
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    ) !important;
+}
+
+.ap-compact-listing-grid.density-6,
+.ap-public-grid-6 {
+  grid-template-columns:
+    repeat(
+      6,
+      minmax(0, 1fr)
+    ) !important;
+}
+
+/* YÖNETİM İLAN KARTLARI */
+.ap-compact-card {
+  min-width: 0;
+  height: auto !important;
+  align-self: start !important;
+  overflow: visible !important;
+  border:
+    1px solid
+    var(--ap-glass-border)
+    !important;
+  border-radius:
+    var(--ap-radius-lg)
+    !important;
+  background:
+    linear-gradient(
+      145deg,
+      var(--ap-glass-highlight),
+      transparent 44%
+    ),
+    var(--surface)
+    !important;
+  box-shadow:
+    var(--ap-shadow-card)
+    !important;
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.ap-compact-card:hover {
+  transform:
+    translateY(-4px);
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 28%,
+      var(--line)
+    ) !important;
+  box-shadow:
+    var(--ap-shadow-lift)
+    !important;
+}
+
+.ap-compact-card-media {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio:
+    1.618 / 1 !important;
+  overflow: hidden !important;
+  border-radius:
+    calc(
+      var(--ap-radius-lg) - 1px
+    )
+    calc(
+      var(--ap-radius-lg) - 1px
+    )
+    0 0 !important;
+  background:
+    var(--surface-soft);
+}
+
+.ap-compact-card-media img {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
+  transition:
+    transform 420ms
+    cubic-bezier(.22,.61,.36,1);
+}
+
+.ap-compact-card:hover
+.ap-compact-card-media img {
+  transform: scale(1.025);
+}
+
+.ap-compact-card-body {
+  min-width: 0;
+  padding:
+    16px !important;
+}
+
+.ap-compact-project {
+  margin:
+    0 0 8px !important;
+  color: var(--orange) !important;
+  font-size: 10px !important;
+  font-weight: 880 !important;
+  line-height: 1.25 !important;
+  letter-spacing: .10em !important;
+}
+
+.ap-compact-card-top h2 {
+  display: -webkit-box !important;
+  min-height: 43px;
+  margin: 0 !important;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 15px !important;
+  font-weight: 720 !important;
+  line-height: 1.42 !important;
+  letter-spacing:
+    -.016em !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.ap-compact-card-top
+> strong {
+  display: block !important;
+  margin-top: 12px !important;
+  padding-top: 12px !important;
+  border-top:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 18%,
+      var(--line)
+    ) !important;
+  color: var(--orange) !important;
+  font-size:
+    clamp(20px, 1.35vw, 23px)
+    !important;
+  font-weight: 880 !important;
+  line-height: 1.05 !important;
+  letter-spacing:
+    -.035em !important;
+  font-variant-numeric:
+    tabular-nums;
+}
+
+.ap-compact-meta,
+.ap-card-feature-strip {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 7px !important;
+}
+
+.ap-compact-meta {
+  margin-top: 13px !important;
+}
+
+.ap-card-feature-strip {
+  margin-top: 9px !important;
+}
+
+.ap-compact-meta span,
+.ap-card-feature-strip span,
+.ap-pill {
+  min-height: 30px !important;
+  display: inline-flex !important;
+  align-items: center;
+  padding:
+    0 10px !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  font-weight: 760 !important;
+  line-height: 1 !important;
+}
+
+.ap-card-feature-strip span {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 25%,
+      var(--line)
+    ) !important;
+  background:
+    color-mix(
+      in srgb,
+      var(--orange-soft) 48%,
+      var(--surface-soft)
+    ) !important;
+}
+
+.ap-clean-card-footer {
+  margin-top: 13px !important;
+  padding-top: 0 !important;
+}
+
+.ap-clean-status {
+  min-height: 44px !important;
+  padding:
+    5px 7px 5px 11px !important;
+  border-radius:
+    var(--ap-radius-sm)
+    !important;
+}
+
+.ap-clean-status > span {
+  font-size: 9px !important;
+}
+
+.ap-clean-status select {
+  min-height: 32px !important;
+  font-size: 10px !important;
+}
+
+.ap-clean-card-actions {
+  grid-template-columns:
+    minmax(0, 1fr)
+    46px !important;
+  gap: 8px !important;
+  margin-top: 9px !important;
+}
+
+.ap-clean-card-actions
+> .ap-primary-button {
+  min-height: 46px !important;
+  border-radius:
+    var(--ap-radius-sm)
+    !important;
+}
+
+.ap-card-delete-button {
+  width: 46px !important;
+  min-width: 46px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  border-radius:
+    var(--ap-radius-sm)
+    !important;
+}
+
+/* 6'LI GÖRÜNÜMÜN OKUNAKLI KALMASI */
+.density-6
+.ap-compact-card-body {
+  padding: 12px !important;
+}
+
+.density-6
+.ap-compact-card-top h2 {
+  min-height: 38px;
+  font-size: 13px !important;
+}
+
+.density-6
+.ap-compact-card-top
+> strong {
+  font-size: 18px !important;
+}
+
+.density-6
+.ap-compact-meta span,
+.density-6
+.ap-card-feature-strip span {
+  min-height: 27px !important;
+  padding:
+    0 8px !important;
+  font-size: 8px !important;
+}
+
+.density-6
+.ap-card-feature-strip
+span:nth-child(n + 3) {
+  display: none !important;
+}
+
+/* HALKA AÇIK İLAN KARTLARI */
+.ap-listing-card {
+  min-width: 0;
+  overflow: hidden;
+  border:
+    1px solid
+    var(--ap-glass-border)
+    !important;
+  border-radius:
+    var(--ap-radius-lg)
+    !important;
+  background:
+    linear-gradient(
+      145deg,
+      var(--ap-glass-highlight),
+      transparent 46%
+    ),
+    var(--surface)
+    !important;
+  box-shadow:
+    var(--ap-shadow-card)
+    !important;
+}
+
+.ap-listing-card-media {
+  aspect-ratio:
+    1.618 / 1 !important;
+}
+
+.ap-listing-card-body {
+  padding:
+    17px !important;
+}
+
+.ap-listing-card-body
+.ap-kicker {
+  font-size: 10px !important;
+}
+
+.ap-listing-card h2 {
+  display: -webkit-box;
+  min-height: 47px;
+  margin:
+    8px 0 0 !important;
+  overflow: hidden;
+  font-size: 17px !important;
+  font-weight: 750 !important;
+  line-height: 1.38 !important;
+  letter-spacing:
+    -.02em !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.ap-listing-card-body
+> .ap-muted {
+  margin-top: 8px !important;
+  font-size: 12px !important;
+}
+
+.ap-card-price-row {
+  margin-top: 15px !important;
+  padding-top: 13px;
+  border-top:
+    1px solid var(--line);
+}
+
+.ap-card-price-row strong {
+  color: var(--orange);
+  font-size: 21px !important;
+  font-weight: 880 !important;
+  letter-spacing:
+    -.035em !important;
+}
+
+.ap-card-video-link {
+  min-height: 38px !important;
+  padding:
+    0 12px !important;
+  font-size: 10px !important;
+}
+
+/* DETAY SAYFASI */
+.ap-detail-grid {
+  grid-template-columns:
+    minmax(0, 1.58fr)
+    minmax(350px, 1fr)
+    !important;
+  gap:
+    clamp(22px, 2vw, 32px)
+    !important;
+  align-items: start !important;
+}
+
+.ap-detail-panel {
+  padding:
+    clamp(22px, 2vw, 30px)
+    !important;
+  border-radius:
+    var(--ap-radius-xl)
+    !important;
+}
+
+html body
+.ap-detail-page
+.ap-detail-panel
+.ap-detail-title,
+html body
+.ap-detail-page
+.ap-detail-panel
+.ap-detail-title-balanced {
+  max-width: 100% !important;
+  margin: 0 !important;
+  font-size:
+    clamp(29px, 2.25vw, 42px)
+    !important;
+  font-weight: 800 !important;
+  line-height: 1.06 !important;
+  letter-spacing:
+    -.047em !important;
+  overflow-wrap: anywhere;
+}
+
+.ap-detail-location {
+  margin-top: 15px !important;
+  font-size: 14px !important;
+}
+
+.ap-detail-description {
+  font-size: 15px !important;
+  line-height: 1.72 !important;
+}
+
+.ap-detail-price-card {
+  padding:
+    18px 19px !important;
+  border-radius:
+    var(--ap-radius-md)
+    !important;
+}
+
+.ap-detail-price-card strong {
+  color: var(--orange);
+  font-size:
+    clamp(26px, 2vw, 34px)
+    !important;
+}
+
+.ap-compact-facts {
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    ) !important;
+  gap: 10px !important;
+  padding: 12px !important;
+}
+
+.ap-compact-fact {
+  min-height: 88px !important;
+  padding:
+    15px 16px !important;
+  border-radius:
+    var(--ap-radius-md)
+    !important;
+}
+
+.ap-compact-fact small {
+  font-size: 10px !important;
+}
+
+.ap-compact-fact strong {
+  margin-top: 8px !important;
+  font-size: 16px !important;
+}
+
+.ap-premium-detail-cards {
+  gap: 18px !important;
+}
+
+.ap-premium-info-card {
+  padding:
+    clamp(20px, 2vw, 27px)
+    !important;
+  border-radius:
+    var(--ap-radius-lg)
+    !important;
+}
+
+.ap-premium-feature-grid {
+  gap: 9px !important;
+}
+
+.ap-premium-feature {
+  min-height: 48px !important;
+  padding:
+    10px 12px !important;
+  border-radius:
+    var(--ap-radius-sm)
+    !important;
+  font-size: 12px !important;
+}
+
+.ap-premium-feature span {
+  width: 26px !important;
+  height: 26px !important;
+  flex-basis: 26px !important;
+}
+
+.ap-location-stack {
+  gap: 10px !important;
+}
+
+.ap-location-stack > div {
+  min-height: 56px !important;
+  padding:
+    0 16px !important;
+  border-radius:
+    var(--ap-radius-sm)
+    !important;
+}
+
+.ap-location-stack span {
+  font-size: 12px !important;
+}
+
+.ap-location-stack strong {
+  font-size: 15px !important;
+}
+
+.ap-premium-sales {
+  gap: 8px !important;
+}
+
+.ap-premium-sales span,
+.ap-main-sales-badges span {
+  min-height: 35px !important;
+  padding:
+    0 13px !important;
+  font-size: 11px !important;
+  border-radius: 999px !important;
+}
+
+/* YÖNETİM PANELİ */
+.ap-admin-sidebar {
+  border-radius:
+    var(--ap-radius-xl)
+    !important;
+  border:
+    1px solid
+    var(--ap-glass-border)
+    !important;
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(243, 154, 70, .11),
+      transparent 28%
+    ),
+    linear-gradient(
+      155deg,
+      var(--ap-glass-highlight),
+      transparent 42%
+    ),
+    var(--surface)
+    !important;
+  box-shadow:
+    var(--ap-shadow-card)
+    !important;
+  backdrop-filter:
+    blur(28px)
+    saturate(135%)
+    !important;
+}
+
+.ap-admin-nav {
+  gap: 8px !important;
+}
+
+.ap-admin-nav a {
+  min-height: 52px !important;
+  padding:
+    9px 12px !important;
+  border-radius:
+    var(--ap-radius-md)
+    !important;
+  font-size: 13px !important;
+  font-weight: 760 !important;
+}
+
+.ap-admin-nav a.is-active {
+  box-shadow:
+    0 14px 30px
+      rgba(243, 154, 70, .18)
+    !important;
+}
+
+.ap-dashboard-hero,
+.ap-portfolio-header,
+.ap-admin-hero {
+  padding:
+    clamp(22px, 2.4vw, 34px)
+    !important;
+  border-radius:
+    var(--ap-radius-xl)
+    !important;
+}
+
+.ap-dashboard-metrics {
+  gap: 10px !important;
+}
+
+.ap-dashboard-metrics > div,
+.ap-stat-card,
+.ap-command-card,
+.ap-recent-row {
+  border-radius:
+    var(--ap-radius-lg)
+    !important;
+}
+
+.ap-command-card {
+  padding:
+    clamp(18px, 2vw, 26px)
+    !important;
+}
+
+.ap-command-card h2 {
+  font-size:
+    clamp(21px, 1.8vw, 28px)
+    !important;
+}
+
+/* SUNUM EKRANLARI */
+.ap-presentation-builder,
+.ap-premium-presentation-hero,
+.ap-presentation-title-panel,
+.ap-presentation-info-panel {
+  border-radius:
+    var(--ap-radius-xl)
+    !important;
+}
+
+.ap-selection-grid {
+  gap:
+    clamp(14px, 1.4vw, 20px)
+    !important;
+}
+
+.ap-selection-card {
+  min-width: 0;
+  overflow: hidden;
+  border-radius:
+    var(--ap-radius-lg)
+    !important;
+  box-shadow:
+    var(--ap-shadow-card)
+    !important;
+}
+
+.ap-selection-card
+> div:last-child {
+  padding:
+    16px !important;
+}
+
+.ap-selection-card
+.ap-kicker {
+  font-size: 10px !important;
+}
+
+.ap-selection-card strong {
+  font-size: 15px !important;
+  line-height: 1.42 !important;
+}
+
+.ap-selection-card small {
+  font-size: 12px !important;
+}
+
+.ap-selection-card b {
+  font-size: 18px !important;
+}
+
+.ap-presentation-card-v2,
+.ap-presentation-listing-card {
+  border-radius:
+    var(--ap-radius-lg)
+    !important;
+  box-shadow:
+    var(--ap-shadow-card)
+    !important;
+}
+
+.ap-presentation-card-body {
+  padding:
+    clamp(17px, 1.8vw, 24px)
+    !important;
+}
+
+.ap-presentation-card-project {
+  font-size: 10px !important;
+}
+
+.ap-presentation-card-body h2 {
+  font-size:
+    clamp(20px, 2vw, 29px)
+    !important;
+  line-height: 1.1 !important;
+}
+
+.ap-presentation-card-facts {
+  gap: 9px !important;
+}
+
+.ap-presentation-card-facts
+> div {
+  min-height: 68px;
+  border-radius:
+    var(--ap-radius-sm)
+    !important;
+}
+
+.ap-presentation-customer {
+  font-size:
+    clamp(28px, 3vw, 42px)
+    !important;
+}
+
+/* YOĞUNLUKLARA GÖRE DENGELİ ÖLÇEK */
+.ap-public-grid-3
+.ap-listing-card h2 {
+  font-size: 18px !important;
+}
+
+.ap-public-grid-3
+.ap-card-price-row strong {
+  font-size: 23px !important;
+}
+
+.ap-public-grid-4
+.ap-listing-card h2 {
+  font-size: 16px !important;
+}
+
+.ap-public-grid-4
+.ap-card-price-row strong {
+  font-size: 20px !important;
+}
+
+.ap-public-grid-6
+.ap-listing-card-body {
+  padding: 12px !important;
+}
+
+.ap-public-grid-6
+.ap-listing-card h2 {
+  min-height: 38px;
+  font-size: 13px !important;
+}
+
+.ap-public-grid-6
+.ap-listing-card-body
+> .ap-muted {
+  font-size: 10px !important;
+}
+
+.ap-public-grid-6
+.ap-pill {
+  min-height: 26px !important;
+  padding:
+    0 8px !important;
+  font-size: 9px !important;
+}
+
+.ap-public-grid-6
+.ap-card-price-row strong {
+  font-size: 17px !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1500px) {
+  .ap-compact-listing-grid.density-6,
+  .ap-public-grid-6 {
+    grid-template-columns:
+      repeat(
+        5,
+        minmax(0, 1fr)
+      ) !important;
+  }
+}
+
+@media (max-width: 1240px) {
+  .ap-compact-listing-grid.density-4,
+  .ap-compact-listing-grid.density-6,
+  .ap-public-grid-4,
+  .ap-public-grid-6 {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      ) !important;
+  }
+
+  .ap-detail-grid {
+    grid-template-columns:
+      minmax(0, 1.25fr)
+      minmax(320px, 1fr)
+      !important;
+  }
+}
+
+@media (max-width: 940px) {
+  .ap-compact-listing-grid.density-3,
+  .ap-compact-listing-grid.density-4,
+  .ap-compact-listing-grid.density-6,
+  .ap-public-grid-3,
+  .ap-public-grid-4,
+  .ap-public-grid-6 {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      ) !important;
+  }
+
+  .ap-detail-grid {
+    grid-template-columns:
+      1fr !important;
+  }
+
+  .ap-detail-panel {
+    position: static !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .ap-shell {
+    width:
+      min(
+        100% - 22px,
+        680px
+      ) !important;
+  }
+
+  .ap-home-copy h1 {
+    font-size:
+      clamp(36px, 11vw, 50px)
+      !important;
+  }
+
+  .ap-admin-hero h1,
+  .ap-dashboard-hero h1,
+  .ap-portfolio-header h1,
+  .ap-presentation-builder-hero h1 {
+    font-size:
+      clamp(30px, 9vw, 40px)
+      !important;
+  }
+
+  .ap-form-card,
+  .ap-premium-info-card {
+    padding:
+      19px !important;
+  }
+
+  .ap-compact-card-body,
+  .ap-listing-card-body {
+    padding:
+      15px !important;
+  }
+
+  .ap-compact-card-top h2,
+  .ap-listing-card h2 {
+    font-size: 15px !important;
+  }
+
+  .ap-compact-card-top
+  > strong,
+  .ap-card-price-row strong {
+    font-size: 20px !important;
+  }
+
+  .ap-detail-panel {
+    padding:
+      21px 19px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-detail-title,
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-detail-title-balanced {
+    font-size:
+      clamp(28px, 8.8vw, 35px)
+      !important;
+  }
+
+  .ap-presentation-card-body h2 {
+    font-size: 21px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .ap-compact-listing-grid.density-3,
+  .ap-compact-listing-grid.density-4,
+  .ap-compact-listing-grid.density-6,
+  .ap-public-grid-3,
+  .ap-public-grid-4,
+  .ap-public-grid-6 {
+    grid-template-columns:
+      1fr !important;
+  }
+
+  .ap-premium-feature-grid {
+    grid-template-columns:
+      1fr !important;
+  }
+
+  .ap-compact-facts {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      ) !important;
+  }
+}
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .ap-compact-card,
+  .ap-listing-card,
+  .ap-command-card,
+  .ap-selection-card,
+  .ap-presentation-card-v2 {
+    transition-duration:
+      1ms !important;
+  }
+}

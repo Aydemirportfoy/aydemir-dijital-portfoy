@@ -1,0 +1,458 @@
+/* AYDEMIR V2 APPLE DETAIL SIZE AND COMMISSION BADGE */
+
+/* MASAÜSTÜ: KÜÇÜK DEĞİL, EKRANA YAYILMIŞ DA DEĞİL */
+@media (min-width: 1200px) {
+  .ap-detail-page {
+    width:
+      min(
+        1480px,
+        82vw
+      ) !important;
+    margin-inline:
+      auto !important;
+  }
+
+  .ap-detail-grid {
+    grid-template-columns:
+      minmax(0, 1.5fr)
+      minmax(360px, .94fr)
+      !important;
+    align-items:
+      start !important;
+    gap:
+      24px !important;
+  }
+
+  .ap-media-column,
+  .ap-detail-panel {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+    align-self:
+      start !important;
+  }
+
+  .ap-media-column
+  > .ap-gallery {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+    display:
+      block !important;
+    padding:
+      11px !important;
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--orange) 18%,
+        var(--line)
+      ) !important;
+    border-radius:
+      26px !important;
+    background:
+      radial-gradient(
+        circle at 8% 0%,
+        rgba(243, 154, 70, .11),
+        transparent 28%
+      ),
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, .105),
+        rgba(255, 255, 255, .024)
+      ),
+      var(--surface)
+      !important;
+    box-shadow:
+      0 26px 72px
+        rgba(0, 0, 0, .16),
+      0 10px 30px
+        rgba(243, 154, 70, .07),
+      inset 0 1px 0
+        rgba(255, 255, 255, .14)
+      !important;
+    backdrop-filter:
+      blur(26px)
+      saturate(138%)
+      !important;
+    -webkit-backdrop-filter:
+      blur(26px)
+      saturate(138%)
+      !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-main,
+  .ap-media-column
+  .ap-detail-gallery-viewport {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+    aspect-ratio:
+      1.5 / 1 !important;
+    overflow:
+      hidden !important;
+    border-radius:
+      20px !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-thumbs {
+    min-height:
+      66px !important;
+    margin-top:
+      9px !important;
+  }
+
+  .ap-detail-panel {
+    padding:
+      22px !important;
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--orange) 18%,
+        var(--line)
+      ) !important;
+    border-radius:
+      26px !important;
+    background:
+      radial-gradient(
+        circle at 92% 0%,
+        rgba(243, 154, 70, .11),
+        transparent 28%
+      ),
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, .105),
+        rgba(255, 255, 255, .024)
+      ),
+      var(--surface)
+      !important;
+    box-shadow:
+      0 26px 72px
+        rgba(0, 0, 0, .16),
+      0 10px 30px
+        rgba(243, 154, 70, .07),
+      inset 0 1px 0
+        rgba(255, 255, 255, .14)
+      !important;
+    backdrop-filter:
+      blur(26px)
+      saturate(138%)
+      !important;
+    -webkit-backdrop-filter:
+      blur(26px)
+      saturate(138%)
+      !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-detail-title,
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-detail-title-balanced {
+    font-size:
+      clamp(30px, 2.2vw, 39px)
+      !important;
+    line-height:
+      1.05 !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-facts {
+    gap:
+      10px !important;
+    margin-top:
+      16px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-fact {
+    min-height:
+      84px !important;
+    padding:
+      15px 16px !important;
+    border-radius:
+      16px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-fact small {
+    font-size:
+      10px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-fact strong {
+    font-size:
+      18px !important;
+  }
+
+  .ap-detail-location-box,
+  .ap-short-summary-card {
+    margin-top:
+      12px !important;
+    padding:
+      14px 15px !important;
+    border-radius:
+      15px !important;
+  }
+
+  .ap-main-sales-badges {
+    gap:
+      7px !important;
+    margin-top:
+      13px !important;
+  }
+
+  .ap-main-sales-badges span {
+    min-height:
+      38px !important;
+    padding:
+      0 8px !important;
+    font-size:
+      9px !important;
+  }
+
+  .ap-detail-price-card {
+    margin-top:
+      13px !important;
+    padding:
+      15px 16px !important;
+    border-radius:
+      16px !important;
+  }
+}
+
+/* FOTOĞRAF ÜSTÜNDE SADECE KOMİSYONSUZ */
+.ap-media-column
+> .ap-detail-commission-badge {
+  position:
+    absolute !important;
+  z-index:
+    40 !important;
+  left:
+    24px !important;
+  bottom:
+    86px !important;
+  top:
+    auto !important;
+  right:
+    auto !important;
+
+  width:
+    max-content !important;
+  max-width:
+    calc(100% - 48px)
+    !important;
+
+  height:
+    36px !important;
+  min-height:
+    36px !important;
+  max-height:
+    36px !important;
+
+  display:
+    inline-flex !important;
+  align-items:
+    center !important;
+  justify-content:
+    center !important;
+
+  padding:
+    0 14px !important;
+  overflow:
+    hidden !important;
+
+  border:
+    1px solid
+    rgba(255, 205, 151, .68)
+    !important;
+  border-radius:
+    999px !important;
+
+  color:
+    #2b1c11 !important;
+  background:
+    linear-gradient(
+      155deg,
+      rgba(255, 238, 214, .92),
+      rgba(255, 190, 117, .86) 48%,
+      rgba(236, 139, 54, .80)
+    )
+    !important;
+
+  box-shadow:
+    0 14px 30px
+      rgba(0, 0, 0, .20),
+    0 7px 20px
+      rgba(243, 154, 70, .24),
+    inset 0 1px 0
+      rgba(255, 255, 255, .78),
+    inset 0 -1px 0
+      rgba(139, 72, 20, .15)
+    !important;
+
+  backdrop-filter:
+    blur(16px)
+    saturate(148%)
+    !important;
+  -webkit-backdrop-filter:
+    blur(16px)
+    saturate(148%)
+    !important;
+
+  font-size:
+    9px !important;
+  font-weight:
+    900 !important;
+  line-height:
+    1 !important;
+  white-space:
+    nowrap !important;
+
+  pointer-events:
+    none !important;
+}
+
+/* TABLET */
+@media (min-width: 901px) and (max-width: 1199px) {
+  .ap-detail-page {
+    width:
+      min(
+        1120px,
+        calc(100% - 28px)
+      ) !important;
+  }
+
+  .ap-detail-grid {
+    grid-template-columns:
+      minmax(0, 1.34fr)
+      minmax(330px, 1fr)
+      !important;
+    gap:
+      18px !important;
+    align-items:
+      start !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-main,
+  .ap-media-column
+  .ap-detail-gallery-viewport {
+    aspect-ratio:
+      1.42 / 1 !important;
+  }
+}
+
+/* MOBİL: DOĞAL, SADE VE KOLAY */
+@media (max-width: 900px) {
+  .ap-detail-page {
+    width:
+      min(
+        100% - 20px,
+        720px
+      ) !important;
+    margin-inline:
+      auto !important;
+  }
+
+  .ap-detail-grid {
+    grid-template-columns:
+      1fr !important;
+    gap:
+      14px !important;
+    align-items:
+      start !important;
+  }
+
+  .ap-media-column,
+  .ap-detail-panel {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+  }
+
+  .ap-media-column
+  > .ap-gallery {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+    display:
+      block !important;
+    padding:
+      8px !important;
+    border-radius:
+      22px !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-main,
+  .ap-media-column
+  .ap-detail-gallery-viewport {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+    aspect-ratio:
+      4 / 3 !important;
+    border-radius:
+      17px !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-thumbs {
+    margin-top:
+      8px !important;
+  }
+
+  .ap-detail-panel {
+    padding:
+      18px !important;
+    border-radius:
+      22px !important;
+  }
+
+  .ap-media-column
+  > .ap-detail-commission-badge {
+    left:
+      16px !important;
+    bottom:
+      72px !important;
+
+    max-width:
+      calc(100% - 32px)
+      !important;
+
+    height:
+      33px !important;
+    min-height:
+      33px !important;
+    max-height:
+      33px !important;
+
+    padding:
+      0 11px !important;
+
+    font-size:
+      8.5px !important;
+  }
+}

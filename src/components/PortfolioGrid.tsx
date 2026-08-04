@@ -12,7 +12,7 @@ export default function PortfolioGrid({
   listings: Listing[];
 }) {
   const [density, setDensity] =
-    useState<Density>(6);
+    useState<Density>(4);
 
   const [isMobile, setIsMobile] =
     useState(false);

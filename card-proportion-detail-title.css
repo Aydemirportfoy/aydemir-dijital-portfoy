@@ -1,0 +1,107 @@
+/* AYDEMIR V2 CARD PROPORTION AND DETAIL TITLE */
+
+.ap-clickable-listing-card
+.ap-compact-card-top
+> strong {
+  font-size: 19px !important;
+  line-height: 1.08 !important;
+  letter-spacing: -.028em !important;
+}
+
+.ap-clickable-listing-card
+.ap-compact-meta {
+  gap: 7px !important;
+}
+
+.ap-clickable-listing-card
+.ap-compact-meta span,
+.ap-clickable-listing-card
+.ap-card-feature-strip span {
+  min-height: 30px !important;
+  padding: 0 11px !important;
+  font-size: 10px !important;
+  font-weight: 760 !important;
+  line-height: 1 !important;
+}
+
+.ap-clickable-listing-card
+.ap-card-feature-strip {
+  gap: 7px !important;
+  margin-top: 9px !important;
+}
+
+.ap-clickable-listing-card
+.ap-clean-status {
+  min-height: 42px !important;
+  padding:
+    5px 7px 5px 11px !important;
+}
+
+.ap-clickable-listing-card
+.ap-clean-status > span {
+  font-size: 9px !important;
+}
+
+.ap-clickable-listing-card
+.ap-clean-status select {
+  min-height: 30px !important;
+  font-size: 10px !important;
+}
+
+html body
+.ap-detail-page
+.ap-detail-grid
+.ap-detail-panel
+.ap-detail-title-balanced {
+  max-width: 100% !important;
+  margin: 0 !important;
+  font-size:
+    clamp(28px, 1.9vw, 36px)
+    !important;
+  font-weight: 760 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -.042em !important;
+  overflow-wrap: anywhere !important;
+}
+
+html body
+.ap-detail-page
+.ap-detail-panel
+.ap-kicker {
+  margin-bottom: 10px !important;
+}
+
+html body
+.ap-detail-page
+.ap-detail-panel
+.ap-detail-location-box {
+  margin-top: 18px !important;
+}
+
+@media (max-width: 760px) {
+  .ap-clickable-listing-card
+  .ap-compact-card-top
+  > strong {
+    font-size: 18px !important;
+  }
+
+  .ap-clickable-listing-card
+  .ap-compact-meta span,
+  .ap-clickable-listing-card
+  .ap-card-feature-strip span {
+    min-height: 29px !important;
+    padding: 0 10px !important;
+    font-size: 9px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-grid
+  .ap-detail-panel
+  .ap-detail-title-balanced {
+    font-size:
+      clamp(27px, 8vw, 33px)
+      !important;
+    line-height: 1.1 !important;
+  }
+}

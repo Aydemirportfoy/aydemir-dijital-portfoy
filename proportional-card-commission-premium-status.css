@@ -1,0 +1,460 @@
+/* AYDEMIR V2 PROPORTIONAL CARD COMMISSION PREMIUM STATUS */
+
+/* KART İÇİ MAHALLE / ODA / M2 VE ÖZELLİKLER */
+.ap-compact-card
+.ap-compact-meta {
+  min-height: 34px !important;
+  gap: 8px !important;
+  margin-top: 15px !important;
+}
+
+.ap-compact-card
+.ap-card-feature-strip {
+  min-height: 34px !important;
+  gap: 8px !important;
+  margin-top: 10px !important;
+}
+
+.ap-compact-card
+.ap-compact-meta span,
+.ap-compact-card
+.ap-card-feature-strip span {
+  min-height: 34px !important;
+  padding: 0 13px !important;
+  font-size: 11px !important;
+  font-weight: 790 !important;
+  line-height: 1 !important;
+  letter-spacing: -.012em !important;
+}
+
+/* 3 / 4 / 6 GÖRÜNÜME GÖRE ORAN */
+.density-3
+.ap-compact-card
+.ap-compact-meta span,
+.density-3
+.ap-compact-card
+.ap-card-feature-strip span {
+  min-height: 36px !important;
+  padding: 0 14px !important;
+  font-size: 11px !important;
+}
+
+.density-4
+.ap-compact-card
+.ap-compact-meta span,
+.density-4
+.ap-compact-card
+.ap-card-feature-strip span {
+  min-height: 31px !important;
+  padding: 0 10px !important;
+  font-size: 9px !important;
+}
+
+.density-6
+.ap-compact-card
+.ap-compact-meta span,
+.density-6
+.ap-compact-card
+.ap-card-feature-strip span {
+  min-height: 27px !important;
+  padding: 0 8px !important;
+  font-size: 8px !important;
+}
+
+/* İLAN DETAYINDA ODA / METREKARE / KAT / MUTFAK */
+.ap-detail-page
+.ap-compact-facts {
+  gap: 12px !important;
+}
+
+.ap-detail-page
+.ap-compact-fact {
+  min-height: 104px !important;
+  padding: 20px 20px !important;
+  border-radius: 20px !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .085),
+      rgba(255, 255, 255, .018)
+    ),
+    var(--surface-soft) !important;
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, .08),
+    inset 0 1px 0 rgba(255, 255, 255, .10) !important;
+}
+
+.ap-detail-page
+.ap-compact-fact small {
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+  letter-spacing: .085em !important;
+}
+
+.ap-detail-page
+.ap-compact-fact strong {
+  margin-top: 10px !important;
+  font-size: 20px !important;
+  font-weight: 870 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -.02em !important;
+}
+
+/* KAPAK FOTOĞRAFINDA KOMİSYONSUZ */
+.ap-compact-card-media
+.ap-admin-commission-badge {
+  position: absolute;
+  z-index: 14;
+  top: 14px;
+  left: 14px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  border:
+    1px solid rgba(255, 199, 139, .60);
+  border-radius: 999px;
+  color: #2d1d12;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 230, 199, .92),
+      rgba(243, 154, 70, .78)
+    );
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, .20),
+    0 8px 22px rgba(243, 154, 70, .24),
+    inset 0 1px 0 rgba(255, 255, 255, .58);
+  backdrop-filter:
+    blur(18px)
+    saturate(148%);
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(148%);
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* PREMIUM ÖZEL DURUM SEÇİCİ */
+.ap-custom-status {
+  position: relative;
+  z-index: 8;
+  min-height: 48px;
+  display: grid;
+  grid-template-columns:
+    auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 5px 6px 5px 13px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .075),
+      rgba(255, 255, 255, .015)
+    ),
+    var(--surface-soft);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .075);
+}
+
+.ap-custom-status
+> span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: .075em;
+  text-transform: uppercase;
+}
+
+.ap-status-menu {
+  position: relative;
+  min-width: 0;
+}
+
+.ap-status-menu[open] {
+  z-index: 110;
+}
+
+.ap-status-menu
+> summary {
+  min-height: 36px;
+  display: grid;
+  grid-template-columns:
+    10px minmax(0, 1fr) 17px;
+  align-items: center;
+  gap: 9px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: var(--text);
+  background:
+    color-mix(
+      in srgb,
+      var(--surface-strong) 94%,
+      transparent
+    );
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.ap-status-menu
+> summary::-webkit-details-marker {
+  display: none;
+}
+
+.ap-status-menu
+> summary::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--orange);
+  box-shadow:
+    0 0 0 4px
+    color-mix(
+      in srgb,
+      var(--orange) 12%,
+      transparent
+    );
+}
+
+.ap-status-menu.status-active
+> summary::before {
+  background: #48aa77;
+  box-shadow:
+    0 0 0 4px
+    rgba(72, 170, 119, .13);
+}
+
+.ap-status-menu.status-draft
+> summary::before {
+  background: #9a958f;
+  box-shadow:
+    0 0 0 4px
+    rgba(154, 149, 143, .13);
+}
+
+.ap-status-menu.status-reserved
+> summary::before {
+  background: var(--orange);
+}
+
+.ap-status-menu.status-sold
+> summary::before {
+  background: #d76258;
+  box-shadow:
+    0 0 0 4px
+    rgba(215, 98, 88, .13);
+}
+
+.ap-status-menu
+> summary svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 170ms ease;
+}
+
+.ap-status-menu[open]
+> summary {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 30%,
+      var(--line)
+    );
+  background:
+    color-mix(
+      in srgb,
+      var(--orange-soft) 42%,
+      var(--surface-strong)
+    );
+}
+
+.ap-status-menu[open]
+> summary svg {
+  transform: rotate(180deg);
+}
+
+.ap-status-menu-popover {
+  position: absolute;
+  z-index: 130;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 9px);
+  display: grid;
+  gap: 5px;
+  padding: 8px;
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 16%,
+      var(--line)
+    );
+  border-radius: 17px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .11),
+      rgba(255, 255, 255, .025)
+    ),
+    color-mix(
+      in srgb,
+      var(--surface-strong) 98%,
+      transparent
+    );
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, .26),
+    inset 0 1px 0 rgba(255, 255, 255, .11);
+  backdrop-filter:
+    blur(24px)
+    saturate(140%);
+  -webkit-backdrop-filter:
+    blur(24px)
+    saturate(140%);
+}
+
+.ap-status-option {
+  width: 100%;
+  min-height: 44px;
+  display: grid;
+  grid-template-columns:
+    10px minmax(0, 1fr) 18px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 760;
+  transition:
+    transform 150ms ease,
+    background 150ms ease;
+}
+
+.ap-status-option:hover {
+  transform: translateX(2px);
+  background:
+    color-mix(
+      in srgb,
+      var(--orange-soft) 48%,
+      transparent
+    );
+}
+
+.ap-status-option
+.ap-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.ap-status-option
+.ap-status-dot.active {
+  background: #48aa77;
+}
+
+.ap-status-option
+.ap-status-dot.draft {
+  background: #9a958f;
+}
+
+.ap-status-option
+.ap-status-dot.reserved {
+  background: var(--orange);
+}
+
+.ap-status-option
+.ap-status-dot.sold {
+  background: #d76258;
+}
+
+.ap-status-option
+b {
+  color: var(--orange);
+  font-size: 13px;
+  text-align: right;
+}
+
+.ap-status-option.is-current {
+  background:
+    color-mix(
+      in srgb,
+      var(--orange-soft) 58%,
+      transparent
+    );
+}
+
+.ap-status-option:disabled {
+  opacity: .46;
+  cursor: wait;
+}
+
+@media (max-width: 760px) {
+  .ap-compact-card
+  .ap-compact-meta span,
+  .ap-compact-card
+  .ap-card-feature-strip span {
+    min-height: 32px !important;
+    padding: 0 11px !important;
+    font-size: 10px !important;
+  }
+
+  .ap-detail-page
+  .ap-compact-fact {
+    min-height: 96px !important;
+    padding: 18px !important;
+  }
+
+  .ap-detail-page
+  .ap-compact-fact small {
+    font-size: 11px !important;
+  }
+
+  .ap-detail-page
+  .ap-compact-fact strong {
+    font-size: 18px !important;
+  }
+
+  .ap-compact-card-media
+  .ap-admin-commission-badge {
+    top: 12px;
+    left: 12px;
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 9px;
+  }
+
+  .ap-custom-status {
+    min-height: 48px;
+  }
+
+  .ap-status-menu
+  > summary {
+    min-height: 38px;
+    font-size: 11px;
+  }
+
+  .ap-status-option {
+    min-height: 48px;
+    font-size: 13px;
+  }
+}

@@ -21,7 +21,7 @@ type SortMode =
   | "price-desc"
   | "title";
 
-type Density = 4 | 6 | 8;
+type Density = 3 | 4 | 6;
 
 const STATUS_OPTIONS: Array<{
   value: "all" | ListingStatus;
@@ -143,9 +143,9 @@ function importantFeatures(
   ];
 
   const limit =
-    density === 4
+    density === 3
       ? 4
-      : density === 6
+      : density === 4
         ? 3
         : 2;
 
@@ -200,9 +200,9 @@ export default function ListingsManager({
       );
 
     if (
+      saved === "3" ||
       saved === "4" ||
-      saved === "6" ||
-      saved === "8"
+      saved === "6"
     ) {
       setDensity(
         Number(saved) as Density,
@@ -522,7 +522,7 @@ export default function ListingsManager({
             <span>Görünüm</span>
 
             {(
-              [4, 6, 8] as Density[]
+              [3, 4, 6] as Density[]
             ).map((value) => (
               <button
                 type="button"
@@ -778,10 +778,58 @@ export default function ListingsManager({
 
             return (
               <article
-                className="ap-compact-card ap-glass"
+                className="ap-compact-card ap-glass ap-clickable-listing-card"
                 key={listing.id}
+                role="link"
+                tabIndex={0}
+                aria-label={`${listing.title} ilanını aç`}
+                onClick={(event) => {
+                  const target =
+                    event.target as HTMLElement;
+
+                  if (
+                    target.closest(
+                      "a, button, select, input, textarea, label, details, summary",
+                    )
+                  ) {
+                    return;
+                  }
+
+                  window.open(
+                    `/ilan/${listing.slug}`,
+                    "_blank",
+                    "noopener,noreferrer",
+                  );
+                }}
+                onKeyDown={(event) => {
+                  if (
+                    event.target !==
+                    event.currentTarget
+                  ) {
+                    return;
+                  }
+
+                  if (
+                    event.key ===
+                      "Enter" ||
+                    event.key === " "
+                  ) {
+                    event.preventDefault();
+
+                    window.open(
+                      `/ilan/${listing.slug}`,
+                      "_blank",
+                      "noopener,noreferrer",
+                    );
+                  }
+                }}
               >
                 <div className="ap-compact-card-media">
+                  {listing.commission_free ? (
+                    <span className="ap-admin-commission-badge">
+                      Komisyonsuz
+                    </span>
+                  ) : null}
                   {listing.cover_image_url ? (
                     <img
                       src={
@@ -983,89 +1031,146 @@ export default function ListingsManager({
                     </details>
                   ) : null}
 
-                  <label className="ap-compact-status">
-                    <span>Durum</span>
+                  <div className="ap-clean-card-footer">
+                    <div className="ap-custom-status">
+                      <span>Durum</span>
 
-                    <select
-                      value={
-                        listing.status
-                      }
-                      disabled={
-                        working ===
-                        listing.id
-                      }
-                      onChange={(event) =>
-                        changeStatus(
-                          listing.id,
-                          event.target
-                            .value as ListingStatus,
-                        )
-                      }
-                    >
-                      <option value="active">
-                        Aktif
-                      </option>
-                      <option value="draft">
-                        Taslak
-                      </option>
-                      <option value="reserved">
-                        Rezerve
-                      </option>
-                      <option value="sold">
-                        Satıldı
-                      </option>
-                    </select>
-                  </label>
-
-                  <div className="ap-compact-actions">
-                    <Link
-                      href={
-                        `/yonetim/` +
-                        `ilan-duzenle/` +
-                        `${listing.id}`
-                      }
-                      className="ap-primary-button small"
-                    >
-                      Düzenle
-                    </Link>
-
-                    <Link
-                      href={
-                        `/ilan/` +
-                        `${listing.slug}`
-                      }
-                      target="_blank"
-                      className="ap-soft-button"
-                    >
-                      Gör
-                    </Link>
-
-                    {mapLink ? (
-                      <a
-                        href={mapLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ap-soft-button"
+                      <details
+                        className={`ap-status-menu status-${listing.status}`}
                       >
-                        Konum
-                      </a>
-                    ) : null}
+                        <summary>
+                          <span>
+                            {listing.status === "active"
+                              ? "Aktif"
+                              : listing.status === "draft"
+                                ? "Taslak"
+                                : listing.status === "reserved"
+                                  ? "Rezerve"
+                                  : "Satıldı"}
+                          </span>
 
-                    <button
-                      type="button"
-                      className="ap-danger-button"
-                      disabled={
-                        working ===
-                        listing.id
-                      }
-                      onClick={() =>
-                        removeListing(
-                          listing,
-                        )
-                      }
-                    >
-                      Sil
-                    </button>
+                          <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path d="m7 10 5 5 5-5" />
+                          </svg>
+                        </summary>
+
+                        <div className="ap-status-menu-popover">
+                          {(
+                            [
+                              ["active", "Aktif"],
+                              ["draft", "Taslak"],
+                              ["reserved", "Rezerve"],
+                              ["sold", "Satıldı"],
+                            ] as Array<
+                              [
+                                ListingStatus,
+                                string,
+                              ]
+                            >
+                          ).map(
+                            ([
+                              value,
+                              label,
+                            ]) => (
+                              <button
+                                type="button"
+                                key={value}
+                                className={`ap-status-option ${
+                                  listing.status ===
+                                  value
+                                    ? "is-current"
+                                    : ""
+                                }`}
+                                disabled={
+                                  working ===
+                                  listing.id
+                                }
+                                onClick={(event) => {
+                                  event.stopPropagation();
+
+                                  const details =
+                                    event.currentTarget.closest(
+                                      "details",
+                                    );
+
+                                  details?.removeAttribute(
+                                    "open",
+                                  );
+
+                                  changeStatus(
+                                    listing.id,
+                                    value,
+                                  );
+                                }}
+                              >
+                                <span
+                                  className={`ap-status-dot ${value}`}
+                                />
+
+                                <span>
+                                  {label}
+                                </span>
+
+                                <b>
+                                  {listing.status ===
+                                  value
+                                    ? "✓"
+                                    : ""}
+                                </b>
+                              </button>
+                            ),
+                          )}
+                        </div>
+                      </details>
+                    </div>
+
+                    <div className="ap-compact-actions ap-clean-card-actions">
+                      <Link
+                        href={
+                          `/yonetim/` +
+                          `ilan-duzenle/` +
+                          `${listing.id}`
+                        }
+                        className="ap-primary-button small"
+                      >
+                        Düzenle
+                      </Link>
+
+                      <button
+                        type="button"
+                        className="ap-card-delete-button"
+                        title="İlanı sil"
+                        aria-label={`${listing.title} ilanını sil`}
+                        disabled={
+                          working ===
+                          listing.id
+                        }
+                        onPointerDown={(event) =>
+                          event.stopPropagation()
+                        }
+                        onClick={(event) => {
+                          event.stopPropagation();
+
+                          removeListing(
+                            listing,
+                          );
+                        }}
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path d="M4 7h16" />
+                          <path d="M9 7V4h6v3" />
+                          <path d="M7 7l1 13h8l1-13" />
+                          <path d="M10 11v5" />
+                          <path d="M14 11v5" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </article>

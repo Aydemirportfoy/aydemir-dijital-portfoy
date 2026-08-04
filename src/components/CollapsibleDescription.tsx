@@ -1,23 +1,32 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import {
+  useMemo,
+  useState,
+} from "react";
 
 export default function CollapsibleDescription({
   text,
 }: {
   text: string;
 }) {
-  const [expanded, setExpanded] =
-    useState(false);
+  const [
+    expanded,
+    setExpanded,
+  ] = useState(false);
 
   const isLong = useMemo(() => {
-    const lineCount =
-      text.split(/\r?\n/).filter(Boolean)
-        .length;
+    const visibleLines =
+      text
+        .split(/\r?\n/)
+        .filter(
+          (line) =>
+            line.trim().length > 0,
+        ).length;
 
     return (
-      text.length > 480 ||
-      lineCount > 8
+      text.length > 380 ||
+      visibleLines > 7
     );
   }, [text]);
 
@@ -29,7 +38,19 @@ export default function CollapsibleDescription({
           : "ap-collapsible-description"
       }
     >
-      <div className="ap-description-content">
+      <div
+        className="ap-description-content"
+        style={{
+          maxHeight:
+            expanded || !isLong
+              ? "none"
+              : "280px",
+          overflow:
+            expanded || !isLong
+              ? "visible"
+              : "hidden",
+        }}
+      >
         {text}
       </div>
 
@@ -37,8 +58,12 @@ export default function CollapsibleDescription({
         <button
           type="button"
           className="ap-description-toggle"
+          aria-expanded={expanded}
           onClick={() =>
-            setExpanded((current) => !current)
+            setExpanded(
+              (current) =>
+                !current,
+            )
           }
         >
           {expanded

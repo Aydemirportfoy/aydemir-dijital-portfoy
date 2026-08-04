@@ -1,0 +1,313 @@
+/* AYDEMIR V2 GOLDEN RATIO ADMIN POLISH */
+
+/* KART HİZASI */
+.ap-compact-listing-grid {
+  align-items: stretch !important;
+}
+
+.ap-clickable-listing-card {
+  height: 100% !important;
+  align-self: stretch !important;
+}
+
+.ap-clickable-listing-card
+.ap-compact-card-body {
+  height: 100% !important;
+}
+
+.ap-clickable-listing-card
+.ap-clean-card-footer {
+  margin-top: auto !important;
+}
+
+.ap-clickable-listing-card
+.ap-private-details {
+  display: none !important;
+}
+
+/* DİĞER MENÜSÜNDE ÖZEL BİLGİLER */
+.ap-card-private-summary {
+  display: grid;
+  gap: 8px;
+  padding: 7px 7px 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.ap-card-private-summary > p {
+  margin: 0;
+  color: var(--orange);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.ap-card-private-summary > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ap-card-private-summary small {
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.ap-card-private-summary strong,
+.ap-card-private-summary a {
+  overflow: hidden;
+  color: var(--text);
+  font-size: 9px;
+  font-weight: 780;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-card-private-summary a:hover {
+  color: var(--orange);
+}
+
+/* İLAN DÜZENLEME BAŞLIĞI */
+.ap-admin-page:has(.ap-editor-layout)
+.ap-admin-hero {
+  min-height: 0 !important;
+  align-items: center !important;
+  padding: clamp(22px, 2.4vw, 30px) !important;
+  border-radius: 26px !important;
+}
+
+.ap-admin-page:has(.ap-editor-layout)
+.ap-admin-hero > div {
+  min-width: 0;
+  max-width: min(760px, 74%);
+}
+
+.ap-admin-page:has(.ap-editor-layout)
+.ap-admin-hero h1 {
+  display: -webkit-box;
+  max-width: 100%;
+  margin-top: 8px !important;
+  overflow: hidden;
+  font-size: clamp(28px, 3.1vw, 44px) !important;
+  font-weight: 800 !important;
+  line-height: 1.06 !important;
+  letter-spacing: -.045em !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.ap-admin-page:has(.ap-editor-layout)
+.ap-admin-hero .ap-muted {
+  max-width: 650px;
+  margin-top: 10px !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
+.ap-admin-page:has(.ap-editor-layout)
+.ap-admin-hero
+.ap-primary-button {
+  flex: 0 0 auto;
+}
+
+/* GÜNDÜZ MODU SOL PANEL */
+html:not([data-theme="dark"])
+.ap-admin-sidebar {
+  width: 240px;
+  padding: 20px;
+  border:
+    1px solid
+    rgba(118, 88, 55, .10);
+  border-radius: 30px;
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(243, 154, 70, .11),
+      transparent 30%
+    ),
+    linear-gradient(
+      158deg,
+      rgba(255, 255, 255, .94),
+      rgba(250, 247, 241, .82)
+    );
+  box-shadow:
+    0 28px 70px
+      rgba(86, 65, 41, .12),
+    inset 0 1px 0
+      rgba(255, 255, 255, .96);
+  backdrop-filter:
+    blur(30px)
+    saturate(125%);
+}
+
+html:not([data-theme="dark"])
+.ap-admin-sidebar::before {
+  content: "";
+  position: absolute;
+  top: 74px;
+  left: 20px;
+  width: 38px;
+  height: 2px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--orange),
+      rgba(243, 154, 70, 0)
+    );
+}
+
+html:not([data-theme="dark"])
+.ap-admin-logo {
+  min-height: 54px;
+  gap: 13px;
+}
+
+html:not([data-theme="dark"])
+.ap-admin-logo > span {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  box-shadow:
+    0 14px 28px
+    rgba(243, 154, 70, .22);
+}
+
+html:not([data-theme="dark"])
+.ap-admin-logo strong {
+  color: #29231e;
+  font-size: 13px;
+  letter-spacing: .11em;
+}
+
+html:not([data-theme="dark"])
+.ap-admin-logo small {
+  color: rgba(41, 35, 30, .52);
+}
+
+html:not([data-theme="dark"])
+.ap-admin-nav {
+  gap: 8px;
+  margin-top: 34px;
+}
+
+html:not([data-theme="dark"])
+.ap-admin-nav a {
+  min-height: 52px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  color: rgba(41, 35, 30, .60);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+html:not([data-theme="dark"])
+.ap-admin-nav a:hover {
+  transform: translateX(2px);
+  color: #29231e;
+  border-color:
+    rgba(118, 88, 55, .08);
+  background:
+    rgba(255, 255, 255, .68);
+}
+
+html:not([data-theme="dark"])
+.ap-admin-nav a.is-active {
+  color: #241d17;
+  border-color:
+    rgba(243, 154, 70, .24);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 193, 120, .92),
+      rgba(243, 154, 70, .92)
+    );
+  box-shadow:
+    0 16px 30px
+      rgba(243, 154, 70, .18),
+    inset 0 1px 0
+      rgba(255, 255, 255, .45);
+}
+
+html:not([data-theme="dark"])
+.ap-admin-nav a > span {
+  width: 32px;
+  height: 32px;
+  border:
+    1px solid
+    rgba(255, 255, 255, .30);
+  border-radius: 11px;
+  background:
+    rgba(255, 255, 255, .34);
+}
+
+html:not([data-theme="dark"])
+.ap-admin-sidebar-bottom {
+  padding-top: 17px;
+  border-top:
+    1px solid
+    rgba(118, 88, 55, .09);
+}
+
+html:not([data-theme="dark"])
+.ap-admin-sidebar-bottom p {
+  color: rgba(41, 35, 30, .52);
+}
+
+html:not([data-theme="dark"])
+.ap-admin-sidebar-bottom
+.ap-soft-button {
+  border:
+    1px solid
+    rgba(118, 88, 55, .08);
+  background:
+    rgba(255, 255, 255, .72);
+  box-shadow:
+    0 10px 24px
+    rgba(86, 65, 41, .07);
+}
+
+/* PANEL İÇERİK HİZASI */
+@media (min-width: 1025px) {
+  .ap-admin-content {
+    padding-left: 274px !important;
+  }
+
+  .ap-admin-page {
+    width: min(1400px, 100%) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .ap-admin-page:has(.ap-editor-layout)
+  .ap-admin-hero {
+    display: block !important;
+    padding: 20px !important;
+    border-radius: 24px !important;
+  }
+
+  .ap-admin-page:has(.ap-editor-layout)
+  .ap-admin-hero > div {
+    max-width: 100%;
+  }
+
+  .ap-admin-page:has(.ap-editor-layout)
+  .ap-admin-hero h1 {
+    font-size: 28px !important;
+    -webkit-line-clamp: 3;
+  }
+
+  .ap-admin-page:has(.ap-editor-layout)
+  .ap-admin-hero
+  .ap-primary-button {
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .ap-card-private-summary {
+    padding-inline: 8px;
+  }
+}

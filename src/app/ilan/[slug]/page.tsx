@@ -124,6 +124,11 @@ export default async function ListingDetailPage({
 
           <div className="ap-detail-grid">
             <div className="ap-media-column">
+              {listing.commission_free ? (
+                <span className="ap-detail-commission-badge">
+                  Komisyonsuz
+                </span>
+              ) : null}
               <ListingGallery
                 images={galleryImages}
                 title={listing.title}
@@ -143,7 +148,7 @@ export default async function ListingDetailPage({
                   "AYDEMİR PORTFÖY"}
               </p>
 
-              <h1 className="ap-detail-title">
+              <h1 className="ap-detail-title ap-detail-title-balanced">
                 {listing.title}
               </h1>
 

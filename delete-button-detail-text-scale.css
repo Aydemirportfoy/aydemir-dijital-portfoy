@@ -1,0 +1,185 @@
+/* AYDEMIR V2 DELETE BUTTON AND DETAIL TEXT SCALE */
+
+/* DÜZENLE + ÇÖP KUTUSU */
+.ap-clean-card-actions {
+  grid-template-columns:
+    minmax(0, 1fr)
+    44px !important;
+  align-items: stretch;
+}
+
+.ap-card-delete-button {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border:
+    1px solid
+    rgba(210, 82, 72, .20);
+  border-radius: 14px;
+  color: #cf6259;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .08),
+      rgba(255, 255, 255, .018)
+    ),
+    color-mix(
+      in srgb,
+      var(--surface-strong) 93%,
+      rgba(210, 82, 72, .07)
+    );
+  box-shadow:
+    0 9px 22px
+      rgba(0, 0, 0, .07),
+    inset 0 1px 0
+      rgba(255, 255, 255, .10);
+  cursor: pointer;
+  transition:
+    transform 170ms ease,
+    color 170ms ease,
+    border-color 170ms ease,
+    background 170ms ease,
+    box-shadow 170ms ease;
+}
+
+.ap-card-delete-button svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+}
+
+.ap-card-delete-button:hover {
+  transform: translateY(-1px);
+  color: #df4e45;
+  border-color:
+    rgba(210, 82, 72, .38);
+  background:
+    color-mix(
+      in srgb,
+      var(--surface-strong) 84%,
+      rgba(210, 82, 72, .16)
+    );
+  box-shadow:
+    0 12px 26px
+      rgba(210, 82, 72, .10),
+    inset 0 1px 0
+      rgba(255, 255, 255, .12);
+}
+
+.ap-card-delete-button:active {
+  transform: scale(.96);
+}
+
+.ap-card-delete-button:focus-visible {
+  outline:
+    2px solid
+    rgba(210, 82, 72, .44);
+  outline-offset: 3px;
+}
+
+.ap-card-delete-button:disabled {
+  opacity: .45;
+  cursor: wait;
+}
+
+/* ODA, METREKARE, KAT, MUTFAK */
+.ap-compact-fact {
+  min-height: 92px !important;
+  padding:
+    16px 17px !important;
+}
+
+.ap-compact-fact small {
+  font-size: 11px !important;
+  font-weight: 860 !important;
+  line-height: 1.15 !important;
+  letter-spacing: .08em !important;
+}
+
+.ap-compact-fact strong {
+  margin-top: 9px !important;
+  font-size: 17px !important;
+  font-weight: 840 !important;
+  line-height: 1.18 !important;
+  letter-spacing: -.015em !important;
+}
+
+/* MAHALLE, İLÇE, ŞEHİR */
+.ap-location-stack {
+  gap: 10px !important;
+}
+
+.ap-location-stack > div {
+  min-height: 56px !important;
+  padding:
+    0 16px !important;
+  border-radius: 15px !important;
+}
+
+.ap-location-stack span {
+  font-size: 12px !important;
+  font-weight: 690 !important;
+  line-height: 1.2 !important;
+}
+
+.ap-location-stack strong {
+  font-size: 15px !important;
+  font-weight: 830 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.01em !important;
+}
+
+@media (max-width: 760px) {
+  .ap-clean-card-actions {
+    grid-template-columns:
+      minmax(0, 1fr)
+      46px !important;
+  }
+
+  .ap-card-delete-button {
+    width: 46px;
+    min-width: 46px;
+    height: 46px;
+    min-height: 46px;
+    border-radius: 14px;
+  }
+
+  .ap-card-delete-button svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .ap-compact-fact {
+    min-height: 86px !important;
+    padding:
+      15px 16px !important;
+  }
+
+  .ap-compact-fact small {
+    font-size: 10px !important;
+  }
+
+  .ap-compact-fact strong {
+    font-size: 16px !important;
+  }
+
+  .ap-location-stack > div {
+    min-height: 53px !important;
+    padding:
+      0 14px !important;
+  }
+
+  .ap-location-stack span {
+    font-size: 11px !important;
+  }
+
+  .ap-location-stack strong {
+    font-size: 14px !important;
+  }
+}

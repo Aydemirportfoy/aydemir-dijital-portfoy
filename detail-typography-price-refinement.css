@@ -1,0 +1,360 @@
+/* AYDEMIR V2 DETAIL TYPOGRAPHY AND PRICE REFINEMENT */
+
+/* YÖNETİM İLAN KARTI FİYATI */
+.ap-clickable-listing-card
+.ap-compact-card-top
+> strong,
+.ap-compact-card-top
+> strong {
+  display: block !important;
+  margin-top: 12px !important;
+  padding-top: 12px !important;
+  border-top:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 20%,
+      var(--line)
+    ) !important;
+  color:
+    color-mix(
+      in srgb,
+      var(--orange) 90%,
+      var(--text)
+    ) !important;
+  font-size:
+    clamp(20px, 1.45vw, 22px)
+    !important;
+  font-weight: 880 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -.035em !important;
+  font-variant-numeric:
+    tabular-nums;
+  text-shadow:
+    0 8px 24px
+    rgba(243, 154, 70, .12);
+}
+
+/* ANA DETAY KARTINDA SATIŞ ROZETLERİ */
+.ap-main-sales-badges {
+  gap: 8px !important;
+  margin-top: 15px !important;
+}
+
+.ap-main-sales-badges span {
+  min-height: 35px !important;
+  padding: 0 13px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 850 !important;
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, .10),
+    0 8px 20px
+      rgba(0, 0, 0, .06);
+}
+
+/* DETAY BİLGİ KARTLARI */
+.ap-premium-info-card {
+  padding: 24px !important;
+  border-radius: 25px !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .075),
+      rgba(255, 255, 255, .018)
+    ),
+    var(--surface) !important;
+  box-shadow:
+    0 20px 48px
+      rgba(0, 0, 0, .11),
+    inset 0 1px 0
+      rgba(255, 255, 255, .09)
+    !important;
+}
+
+.ap-premium-info-card
+.ap-kicker {
+  font-size: 9px !important;
+  letter-spacing: .12em !important;
+}
+
+.ap-premium-info-card h2 {
+  margin-top: 8px !important;
+  font-size: 26px !important;
+  font-weight: 820 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -.04em !important;
+}
+
+/* ÖZELLİKLER */
+.ap-premium-feature-grid {
+  gap: 9px !important;
+  margin-top: 17px !important;
+}
+
+.ap-premium-feature {
+  min-height: 47px !important;
+  gap: 10px !important;
+  padding: 10px 12px !important;
+  border-radius: 14px !important;
+  font-size: 12px !important;
+  font-weight: 760 !important;
+  line-height: 1.25 !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .055),
+      rgba(255, 255, 255, .012)
+    ),
+    var(--surface-soft) !important;
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, .07);
+}
+
+.ap-premium-feature span {
+  width: 25px !important;
+  height: 25px !important;
+  flex: 0 0 25px !important;
+  font-size: 11px !important;
+  box-shadow:
+    0 7px 16px
+      rgba(243, 154, 70, .18);
+}
+
+/* KONUM KARTI */
+.ap-location-stack {
+  gap: 9px !important;
+  margin-top: 17px !important;
+}
+
+.ap-location-stack > div {
+  min-height: 49px !important;
+  padding: 0 14px !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .055),
+      rgba(255, 255, 255, .012)
+    ),
+    var(--surface-soft) !important;
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, .065);
+}
+
+.ap-location-stack span {
+  font-size: 11px !important;
+  font-weight: 650 !important;
+}
+
+.ap-location-stack strong {
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+
+.ap-public-location-note {
+  margin-top: 15px !important;
+  font-size: 11px !important;
+  line-height: 1.62 !important;
+}
+
+.ap-public-map-button {
+  min-height: 49px !important;
+  margin-top: 14px !important;
+  padding: 0 16px !important;
+  border-radius: 15px !important;
+  font-size: 11px !important;
+  box-shadow:
+    0 14px 32px
+      rgba(243, 154, 70, .20)
+    !important;
+}
+
+.ap-public-map-button span {
+  width: 29px !important;
+  height: 29px !important;
+  font-size: 13px !important;
+}
+
+/* ODA, METREKARE, KAT, MUTFAK */
+.ap-compact-facts {
+  gap: 10px !important;
+  padding: 12px !important;
+}
+
+.ap-compact-fact {
+  min-height: 86px !important;
+  display: grid !important;
+  align-content: center !important;
+  padding: 15px 16px !important;
+  border-radius: 16px !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .065),
+      rgba(255, 255, 255, .014)
+    ),
+    var(--surface-soft) !important;
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, .07),
+    0 10px 24px
+      rgba(0, 0, 0, .045);
+}
+
+.ap-compact-fact small {
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  letter-spacing: .085em !important;
+}
+
+.ap-compact-fact strong {
+  margin-top: 7px !important;
+  font-size: 15px !important;
+  font-weight: 820 !important;
+  line-height: 1.2 !important;
+}
+
+/* KONUM VE KISA BİLGİ */
+.ap-detail-location-box {
+  gap: 7px !important;
+  margin-top: 16px !important;
+  padding: 17px 18px !important;
+  border-radius: 17px !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .065),
+      rgba(255, 255, 255, .014)
+    ),
+    var(--surface-soft) !important;
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, .075),
+    0 11px 28px
+      rgba(0, 0, 0, .05);
+}
+
+.ap-detail-location-box span {
+  font-size: 10px !important;
+  font-weight: 860 !important;
+}
+
+.ap-detail-location-box strong {
+  font-size: 15px !important;
+  font-weight: 820 !important;
+  line-height: 1.42 !important;
+}
+
+.ap-short-summary-card {
+  margin-top: 16px !important;
+  padding: 17px 18px !important;
+  border-radius: 17px !important;
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, .075),
+    0 11px 28px
+      rgba(0, 0, 0, .05);
+}
+
+.ap-short-summary-card > span {
+  margin-bottom: 8px !important;
+  font-size: 9px !important;
+  font-weight: 900 !important;
+}
+
+.ap-short-summary-card p {
+  font-size: 14px !important;
+  font-weight: 560 !important;
+  line-height: 1.62 !important;
+}
+
+@media (max-width: 760px) {
+  .ap-clickable-listing-card
+  .ap-compact-card-top
+  > strong,
+  .ap-compact-card-top
+  > strong {
+    font-size: 20px !important;
+  }
+
+  .ap-main-sales-badges {
+    gap: 7px !important;
+  }
+
+  .ap-main-sales-badges span {
+    min-height: 33px !important;
+    padding: 0 11px !important;
+    font-size: 10px !important;
+  }
+
+  .ap-premium-info-card {
+    padding: 20px !important;
+    border-radius: 22px !important;
+  }
+
+  .ap-premium-info-card h2 {
+    font-size: 23px !important;
+  }
+
+  .ap-premium-feature {
+    min-height: 45px !important;
+    padding: 9px 10px !important;
+    font-size: 11px !important;
+  }
+
+  .ap-location-stack > div {
+    min-height: 47px !important;
+    padding: 0 12px !important;
+  }
+
+  .ap-location-stack span {
+    font-size: 10px !important;
+  }
+
+  .ap-location-stack strong {
+    font-size: 12px !important;
+  }
+
+  .ap-public-location-note {
+    font-size: 10px !important;
+  }
+
+  .ap-public-map-button {
+    min-height: 47px !important;
+    font-size: 10px !important;
+  }
+
+  .ap-compact-facts {
+    gap: 8px !important;
+  }
+
+  .ap-compact-fact {
+    min-height: 80px !important;
+    padding: 13px 14px !important;
+  }
+
+  .ap-compact-fact small {
+    font-size: 9px !important;
+  }
+
+  .ap-compact-fact strong {
+    font-size: 14px !important;
+  }
+
+  .ap-detail-location-box,
+  .ap-short-summary-card {
+    padding: 15px 16px !important;
+  }
+
+  .ap-detail-location-box strong {
+    font-size: 14px !important;
+  }
+
+  .ap-short-summary-card p {
+    font-size: 13px !important;
+  }
+}

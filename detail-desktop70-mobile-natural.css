@@ -1,0 +1,330 @@
+/* AYDEMIR V2 DETAIL DESKTOP 70 MOBILE NATURAL */
+
+/* MASAÜSTÜNDE SAYFAYI EKRANIN TAMAMINA YAYMA */
+@media (min-width: 1200px) {
+  .ap-detail-page {
+    width:
+      min(
+        1180px,
+        72vw
+      ) !important;
+    margin-inline:
+      auto !important;
+  }
+
+  .ap-detail-grid {
+    grid-template-columns:
+      minmax(0, 1.42fr)
+      minmax(330px, .88fr)
+      !important;
+    gap:
+      22px !important;
+    align-items:
+      start !important;
+  }
+
+  .ap-media-column,
+  .ap-detail-panel {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+    align-self:
+      start !important;
+  }
+
+  .ap-media-column
+  > .ap-gallery {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+    display:
+      block !important;
+    padding:
+      10px !important;
+    border-radius:
+      24px !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-main,
+  .ap-media-column
+  .ap-detail-gallery-viewport {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+    aspect-ratio:
+      1.52 / 1 !important;
+    border-radius:
+      18px !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-thumbs {
+    min-height:
+      64px !important;
+    margin-top:
+      9px !important;
+  }
+
+  .ap-detail-panel {
+    padding:
+      20px !important;
+    border-radius:
+      24px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-detail-title,
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-detail-title-balanced {
+    font-size:
+      clamp(27px, 2vw, 34px)
+      !important;
+    line-height:
+      1.06 !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-facts {
+    gap:
+      9px !important;
+    margin-top:
+      14px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-fact {
+    min-height:
+      76px !important;
+    padding:
+      13px 14px !important;
+    border-radius:
+      15px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-fact small {
+    font-size:
+      9px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-title-fact strong {
+    font-size:
+      16px !important;
+  }
+
+  .ap-detail-location-box,
+  .ap-short-summary-card {
+    margin-top:
+      10px !important;
+    padding:
+      12px 13px !important;
+    border-radius:
+      14px !important;
+  }
+
+  .ap-main-sales-badges {
+    gap:
+      6px !important;
+    margin-top:
+      11px !important;
+  }
+
+  .ap-main-sales-badges span {
+    min-height:
+      34px !important;
+    padding:
+      0 7px !important;
+    font-size:
+      8px !important;
+  }
+
+  .ap-detail-price-card {
+    margin-top:
+      11px !important;
+    padding:
+      14px 15px !important;
+    border-radius:
+      15px !important;
+  }
+
+  .ap-detail-price-card strong {
+    font-size:
+      clamp(24px, 1.8vw, 30px)
+      !important;
+  }
+
+  .ap-detail-panel
+  .ap-detail-actions {
+    margin-top:
+      10px !important;
+  }
+
+  .ap-media-column
+  > .ap-detail-commission-badge {
+    left:
+      22px !important;
+    bottom:
+      82px !important;
+    height:
+      34px !important;
+    min-height:
+      34px !important;
+    max-height:
+      34px !important;
+    padding:
+      0 12px !important;
+    font-size:
+      8.5px !important;
+  }
+}
+
+/* ORTA EKRANLARDA FERAH AMA ABARTISIZ */
+@media (min-width: 901px) and (max-width: 1199px) {
+  .ap-detail-page {
+    width:
+      min(
+        1060px,
+        calc(100% - 28px)
+      ) !important;
+  }
+
+  .ap-detail-grid {
+    grid-template-columns:
+      minmax(0, 1.34fr)
+      minmax(320px, 1fr)
+      !important;
+    gap:
+      18px !important;
+    align-items:
+      start !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-main,
+  .ap-media-column
+  .ap-detail-gallery-viewport {
+    aspect-ratio:
+      1.42 / 1 !important;
+  }
+}
+
+/* TELEFONDA EN DOĞAL VE KOLAY KULLANIM */
+@media (max-width: 900px) {
+  .ap-detail-page {
+    width:
+      min(
+        100% - 20px,
+        720px
+      ) !important;
+    margin-inline:
+      auto !important;
+  }
+
+  .ap-detail-grid {
+    grid-template-columns:
+      1fr !important;
+    gap:
+      14px !important;
+    align-items:
+      start !important;
+  }
+
+  .ap-media-column,
+  .ap-detail-panel {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+  }
+
+  .ap-media-column
+  > .ap-gallery {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+    display:
+      block !important;
+    padding:
+      8px !important;
+    border-radius:
+      22px !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-main,
+  .ap-media-column
+  .ap-detail-gallery-viewport {
+    height:
+      auto !important;
+    min-height:
+      0 !important;
+    aspect-ratio:
+      4 / 3 !important;
+    border-radius:
+      17px !important;
+  }
+
+  .ap-media-column
+  .ap-gallery-thumbs {
+    min-height:
+      60px !important;
+    margin-top:
+      8px !important;
+  }
+
+  .ap-detail-panel {
+    padding:
+      18px !important;
+    border-radius:
+      22px !important;
+  }
+
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-detail-title,
+  html body
+  .ap-detail-page
+  .ap-detail-panel
+  .ap-detail-title-balanced {
+    font-size:
+      clamp(26px, 8vw, 33px)
+      !important;
+  }
+
+  .ap-media-column
+  > .ap-detail-commission-badge {
+    left:
+      16px !important;
+    bottom:
+      74px !important;
+    height:
+      33px !important;
+    min-height:
+      33px !important;
+    max-height:
+      33px !important;
+    padding:
+      0 11px !important;
+    font-size:
+      8.5px !important;
+  }
+}

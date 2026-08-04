@@ -1,0 +1,166 @@
+/* AYDEMIR V2 DETAIL ALIGNMENT AND INFO READABILITY */
+
+/* FOTOĞRAF ALANI VE SAĞ BİLGİ PANELİ AYNI HİZADA BİTSİN */
+@media (min-width: 901px) {
+  .ap-detail-grid {
+    align-items: stretch !important;
+  }
+
+  .ap-media-column,
+  .ap-detail-panel {
+    height: 100% !important;
+    min-height: 100% !important;
+  }
+
+  .ap-media-column {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .ap-media-column > :first-child {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    flex: 1 1 auto !important;
+  }
+
+  .ap-media-column > :first-child[class*="gallery"],
+  .ap-media-column > :first-child[class*="media"],
+  .ap-media-column > :first-child[class*="photo"],
+  .ap-media-column .ap-detail-gallery,
+  .ap-media-column .ap-premium-gallery,
+  .ap-media-column .ap-gallery-shell {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .ap-media-column [class*="gallery-stage"],
+  .ap-media-column [class*="gallery-main"],
+  .ap-media-column [class*="media-stage"],
+  .ap-media-column [class*="main-photo"],
+  .ap-media-column .ap-detail-gallery-stage {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+  }
+
+  .ap-media-column [class*="gallery-stage"] img,
+  .ap-media-column [class*="gallery-main"] img,
+  .ap-media-column [class*="media-stage"] img,
+  .ap-media-column [class*="main-photo"] img,
+  .ap-media-column .ap-detail-gallery-stage img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+/* ODA / METREKARE / KAT / MUTFAK DAHA BÜYÜK VE OKUNAKLI */
+.ap-detail-page
+.ap-compact-facts {
+  gap: 13px !important;
+}
+
+.ap-detail-page
+.ap-compact-fact {
+  min-height: 116px !important;
+  display: grid !important;
+  align-content: center !important;
+  gap: 11px !important;
+  padding: 23px 22px !important;
+  border-radius: 21px !important;
+}
+
+.ap-detail-page
+.ap-compact-fact small {
+  color: var(--muted) !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+  letter-spacing: .085em !important;
+  text-transform: uppercase !important;
+}
+
+.ap-detail-page
+.ap-compact-fact strong {
+  margin: 0 !important;
+  color: var(--text) !important;
+  font-size: 22px !important;
+  font-weight: 880 !important;
+  line-height: 1.14 !important;
+  letter-spacing: -.025em !important;
+}
+
+/* KREDİ / TAKAS / KOMİSYONSUZ TEK SATIRDA DENGELİ */
+.ap-main-sales-badges {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns:
+    .9fr
+    .9fr
+    1.35fr
+    !important;
+  gap: 10px !important;
+  margin-top: 18px !important;
+}
+
+.ap-main-sales-badges span {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 45px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center !important;
+  padding: 0 10px !important;
+  border-radius: 15px !important;
+  font-size:
+    clamp(9px, .7vw, 11px)
+    !important;
+  font-weight: 880 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  letter-spacing: -.012em !important;
+  box-shadow:
+    0 12px 28px
+      rgba(243, 154, 70, .11),
+    inset 0 1px 0
+      rgba(255, 255, 255, .11)
+    !important;
+}
+
+/* MOBİLDE DE SATIR BOZULMASIN */
+@media (max-width: 760px) {
+  .ap-detail-page
+  .ap-compact-fact {
+    min-height: 106px !important;
+    padding: 20px 18px !important;
+  }
+
+  .ap-detail-page
+  .ap-compact-fact small {
+    font-size: 12px !important;
+  }
+
+  .ap-detail-page
+  .ap-compact-fact strong {
+    font-size: 20px !important;
+  }
+
+  .ap-main-sales-badges {
+    grid-template-columns:
+      .86fr
+      .86fr
+      1.45fr
+      !important;
+    gap: 7px !important;
+  }
+
+  .ap-main-sales-badges span {
+    min-height: 42px !important;
+    padding: 0 7px !important;
+    font-size: 8.5px !important;
+    white-space: nowrap !important;
+  }
+}

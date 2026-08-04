@@ -1,0 +1,185 @@
+/* AYDEMIR V2 FEATURE COUNT AND DETAIL READABILITY */
+
+/* 3'LÜ GÖRÜNÜMDE TEK BAŞINA ALT SATIRA DÜŞEN 4. ÖZELLİĞİ GİZLE */
+.density-3
+.ap-compact-card
+.ap-card-feature-strip
+span:nth-child(n + 4) {
+  display: none !important;
+}
+
+/* 3'LÜ GÖRÜNÜMDE ÖZELLİKLERİ EŞİT VE DENGELİ YERLEŞTİR */
+.density-3
+.ap-compact-card
+.ap-card-feature-strip {
+  display: grid !important;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr))
+    !important;
+  gap: 9px !important;
+  min-height: 38px !important;
+}
+
+.density-3
+.ap-compact-card
+.ap-card-feature-strip span {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 38px !important;
+  justify-content: center !important;
+  padding: 0 10px !important;
+  overflow: hidden;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 4'LÜ GÖRÜNÜMDE DE DAĞINIKLIK OLMASIN */
+.density-4
+.ap-compact-card
+.ap-card-feature-strip {
+  display: grid !important;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr))
+    !important;
+  gap: 7px !important;
+}
+
+.density-4
+.ap-compact-card
+.ap-card-feature-strip
+span:nth-child(n + 4) {
+  display: none !important;
+}
+
+.density-4
+.ap-compact-card
+.ap-card-feature-strip span {
+  width: 100% !important;
+  min-width: 0 !important;
+  justify-content: center !important;
+  padding: 0 8px !important;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* İLAN DETAYINDA ODA / METREKARE / KAT / MUTFAK */
+.ap-detail-page
+.ap-compact-facts {
+  gap: 13px !important;
+}
+
+.ap-detail-page
+.ap-compact-fact {
+  min-height: 112px !important;
+  padding: 22px 22px !important;
+  border-radius: 21px !important;
+}
+
+.ap-detail-page
+.ap-compact-fact small {
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+  letter-spacing: .08em !important;
+}
+
+.ap-detail-page
+.ap-compact-fact strong {
+  margin-top: 11px !important;
+  font-size: 22px !important;
+  font-weight: 880 !important;
+  line-height: 1.14 !important;
+  letter-spacing: -.025em !important;
+}
+
+/* KREDİ / TAKAS / KOMİSYONSUZ: SATIR SONUNA KADAR EŞİT GENİŞLİK */
+.ap-main-sales-badges {
+  display: grid !important;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr))
+    !important;
+  gap: 10px !important;
+  width: 100% !important;
+  margin-top: 17px !important;
+}
+
+.ap-main-sales-badges span {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 44px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center !important;
+  padding: 0 12px !important;
+  border-radius: 15px !important;
+  font-size: 12px !important;
+  font-weight: 880 !important;
+  line-height: 1.2 !important;
+  text-align: center;
+  white-space: normal !important;
+  box-shadow:
+    0 12px 28px rgba(243, 154, 70, .12),
+    inset 0 1px 0 rgba(255, 255, 255, .11)
+    !important;
+}
+
+/* SUNUM / DETAY SATIŞ ROZETLERİ DE AYNI HİYERARŞİDE */
+.ap-premium-sales {
+  display: grid !important;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr))
+    !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+.ap-premium-sales span {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 42px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center !important;
+  padding: 0 11px !important;
+  border-radius: 14px !important;
+  font-size: 11px !important;
+  font-weight: 860 !important;
+  text-align: center;
+  white-space: normal !important;
+}
+
+/* MOBİL */
+@media (max-width: 760px) {
+  .ap-detail-page
+  .ap-compact-fact {
+    min-height: 102px !important;
+    padding: 19px 18px !important;
+  }
+
+  .ap-detail-page
+  .ap-compact-fact small {
+    font-size: 12px !important;
+  }
+
+  .ap-detail-page
+  .ap-compact-fact strong {
+    font-size: 20px !important;
+  }
+
+  .ap-main-sales-badges,
+  .ap-premium-sales {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .ap-main-sales-badges span,
+  .ap-premium-sales span {
+    min-height: 43px !important;
+    font-size: 11px !important;
+  }
+}
