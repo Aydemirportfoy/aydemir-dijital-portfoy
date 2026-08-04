@@ -9142,3 +9142,153 @@ body.ap-live-order-dragging
   }
 }
 
+
+
+/* AYDEMIR V2 PRESENTATION SELECTION CARD TEXT CLEANUP */
+
+.ap-selection-grid {
+  align-items: stretch;
+}
+
+.ap-selection-card {
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  text-align: left !important;
+}
+
+.ap-selection-card > div:last-child {
+  display: flex !important;
+  flex: 1 1 auto;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  min-width: 0;
+  min-height: 158px;
+  padding: 15px 16px 16px !important;
+}
+
+.ap-selection-card .ap-kicker {
+  max-width: 100%;
+  margin: 0 0 8px !important;
+  overflow: hidden;
+  color:
+    color-mix(
+      in srgb,
+      var(--orange) 72%,
+      var(--muted)
+    ) !important;
+  font-size: 9px !important;
+  font-weight: 850 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .14em !important;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ap-selection-card strong {
+  display: -webkit-box !important;
+  max-width: 100%;
+  min-height: 42px;
+  margin: 0 !important;
+  overflow: hidden;
+  color: var(--text) !important;
+  font-size: 14px !important;
+  font-weight: 780 !important;
+  line-height: 1.45 !important;
+  letter-spacing: -.012em !important;
+  text-transform: none !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.ap-selection-card small {
+  display: block !important;
+  max-width: 100%;
+  margin: 10px 0 0 !important;
+  overflow: hidden;
+  color: var(--muted) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0 !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-selection-card b {
+  display: block !important;
+  width: 100%;
+  margin: auto 0 0 !important;
+  padding-top: 12px;
+  border-top:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--line) 78%,
+      transparent
+    );
+  color: var(--text) !important;
+  font-size: 14px !important;
+  font-weight: 850 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.02em !important;
+}
+
+.ap-selection-card.is-active
+> div:last-child {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(
+        in srgb,
+        var(--orange-soft) 20%,
+        transparent
+      ),
+      transparent 62%
+    );
+}
+
+.ap-selection-card.is-active
+.ap-kicker {
+  color: var(--orange) !important;
+}
+
+@media (min-width: 761px) {
+  .ap-selection-card
+  .ap-selection-card-image {
+    aspect-ratio: 1.55 / 1;
+  }
+}
+
+@media (max-width: 760px) {
+  .ap-selection-card > div:last-child {
+    min-height: 136px;
+    padding: 13px 14px 14px !important;
+  }
+
+  .ap-selection-card .ap-kicker {
+    margin-bottom: 7px !important;
+    font-size: 8px !important;
+    letter-spacing: .12em !important;
+  }
+
+  .ap-selection-card strong {
+    min-height: 38px;
+    font-size: 13px !important;
+    line-height: 1.42 !important;
+  }
+
+  .ap-selection-card small {
+    margin-top: 8px !important;
+    font-size: 10px !important;
+  }
+
+  .ap-selection-card b {
+    padding-top: 10px;
+    font-size: 13px !important;
+  }
+}
+
