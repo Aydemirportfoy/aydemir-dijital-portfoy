@@ -1,0 +1,51 @@
+/* AYDEMIR V2 PRESENTATION MORE MENU STACK FIX */
+
+.ap-presentation-list {
+  position: relative;
+  overflow: visible;
+}
+
+.ap-presentation-manager-row {
+  position: relative;
+  overflow: visible !important;
+  isolation: auto !important;
+  z-index: 1;
+}
+
+.ap-presentation-manager-row:has(.ap-presentation-more[open]) {
+  z-index: 300;
+}
+
+.ap-presentation-manager-actions {
+  position: relative;
+  overflow: visible;
+}
+
+.ap-presentation-more {
+  position: relative;
+  overflow: visible;
+  z-index: 10;
+}
+
+.ap-presentation-more[open] {
+  z-index: 400;
+}
+
+.ap-presentation-more-menu {
+  z-index: 9999 !important;
+}
+
+@media (max-width: 760px) {
+  .ap-presentation-more-menu {
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    right: 0 !important;
+    left: auto !important;
+    bottom: auto !important;
+    width: min(250px, calc(100vw - 40px)) !important;
+  }
+
+  .ap-presentation-manager-row:has(.ap-presentation-more[open]) {
+    margin-bottom: 230px;
+  }
+}

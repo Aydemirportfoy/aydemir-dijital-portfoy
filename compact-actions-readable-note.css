@@ -1,0 +1,196 @@
+/* AYDEMIR V2 COMPACT PRESENTATION ACTIONS + READABLE NOTE */
+
+.ap-presentation-manager-row {
+  position: relative;
+  align-items: center;
+  padding-block: 20px;
+}
+
+.ap-presentation-manager-actions {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 8px;
+  width: min(100%, 360px);
+}
+
+.ap-presentation-manager-actions .ap-presentation-main-action {
+  width: 100%;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border-radius: 13px;
+  font-size: 10px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.ap-presentation-more {
+  position: relative;
+  min-width: 0;
+}
+
+.ap-presentation-more summary {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  color: var(--text);
+  background: var(--surface-soft);
+  cursor: pointer;
+  list-style: none;
+  font-size: 10px;
+  font-weight: 900;
+  user-select: none;
+}
+
+.ap-presentation-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.ap-presentation-more summary b {
+  color: var(--orange);
+  font-size: 12px;
+  letter-spacing: .08em;
+}
+
+.ap-presentation-more[open] summary {
+  border-color: color-mix(in srgb, var(--orange) 45%, var(--line));
+  background: color-mix(in srgb, var(--orange-soft) 60%, var(--surface-soft));
+}
+
+.ap-presentation-more-menu {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 190px;
+  overflow: hidden;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--surface-strong) 96%, transparent);
+  box-shadow: 0 22px 58px rgba(0, 0, 0, .20);
+  backdrop-filter: blur(20px) saturate(135%);
+}
+
+.ap-presentation-more-menu button {
+  width: 100%;
+  min-height: 39px;
+  display: flex;
+  align-items: center;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 10px;
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 850;
+  text-align: left;
+}
+
+.ap-presentation-more-menu button:hover {
+  background: var(--surface-soft);
+}
+
+.ap-presentation-more-menu button.is-whatsapp {
+  color: #168554;
+}
+
+.ap-presentation-more-menu button.is-danger {
+  color: #d85b51;
+}
+
+.ap-presentation-more-menu button:disabled {
+  opacity: .42;
+  cursor: default;
+}
+
+.ap-premium-presentation-hero .ap-presentation-note {
+  max-width: 900px;
+  margin-top: 20px;
+  padding: 18px 20px;
+  border: 1px solid color-mix(in srgb, var(--orange) 28%, var(--line));
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .09), transparent 62%),
+    color-mix(in srgb, var(--surface-soft) 94%, transparent);
+  box-shadow:
+    inset 4px 0 0 color-mix(in srgb, var(--orange) 75%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, .10);
+}
+
+.ap-premium-presentation-hero .ap-presentation-note > span {
+  margin-bottom: 8px;
+  color: var(--orange);
+  font-size: 10px;
+  letter-spacing: .11em;
+}
+
+.ap-premium-presentation-hero .ap-presentation-note p {
+  max-width: 820px;
+  color: color-mix(in srgb, var(--text) 88%, var(--muted));
+  font-size: 16px;
+  font-weight: 520;
+  line-height: 1.62;
+}
+
+@media (max-width: 760px) {
+  .ap-presentation-manager-row {
+    padding: 18px;
+  }
+
+  .ap-presentation-manager-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 7px;
+  }
+
+  .ap-presentation-manager-actions .ap-presentation-main-action,
+  .ap-presentation-more summary {
+    min-height: 40px;
+    padding-inline: 8px;
+    font-size: 9px;
+  }
+
+  .ap-presentation-more-menu {
+    position: fixed;
+    z-index: 100;
+    left: 18px;
+    right: 18px;
+    bottom: 88px;
+    top: auto;
+    width: auto;
+    padding: 8px;
+    border-radius: 18px;
+  }
+
+  .ap-presentation-more-menu button {
+    min-height: 44px;
+    font-size: 11px;
+  }
+
+  .ap-premium-presentation-hero .ap-presentation-note {
+    margin-top: 14px;
+    padding: 15px 16px;
+    border-radius: 16px;
+  }
+
+  .ap-premium-presentation-hero .ap-presentation-note > span {
+    margin-bottom: 6px;
+    font-size: 9px;
+  }
+
+  .ap-premium-presentation-hero .ap-presentation-note p {
+    font-size: 13px;
+    line-height: 1.58;
+  }
+}

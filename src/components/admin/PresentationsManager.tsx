@@ -364,84 +364,90 @@ export default function PresentationsManager({
                 </div>
               </div>
 
-              <div className="ap-presentation-actions ap-presentation-manager-actions">
+              <div className="ap-presentation-manager-actions">
                 <a
                   href={`/sunum/${row.slug}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="ap-primary-button small"
+                  className="ap-primary-button ap-presentation-main-action"
                 >
                   Aç
                 </a>
 
                 <Link
                   href={`/yonetim/sunumlar/duzenle/${row.id}`}
-                  className="ap-soft-button"
+                  className="ap-soft-button ap-presentation-main-action"
                 >
                   Düzenle
                 </Link>
 
-                <button
-                  type="button"
-                  className="ap-soft-button"
-                  onClick={() =>
-                    copy(row.slug)
-                  }
-                >
-                  Linki Kopyala
-                </button>
+                <details className="ap-presentation-more">
+                  <summary aria-label="Diğer sunum işlemleri">
+                    <span>Diğer</span>
+                    <b>•••</b>
+                  </summary>
 
-                <button
-                  type="button"
-                  className="ap-success-button"
-                  onClick={() =>
-                    whatsapp(row)
-                  }
-                >
-                  WhatsApp
-                </button>
+                  <div className="ap-presentation-more-menu">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        copy(row.slug)
+                      }
+                    >
+                      Linki Kopyala
+                    </button>
 
-                <button
-                  type="button"
-                  className="ap-soft-button"
-                  disabled={
-                    working === row.id
-                  }
-                  onClick={() =>
-                    duplicate(row)
-                  }
-                >
-                  Çoğalt
-                </button>
+                    <button
+                      type="button"
+                      className="is-whatsapp"
+                      onClick={() =>
+                        whatsapp(row)
+                      }
+                    >
+                      WhatsApp
+                    </button>
 
-                <button
-                  type="button"
-                  className="ap-soft-button"
-                  disabled={
-                    working === row.id
-                  }
-                  onClick={() =>
-                    toggle(row)
-                  }
-                >
-                  {row.status ===
-                  "active"
-                    ? "Arşivle"
-                    : "Yayınla"}
-                </button>
+                    <button
+                      type="button"
+                      disabled={
+                        working === row.id
+                      }
+                      onClick={() =>
+                        duplicate(row)
+                      }
+                    >
+                      Çoğalt
+                    </button>
 
-                <button
-                  type="button"
-                  className="ap-danger-button"
-                  disabled={
-                    working === row.id
-                  }
-                  onClick={() =>
-                    remove(row)
-                  }
-                >
-                  Sil
-                </button>
+                    <button
+                      type="button"
+                      disabled={
+                        working === row.id
+                      }
+                      onClick={() =>
+                        toggle(row)
+                      }
+                    >
+                      {row.status ===
+                      "active"
+                        ? "Arşivle"
+                        : "Yayınla"}
+                    </button>
+
+                    <button
+                      type="button"
+                      className="is-danger"
+                      disabled={
+                        working === row.id
+                      }
+                      onClick={() =>
+                        remove(row)
+                      }
+                    >
+                      Sil
+                    </button>
+                  </div>
+                </details>
               </div>
             </article>
           ))}
