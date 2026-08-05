@@ -1,59 +1,39 @@
-AYDEMİR HIZLI İLAN 2.0
-PROJE ŞABLONLARI + İLAN ÇOĞALTMA
+AYDEMİR V3 - VERCEL BUILD DÜZELTMESİ
 
-BU PAKET NELER EKLER?
-
-1. Proje şablonları
-   - Safir Konutları
-   - Aydemir Premium
-   - Aydemir Konsept
-   - Yakut Konutları
-   - Aydemir Cadde
-   - Aydemir Suit
-   - Luna Konutları
-   - Doğa Sitesi
-   - Orman Palace
-
-2. İlan çoğaltma
-   - İlanlar ekranındaki kartlarda "Çoğalt" butonu görünür.
-   - Başlık, proje, mahalle, oda, mutfak, açıklama, özellikler,
-     kredi, takas ve özel bilgiler yeni taslağa kopyalanır.
-   - Yeni ilan taslak olarak açılır.
-   - Fotoğraflar güvenlik nedeniyle otomatik kopyalanmaz.
-   - Yeni dairenin fotoğrafları toplu olarak eklenir.
-
-3. Güvenli taslak
-   - Açık ilan taslağı varsa önce yedeği alınır.
-   - Mevcut ilanlar ve Supabase verileri değiştirilmez.
-   - SQL çalıştırmak gerekmez.
+Hatanın nedeni:
+- Supabase sunum ilişkisi TypeScript tarafından dizi olarak görülüyor.
+- Uygulama bu alanı tek kayıt olarak bekliyor.
+- Ayrıca eski kurulumdan kalan payload klasörü Vercel tarafından tekrar type-check ediliyor.
 
 KURULUM
 
-1. ZIP içindeki bütün dosyaları şu proje klasörüne kopyalayın:
+1. ZIP içindeki dosyaları proje klasörüne kopyalayın:
 
 C:\Users\Aydemir\OneDrive\Belgeler\aydemir-portfoy-v2\aydemir-portfoy-v2
 
-2. Terminalde toplu çalıştırın:
+2. Terminalde çalıştırın:
 
 Ctrl + C
-node .\apply-v3-quick-listing-2.cjs
+node .\apply-v3-vercel-build-fix.cjs
 npm.cmd run build
-npm.cmd run dev
 
-3. Hızlı ilan ekranı:
+3. Build başarılı olursa:
 
-http://localhost:3000/yonetim/hizli-ilan
+git add -A
+git commit -m "Vercel type hatasi duzeltildi"
+git push origin main
 
-4. Çoğaltma:
-
-http://localhost:3000/yonetim/ilanlar
-
-Bir ilan kartındaki "Çoğalt" butonuna basın.
-Yeni formda sadece kat, cephe, fiyat, metrekare ve fotoğrafları değiştirin.
+4. Vercel Deployments ekranında son kaydın Ready olmasını bekleyin.
 
 GERİ ALMA
 
 Ctrl + C
-node .\rollback-v3-quick-listing-2.cjs
+node .\rollback-v3-vercel-build-fix.cjs
 npm.cmd run build
 npm.cmd run dev
+
+NOTLAR
+
+- Supabase verileri değişmez.
+- payload klasörü silinmeden önce .aydemir-backups içine kopyalanır.
+- Mevcut ilanlar, talepler, takip ve sunumlar korunur.

@@ -108,6 +108,26 @@ export default async function RequestDetailPage({
     supabase.auth.getUser(),
   ]);
 
+  const normalizedRelations =
+    (relations ?? []).map(
+      (relation) => {
+        const rawPresentation =
+          relation.presentation;
+
+        return {
+          ...relation,
+          presentation:
+            Array.isArray(
+              rawPresentation,
+            )
+              ? rawPresentation[0] ??
+                null
+              : rawPresentation ??
+                null,
+        };
+      },
+    ) as unknown as RequestPresentationLink[];
+
   if (!request) {
     notFound();
   }
@@ -126,8 +146,7 @@ export default async function RequestDetailPage({
           []) as CustomerRequestNote[]
       }
       initialPresentations={
-        (relations ??
-          []) as RequestPresentationLink[]
+        normalizedRelations
       }
       userId={
         user!.id
