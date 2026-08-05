@@ -1,0 +1,333 @@
+/* AYDEMIR V3 QUICK LISTING 2 PROJECT TEMPLATE DUPLICATE */
+
+.ap-v3-project-template-card {
+  padding: 22px;
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 30%,
+      var(--line)
+    );
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at 94% 2%,
+      rgba(243, 154, 70, .16),
+      transparent 34%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .09),
+      rgba(255, 255, 255, .018)
+    ),
+    var(--surface);
+  box-shadow:
+    0 24px 64px
+      rgba(0, 0, 0, .11),
+    0 12px 32px
+      rgba(243, 154, 70, .055),
+    inset 0 1px 0
+      rgba(255, 255, 255, .10);
+  backdrop-filter:
+    blur(28px)
+    saturate(132%);
+  -webkit-backdrop-filter:
+    blur(28px)
+    saturate(132%);
+}
+
+.ap-v3-project-template-card h2 {
+  margin: 6px 0 0;
+  font-size: 25px;
+  line-height: 1.06;
+  letter-spacing: -.04em;
+}
+
+.ap-v3-project-template-card > p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ap-v3-project-select {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ap-v3-project-select > span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.ap-v3-project-select select {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 42px 0 14px;
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 28%,
+      var(--line)
+    );
+  border-radius: 16px;
+  color: var(--text);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .07),
+      rgba(255, 255, 255, .018)
+    ),
+    var(--surface-strong);
+  outline: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 820;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, .07);
+}
+
+.ap-v3-project-select select:focus {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 62%,
+      var(--line)
+    );
+  box-shadow:
+    0 0 0 4px
+      rgba(243, 154, 70, .10),
+    inset 0 1px 0
+      rgba(255, 255, 255, .07);
+}
+
+.ap-v3-project-template-preview {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ap-v3-project-template-preview > div:not(.ap-v3-project-template-features) {
+  min-height: 68px;
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .055),
+      rgba(255, 255, 255, .015)
+    ),
+    var(--surface-soft);
+}
+
+.ap-v3-project-template-preview small {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 760;
+}
+
+.ap-v3-project-template-preview strong {
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.ap-v3-project-template-features {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.ap-v3-project-template-features span {
+  display: inline-flex;
+  min-height: 29px;
+  align-items: center;
+  padding: 0 9px;
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 22%,
+      var(--line)
+    );
+  border-radius: 999px;
+  color:
+    color-mix(
+      in srgb,
+      var(--orange) 78%,
+      var(--text)
+    );
+  background:
+    color-mix(
+      in srgb,
+      var(--orange) 7%,
+      var(--surface-soft)
+    );
+  font-size: 8.5px;
+  font-weight: 820;
+}
+
+.ap-v3-project-open-button {
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 14px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 16px;
+  color: #211b15;
+  background:
+    linear-gradient(
+      145deg,
+      #ffd09a,
+      var(--orange)
+    );
+  box-shadow:
+    0 16px 34px
+      rgba(243, 154, 70, .22),
+    inset 0 1px 0
+      rgba(255, 255, 255, .44);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.ap-v3-project-open-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 20px 42px
+      rgba(243, 154, 70, .26),
+    inset 0 1px 0
+      rgba(255, 255, 255, .48);
+}
+
+.ap-v3-project-open-button span {
+  font-size: 17px;
+}
+
+.ap-v3-project-helper {
+  display: block;
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+/* İLAN KARTINDA HIZLI ÇOĞALT */
+.ap-card-duplicate-button {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 11px;
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--orange) 28%,
+      var(--line)
+    );
+  border-radius: 12px;
+  color:
+    color-mix(
+      in srgb,
+      var(--orange) 82%,
+      var(--text)
+    );
+  background:
+    linear-gradient(
+      145deg,
+      rgba(243, 154, 70, .10),
+      rgba(255, 255, 255, .018)
+    ),
+    var(--surface-soft);
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, .07);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 850;
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    border-color 150ms ease,
+    background 150ms ease;
+}
+
+.ap-card-duplicate-button:hover {
+  transform: translateY(-1px);
+  border-color:
+    color-mix(
+      in srgb,
+      var(--orange) 56%,
+      var(--line)
+    );
+  background:
+    color-mix(
+      in srgb,
+      var(--orange) 10%,
+      var(--surface-soft)
+    );
+}
+
+.ap-card-duplicate-button svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ap-clean-card-actions {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 760px) {
+  .ap-v3-project-template-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .ap-v3-project-template-card h2 {
+    font-size: 22px;
+  }
+
+  .ap-v3-project-template-preview {
+    grid-template-columns: 1fr;
+  }
+
+  .ap-v3-project-template-features {
+    grid-column: 1;
+  }
+
+  .ap-card-duplicate-button {
+    min-height: 36px;
+    padding: 0 10px;
+  }
+}

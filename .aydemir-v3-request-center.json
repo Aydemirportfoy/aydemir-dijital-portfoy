@@ -1,0 +1,54 @@
+{
+  "installedAt": "2026-08-04T22:31:40.005Z",
+  "backupRoot": "C:\\Users\\Aydemir\\OneDrive\\Belgeler\\aydemir-portfoy-v2\\aydemir-portfoy-v2\\.aydemir-backups\\v3-talep-merkezi-20260805-013140",
+  "tracked": [
+    {
+      "relativePath": "src/components/admin/AdminShell.tsx",
+      "existed": true
+    },
+    {
+      "relativePath": "src/app/yonetim/page.tsx",
+      "existed": true
+    },
+    {
+      "relativePath": "src/app/globals.css",
+      "existed": true
+    },
+    {
+      "relativePath": "supabase/schema.sql",
+      "existed": true
+    },
+    {
+      "relativePath": "src/lib/requestTypes.ts",
+      "existed": false
+    },
+    {
+      "relativePath": "src/lib/requestMatching.ts",
+      "existed": false
+    },
+    {
+      "relativePath": "src/lib/requestQuickParser.ts",
+      "existed": false
+    },
+    {
+      "relativePath": "src/components/admin/RequestCenter.tsx",
+      "existed": false
+    },
+    {
+      "relativePath": "src/components/admin/RequestDetailManager.tsx",
+      "existed": false
+    },
+    {
+      "relativePath": "src/app/yonetim/talepler/page.tsx",
+      "existed": false
+    },
+    {
+      "relativePath": "src/app/yonetim/talepler/[id]/page.tsx",
+      "existed": false
+    },
+    {
+      "relativePath": "supabase/aydemir-v3-talep-merkezi.sql",
+      "existed": false
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+GÜNLÜK TAKİP MERKEZİ HIZLI TESTİ
+
+1. /yonetim/takip sayfasını açın.
+2. "Yeni Talep" filtresinde kayıtların geldiğini kontrol edin.
+3. Bir müşteride "Yarın" butonuna basın.
+4. Durumu "Sunum Gönderildi" yapın.
+5. Önceliği "Önemli" yapın.
+6. "Not Ekle" ile kısa görüşme notu kaydedin.
+7. Talebi Aç butonuyla detay sayfasına geçin.
+8. Telefon varsa Ara ve WhatsApp butonlarını kontrol edin.
+
+Beklenen:
+- İşlemler sayfa yenilenmeden görünür.
+- Talep Merkezi ve eşleşmeler çalışmaya devam eder.
+- Sunumlar ve ilanlar etkilenmez.

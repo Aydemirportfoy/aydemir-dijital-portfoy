@@ -1,0 +1,772 @@
+.pageShell {
+  min-height: 100vh;
+  padding: 22px;
+  overflow-x: hidden;
+  color: #f7f4ee;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 170, 89, 0.12), transparent 28%),
+    radial-gradient(circle at 86% 15%, rgba(96, 126, 255, 0.12), transparent 30%),
+    #0c0b0a;
+}
+
+.futureStage {
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  position: relative;
+  width: min(1540px, 100%);
+  min-height: calc(100vh - 44px);
+  margin: 0 auto;
+  padding: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 185, 112, 0.16);
+  border-radius: 36px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012)),
+    rgba(21, 19, 17, 0.82);
+  box-shadow:
+    0 40px 120px rgba(0, 0, 0, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(36px) saturate(135%);
+  -webkit-backdrop-filter: blur(36px) saturate(135%);
+  isolation: isolate;
+}
+
+.ambientGlow {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      520px circle at var(--pointer-x) var(--pointer-y),
+      rgba(255, 170, 89, 0.16),
+      transparent 58%
+    ),
+    radial-gradient(circle at 85% 7%, rgba(86, 118, 255, 0.12), transparent 32%);
+  transition: background 120ms ease;
+}
+
+.gridLayer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 82%);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 34px;
+}
+
+.brandBlock {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brandBlock > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+
+.brandBlock strong {
+  font-size: 14px;
+  letter-spacing: 0.13em;
+}
+
+.brandBlock small {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 11px;
+}
+
+.brandMark {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border-radius: 16px;
+  color: #25170c;
+  font-weight: 900;
+  background: linear-gradient(155deg, #ffd4a2, #ff9d4b);
+  box-shadow:
+    0 12px 34px rgba(255, 160, 73, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.66);
+}
+
+.modePill {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 9px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 12px;
+  font-weight: 750;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #77d897;
+  box-shadow: 0 0 18px rgba(119, 216, 151, 0.7);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(520px, 1.25fr);
+  gap: clamp(44px, 7vw, 100px);
+  align-items: center;
+  min-height: 610px;
+  padding: 10px clamp(10px, 2vw, 30px) 34px;
+}
+
+.heroCopy {
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: #ffad62;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.heroCopy h1 {
+  max-width: 720px;
+  margin: 0;
+  font-size: clamp(48px, 5.1vw, 82px);
+  font-weight: 850;
+  line-height: 0.94;
+  letter-spacing: -0.06em;
+}
+
+.heroCopy h1 span {
+  display: block;
+  color: #ffb168;
+  text-shadow: 0 15px 45px rgba(255, 157, 75, 0.2);
+}
+
+.heroDescription {
+  max-width: 610px;
+  margin: 25px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: clamp(15px, 1.3vw, 18px);
+  line-height: 1.68;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.primaryButton,
+.secondaryButton {
+  min-height: 52px;
+  border: 0;
+  border-radius: 17px;
+  padding: 0 20px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 850;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  color: #25170c;
+  background: linear-gradient(155deg, #ffd8aa, #ff9f50);
+  box-shadow:
+    0 16px 38px rgba(255, 157, 75, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.secondaryButton {
+  color: #f8f3ec;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.primaryButton:hover,
+.secondaryButton:hover {
+  transform: translateY(-2px);
+}
+
+.metricRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 34px;
+}
+
+.metricRow > div {
+  display: grid;
+  gap: 5px;
+  min-height: 82px;
+  align-content: center;
+  padding: 13px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.028);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.metricRow strong {
+  font-size: 20px;
+}
+
+.metricRow span {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 10px;
+}
+
+.spatialShowcase {
+  position: relative;
+  min-height: 530px;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.orbitRing,
+.orbitRingTwo {
+  position: absolute;
+  inset: 7% 4% 14%;
+  border: 1px solid rgba(255, 170, 89, 0.14);
+  border-radius: 50%;
+  transform: rotateX(65deg) rotateZ(-7deg);
+  box-shadow:
+    0 0 80px rgba(255, 170, 89, 0.08),
+    inset 0 0 80px rgba(255, 170, 89, 0.03);
+}
+
+.orbitRingTwo {
+  inset: 18% 16% 5%;
+  border-color: rgba(100, 130, 255, 0.16);
+  transform: rotateX(67deg) rotateZ(16deg);
+}
+
+.mainPropertyCard {
+  position: absolute;
+  inset: 7% 6% 6% 5%;
+  z-index: 4;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  padding: 12px;
+  border: 1px solid rgba(255, 197, 132, 0.18);
+  border-radius: 32px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.02)),
+    rgba(31, 28, 25, 0.72);
+  box-shadow:
+    0 38px 90px rgba(0, 0, 0, 0.46),
+    0 18px 44px rgba(255, 150, 60, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(30px) saturate(145%);
+  -webkit-backdrop-filter: blur(30px) saturate(145%);
+  transform:
+    rotateY(calc((var(--pointer-x) - 50%) * 0.006deg))
+    rotateX(calc((50% - var(--pointer-y)) * 0.004deg))
+    translateZ(25px);
+  transition: transform 160ms ease-out;
+}
+
+.imageWrap {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #161514;
+}
+
+.imageWrap > img {
+  width: 100%;
+  height: 100%;
+  min-height: 355px;
+  display: block;
+  object-fit: cover;
+  animation: imageReveal 520ms ease both;
+}
+
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    transform: scale(1.025);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.imageGlassTop,
+.imageGlassBottom {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.imageGlassTop {
+  top: 16px;
+}
+
+.imageGlassTop span {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #2a1b10;
+  font-size: 10px;
+  font-weight: 850;
+  background: rgba(255, 213, 164, 0.88);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px);
+}
+
+.imageGlassTop span:first-child {
+  color: #fff;
+  background: rgba(18, 18, 18, 0.55);
+}
+
+.imageGlassBottom {
+  bottom: 16px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 18px;
+  background: rgba(16, 15, 14, 0.48);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+}
+
+.imageGlassBottom > div {
+  display: grid;
+  gap: 3px;
+}
+
+.imageGlassBottom small {
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 9px;
+}
+
+.imageGlassBottom strong {
+  font-size: 17px;
+}
+
+.imageGlassBottom button {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  color: #2a1b10;
+  background: linear-gradient(155deg, #ffd6a3, #ff9b48);
+  cursor: pointer;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 15px 7px 3px;
+}
+
+.cardMeta > div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.cardMeta p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 10px;
+}
+
+.cardMeta strong {
+  font-size: 20px;
+}
+
+.featurePills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.featurePills span {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 9px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.floatingMatchCard,
+.floatingLeadCard {
+  position: absolute;
+  z-index: 6;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.025)),
+    rgba(22, 21, 19, 0.72);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+}
+
+.floatingMatchCard {
+  right: -18px;
+  top: 13%;
+  display: grid;
+  gap: 4px;
+  min-width: 190px;
+  padding: 15px;
+  border-radius: 20px;
+  transform: translateZ(70px) rotateY(-5deg);
+}
+
+.floatingMatchCard small,
+.floatingLeadCard small {
+  color: rgba(255, 255, 255, 0.44);
+  font-size: 9px;
+}
+
+.floatingMatchCard strong {
+  color: #8ee3a5;
+  font-size: 18px;
+}
+
+.floatingMatchCard span {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 9px;
+}
+
+.floatingLeadCard {
+  left: -28px;
+  bottom: 13%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  min-width: 230px;
+  padding: 12px;
+  border-radius: 18px;
+  transform: translateZ(62px) rotateY(6deg);
+}
+
+.leadAvatar {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 13px;
+  color: #27180d;
+  font-size: 11px;
+  font-weight: 900;
+  background: linear-gradient(155deg, #ffd7a6, #ff9c4b);
+}
+
+.floatingLeadCard > div {
+  display: grid;
+  gap: 2px;
+}
+
+.floatingLeadCard strong {
+  font-size: 12px;
+}
+
+.leadStatus {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 0 9px;
+  border-radius: 999px;
+  color: #8fe1a5;
+  font-size: 9px;
+  font-weight: 800;
+  background: rgba(119, 216, 151, 0.09);
+}
+
+.propertyRail {
+  margin-top: 10px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.026);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.railHeading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 13px;
+}
+
+.railHeading > div {
+  display: grid;
+  gap: 4px;
+}
+
+.railHeading small {
+  color: #ffad62;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.railHeading strong {
+  font-size: 16px;
+}
+
+.railHeading > span {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11px;
+}
+
+.railCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.railCard {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 17px;
+  color: inherit;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.railCard:hover {
+  transform: translateY(-2px);
+}
+
+.railCardActive {
+  border-color: rgba(255, 174, 97, 0.42);
+  background: rgba(255, 170, 89, 0.07);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.railCard img {
+  width: 62px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.railCard > span {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.railCard small {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.railCard strong {
+  overflow: hidden;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.railCard b {
+  color: #ffb168;
+  font-size: 10px;
+}
+
+.demoFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 6px 2px;
+  color: rgba(255, 255, 255, 0.36);
+  font-size: 9px;
+}
+
+.demoFooter a {
+  color: #ffad62;
+  text-decoration: none;
+}
+
+@media (max-width: 1120px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .heroCopy {
+    max-width: 820px;
+  }
+
+  .spatialShowcase {
+    min-height: 620px;
+  }
+
+  .railCards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .pageShell {
+    padding: 10px;
+  }
+
+  .futureStage {
+    min-height: calc(100vh - 20px);
+    padding: 14px;
+    border-radius: 26px;
+  }
+
+  .topBar {
+    margin-bottom: 22px;
+  }
+
+  .modePill {
+    min-height: 38px;
+    padding: 0 12px;
+    font-size: 10px;
+  }
+
+  .heroGrid {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(42px, 13vw, 62px);
+  }
+
+  .heroDescription {
+    margin-top: 18px;
+  }
+
+  .metricRow {
+    grid-template-columns: 1fr;
+  }
+
+  .spatialShowcase {
+    min-height: 470px;
+  }
+
+  .mainPropertyCard {
+    inset: 4% 0 4% 0;
+    border-radius: 25px;
+  }
+
+  .imageWrap > img {
+    min-height: 275px;
+  }
+
+  .floatingMatchCard {
+    right: 6px;
+    top: 9%;
+    min-width: 160px;
+  }
+
+  .floatingLeadCard {
+    left: 4px;
+    bottom: 10%;
+    min-width: 205px;
+  }
+
+  .cardMeta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .featurePills {
+    justify-content: flex-start;
+  }
+
+  .propertyRail {
+    padding: 14px;
+  }
+
+  .railCard {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+
+  .railCard b {
+    grid-column: 2;
+  }
+
+  .demoFooter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mainPropertyCard,
+  .imageWrap > img,
+  .primaryButton,
+  .secondaryButton,
+  .railCard {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

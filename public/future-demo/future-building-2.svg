@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb96d"/><stop offset=".55" stop-color="#8b5d43"/><stop offset="1" stop-color="#161a22"/></linearGradient>
+<linearGradient id="tower" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0ebe4"/><stop offset="1" stop-color="#c4b8aa"/></linearGradient>
+<filter id="s"><feDropShadow dx="0" dy="28" stdDeviation="24" flood-color="#000" flood-opacity=".35"/></filter>
+</defs>
+<rect width="1400" height="900" fill="url(#bg)"/>
+<g filter="url(#s)">
+<path d="M250 660V250l300-120v530z" fill="url(#tower)"/>
+<path d="M550 660V130l350 145v385z" fill="#ded6cc"/>
+<path d="M900 660V275l240 110v275z" fill="#b9ada1"/>
+</g>
+<g fill="#161b22">
+<path d="M305 295l190-74v55l-190 70zM305 390l190-65v55l-190 62zM305 485l190-57v55l-190 55zM305 580l190-50v55l-190 47z"/>
+<path d="M605 225l235 91v55l-235-85zM605 330l235 83v55l-235-77zM605 435l235 75v55l-235-69zM605 540l235 67v55l-235-61z"/>
+<path d="M950 375l145 65v50l-145-60zM950 465l145 60v50l-145-55zM950 555l145 55v50l-145-50z"/>
+</g>
+<rect y="660" width="1400" height="240" fill="#12161c"/>
+<path d="M0 720h1400" stroke="#ffbd75" stroke-width="8" opacity=".75"/>
+</svg>

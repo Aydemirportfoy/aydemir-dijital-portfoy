@@ -23,6 +23,12 @@ type SortMode =
 
 type Density = 3 | 4 | 6;
 
+const TRANSFER_KEY =
+  "aydemir-quick-listing-transfer-v1";
+
+const LISTING_DRAFT_KEY =
+  "aydemir-new-listing-draft-v4";
+
 const STATUS_OPTIONS: Array<{
   value: "all" | ListingStatus;
   label: string;
@@ -360,6 +366,124 @@ export default function ListingsManager({
     sort,
     status,
   ]);
+
+  function duplicateListing(
+    listing: AdminListing,
+  ) {
+    const existingDraft =
+      window.localStorage.getItem(
+        LISTING_DRAFT_KEY,
+      );
+
+    if (existingDraft) {
+      window.localStorage.setItem(
+        `${LISTING_DRAFT_KEY}-before-duplicate-${Date.now()}`,
+        existingDraft,
+      );
+    }
+
+    window.localStorage.removeItem(
+      LISTING_DRAFT_KEY,
+    );
+
+    const facades = (
+      listing.facade ?? ""
+    )
+      .split(/[,/·]+/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    const privateDetails =
+      listing.private_details;
+
+    window.sessionStorage.setItem(
+      TRANSFER_KEY,
+      JSON.stringify({
+        form: {
+          project_name:
+            listing.project_name ?? "",
+          title: listing.title,
+          city: listing.city,
+          district: listing.district,
+          neighborhood:
+            listing.neighborhood,
+          room_count:
+            listing.room_count ?? "",
+          area_m2:
+            listing.area_m2 === null
+              ? ""
+              : String(
+                  listing.area_m2,
+                ),
+          floor:
+            listing.floor ?? "",
+          kitchen_type:
+            listing.kitchen_type ?? "",
+          price:
+            listing.price === null
+              ? ""
+              : formatGrouped(
+                  String(
+                    listing.price,
+                  ),
+                ),
+          short_description:
+            listing.short_description ??
+            "",
+          description:
+            listing.description ?? "",
+          status: "draft",
+          credit_available:
+            listing.credit_available,
+          exchange_available:
+            listing.exchange_available,
+          commission_free:
+            listing.commission_free,
+        },
+        privateDetails: {
+          seller_name:
+            privateDetails
+              ?.seller_name ?? "",
+          seller_phone:
+            privateDetails
+              ?.seller_phone ?? "",
+          available_credit_amount:
+            privateDetails
+              ?.available_credit_amount ===
+            null ||
+            privateDetails
+              ?.available_credit_amount ===
+              undefined
+              ? ""
+              : formatGrouped(
+                  String(
+                    privateDetails
+                      .available_credit_amount,
+                  ),
+                ),
+          maps_url:
+            privateDetails?.maps_url ??
+            "",
+          location_note:
+            privateDetails
+              ?.location_note ?? "",
+        },
+        features: [
+          ...(listing.features ?? []),
+        ],
+        facades,
+        source: {
+          platform: "other",
+          url: "",
+          listingId: "",
+        },
+      }),
+    );
+
+    router.push(
+      "/yonetim/yeni-ilan?cogalt=1",
+    );
+  }
 
   function resetFilters() {
     setQuery("");
@@ -1128,6 +1252,40 @@ export default function ListingsManager({
                     </div>
 
                     <div className="ap-compact-actions ap-clean-card-actions">
+                      <button
+                        type="button"
+                        className="ap-card-duplicate-button"
+                        title="İlan bilgilerini çoğalt"
+                        onPointerDown={(event) =>
+                          event.stopPropagation()
+                        }
+                        onClick={(event) => {
+                          event.stopPropagation();
+
+                          duplicateListing(
+                            listing,
+                          );
+                        }}
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <rect
+                            x="8"
+                            y="8"
+                            width="11"
+                            height="11"
+                            rx="2"
+                          />
+                          <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
+                        </svg>
+
+                        <span>
+                          Çoğalt
+                        </span>
+                      </button>
+
                       <Link
                         href={
                           `/yonetim/` +

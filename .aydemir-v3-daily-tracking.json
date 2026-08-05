@@ -1,0 +1,39 @@
+{
+  "version": "aydemir-v3-daily-tracking",
+  "createdAt": "2026-08-04T23:13:36.396Z",
+  "backupRoot": "C:\\Users\\Aydemir\\OneDrive\\Belgeler\\aydemir-portfoy-v2\\aydemir-portfoy-v2\\.aydemir-backups\\v3-daily-tracking-20260805-021336",
+  "files": [
+    {
+      "relativePath": "src/lib/requestTypes.ts",
+      "existed": true
+    },
+    {
+      "relativePath": "src/components/admin/TrackingCenter.tsx",
+      "existed": false
+    },
+    {
+      "relativePath": "src/components/admin/AdminShell.tsx",
+      "existed": true
+    },
+    {
+      "relativePath": "src/app/yonetim/page.tsx",
+      "existed": true
+    },
+    {
+      "relativePath": "src/app/yonetim/takip/page.tsx",
+      "existed": false
+    },
+    {
+      "relativePath": "supabase/aydemir-v3-gunluk-takip.sql",
+      "existed": false
+    },
+    {
+      "relativePath": "SQL-TAKIP-KOPYALA.bat",
+      "existed": false
+    },
+    {
+      "relativePath": "src/app/globals.css",
+      "existed": true
+    }
+  ]
+}

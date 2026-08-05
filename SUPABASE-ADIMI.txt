@@ -1,0 +1,12 @@
+SUPABASE SQL ADIMI
+
+1. Proje klasöründeki SQL-KOPYALA.bat dosyasına çift tıklayın.
+2. Supabase paneline girin.
+3. Sol menüden SQL Editor bölümünü açın.
+4. New Query seçin.
+5. Ctrl + V yapın.
+6. RUN tuşuna basın.
+7. "Success. No rows returned" benzeri başarı mesajı görünmesi yeterlidir.
+
+Çalıştırılacak dosya:
+supabase\aydemir-v3-talep-merkezi.sql
